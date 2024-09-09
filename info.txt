@@ -1,0 +1,8 @@
+Java File Server Application for the end semester project for the Network Programming module.
+
+Team Members:
+-Benjamin
+-Ashan
+-Lasindu
+-Sahan
+-Savinda

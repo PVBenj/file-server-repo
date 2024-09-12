@@ -7,13 +7,6 @@ import java.io.File;
 import java.io.IOException;
 
 public class CustomFont {
-    String fontFilePath;
-    float size;
-    
-    CustomFont(String fontFilePath, float size) {
-        this.fontFilePath = fontFilePath;
-        this.size = size;
-    }
     
     public static Font createFont(String fontFilePath, float size) {
         try{

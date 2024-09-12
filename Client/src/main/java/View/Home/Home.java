@@ -4,10 +4,15 @@
  */
 package View.Home;
 
+import View.Home.HomePanels.DashboardPanel;
+import View.Home.HomePanels.MyFilesPanel;
+import View.Resources.CustomFont;
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.io.File;
 import java.net.MalformedURLException;
 import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
@@ -21,7 +26,9 @@ public class Home extends javax.swing.JFrame implements UIMethods {
      */
     public Home() {
         initComponents();
+        loadFonts();
         applyIcons();
+        addPanelsToCard();
     }
 
     /**
@@ -59,17 +66,19 @@ public class Home extends javax.swing.JFrame implements UIMethods {
         jPanel4 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         usernamePanel = new javax.swing.JLabel();
+        homePanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(1080, 720));
+        setMaximumSize(new java.awt.Dimension(1330, 800));
+        setPreferredSize(new java.awt.Dimension(1330, 800));
 
         backgroundPanel.setLayout(new java.awt.BorderLayout());
 
-        menuPanel.setBackground(new java.awt.Color(27, 38, 44));
+        menuPanel.setBackground(new java.awt.Color(62, 62, 62));
         menuPanel.setPreferredSize(new java.awt.Dimension(250, 720));
         menuPanel.setLayout(new java.awt.BorderLayout());
 
-        jPanel1.setBackground(new java.awt.Color(27, 38, 44));
+        jPanel1.setBackground(new java.awt.Color(62, 62, 62));
         jPanel1.setPreferredSize(new java.awt.Dimension(250, 30));
         jPanel1.setRequestFocusEnabled(false);
 
@@ -86,12 +95,15 @@ public class Home extends javax.swing.JFrame implements UIMethods {
 
         menuPanel.add(jPanel1, java.awt.BorderLayout.PAGE_START);
 
-        jPanel6.setBackground(new java.awt.Color(27, 38, 44));
+        jPanel6.setBackground(new java.awt.Color(62, 62, 62));
         jPanel6.setLayout(new java.awt.BorderLayout());
 
-        dashboardPanel.setBackground(new java.awt.Color(27, 38, 44));
+        dashboardPanel.setBackground(new java.awt.Color(62, 62, 62));
         dashboardPanel.setPreferredSize(new java.awt.Dimension(250, 50));
         dashboardPanel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                dashboardPanelMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 dashboardPanelMouseEntered(evt);
             }
@@ -126,11 +138,15 @@ public class Home extends javax.swing.JFrame implements UIMethods {
 
         jPanel6.add(dashboardPanel, java.awt.BorderLayout.PAGE_START);
 
+        jPanel8.setBackground(new java.awt.Color(62, 62, 62));
         jPanel8.setLayout(new java.awt.BorderLayout());
 
-        pernalPanel.setBackground(new java.awt.Color(27, 38, 44));
+        pernalPanel.setBackground(new java.awt.Color(62, 62, 62));
         pernalPanel.setPreferredSize(new java.awt.Dimension(250, 50));
         pernalPanel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                pernalPanelMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 pernalPanelMouseEntered(evt);
             }
@@ -165,9 +181,10 @@ public class Home extends javax.swing.JFrame implements UIMethods {
 
         jPanel8.add(pernalPanel, java.awt.BorderLayout.PAGE_START);
 
+        jPanel10.setBackground(new java.awt.Color(62, 62, 62));
         jPanel10.setLayout(new java.awt.BorderLayout());
 
-        sharedPanel.setBackground(new java.awt.Color(27, 38, 44));
+        sharedPanel.setBackground(new java.awt.Color(62, 62, 62));
         sharedPanel.setPreferredSize(new java.awt.Dimension(250, 50));
         sharedPanel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -204,10 +221,10 @@ public class Home extends javax.swing.JFrame implements UIMethods {
 
         jPanel10.add(sharedPanel, java.awt.BorderLayout.PAGE_START);
 
-        jPanel12.setBackground(new java.awt.Color(27, 38, 44));
+        jPanel12.setBackground(new java.awt.Color(62, 62, 62));
         jPanel12.setLayout(new java.awt.BorderLayout());
 
-        activityPanel.setBackground(new java.awt.Color(27, 38, 44));
+        activityPanel.setBackground(new java.awt.Color(62, 62, 62));
         activityPanel.setPreferredSize(new java.awt.Dimension(250, 50));
         activityPanel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -254,28 +271,37 @@ public class Home extends javax.swing.JFrame implements UIMethods {
 
         backgroundPanel.add(menuPanel, java.awt.BorderLayout.LINE_START);
 
-        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setBackground(new java.awt.Color(40, 40, 40));
         jPanel2.setPreferredSize(new java.awt.Dimension(1080, 80));
         jPanel2.setLayout(new java.awt.BorderLayout());
 
-        jPanel3.setPreferredSize(new java.awt.Dimension(300, 80));
+        jPanel3.setBackground(new java.awt.Color(40, 40, 40));
+        jPanel3.setPreferredSize(new java.awt.Dimension(180, 80));
+        jPanel3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jPanel3MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jPanel3MouseExited(evt);
+            }
+        });
         jPanel3.setLayout(new java.awt.BorderLayout());
 
-        profilePanel.setBackground(new java.awt.Color(255, 255, 255));
+        profilePanel.setBackground(new java.awt.Color(40, 40, 40));
         profilePanel.setPreferredSize(new java.awt.Dimension(80, 80));
         profilePanel.setLayout(new java.awt.BorderLayout());
 
         profileIcon.setBackground(new java.awt.Color(255, 255, 255));
+        profileIcon.setForeground(new java.awt.Color(242, 242, 242));
         profileIcon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        profileIcon.setText("DP");
         profilePanel.add(profileIcon, java.awt.BorderLayout.CENTER);
 
         jPanel3.add(profilePanel, java.awt.BorderLayout.LINE_END);
 
-        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel4.setBackground(new java.awt.Color(40, 40, 40));
         jPanel4.setLayout(new java.awt.BorderLayout());
 
-        jPanel5.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel5.setBackground(new java.awt.Color(40, 40, 40));
         jPanel5.setPreferredSize(new java.awt.Dimension(10, 80));
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
@@ -292,6 +318,7 @@ public class Home extends javax.swing.JFrame implements UIMethods {
         jPanel4.add(jPanel5, java.awt.BorderLayout.LINE_END);
 
         usernamePanel.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+        usernamePanel.setForeground(new java.awt.Color(255, 255, 255));
         usernamePanel.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         usernamePanel.setText("Admin");
         jPanel4.add(usernamePanel, java.awt.BorderLayout.CENTER);
@@ -302,6 +329,9 @@ public class Home extends javax.swing.JFrame implements UIMethods {
 
         backgroundPanel.add(jPanel2, java.awt.BorderLayout.PAGE_START);
 
+        homePanel.setLayout(new java.awt.CardLayout());
+        backgroundPanel.add(homePanel, java.awt.BorderLayout.CENTER);
+
         getContentPane().add(backgroundPanel, java.awt.BorderLayout.CENTER);
 
         pack();
@@ -309,36 +339,59 @@ public class Home extends javax.swing.JFrame implements UIMethods {
     }// </editor-fold>//GEN-END:initComponents
 
     private void dashboardPanelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dashboardPanelMouseEntered
-        changeColor(dashboardPanel, new Color(50, 130, 184));
+        changeColor(dashboardPanel, new Color(34, 151, 153));
     }//GEN-LAST:event_dashboardPanelMouseEntered
 
     private void dashboardPanelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dashboardPanelMouseExited
-        changeColor(dashboardPanel, new Color(27, 38, 44));
+        changeColor(dashboardPanel, new Color(62, 62, 62));
     }//GEN-LAST:event_dashboardPanelMouseExited
 
     private void pernalPanelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pernalPanelMouseEntered
-        changeColor(pernalPanel, new Color(50, 130, 184));
+        changeColor(pernalPanel, new Color(34, 151, 153));
     }//GEN-LAST:event_pernalPanelMouseEntered
 
     private void pernalPanelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pernalPanelMouseExited
-        changeColor(pernalPanel, new Color(27, 38, 44));
+        changeColor(pernalPanel, new Color(62, 62, 62));
     }//GEN-LAST:event_pernalPanelMouseExited
 
     private void sharedPanelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sharedPanelMouseEntered
-        changeColor(sharedPanel, new Color(50, 130, 184));
+        changeColor(sharedPanel, new Color(34, 151, 153));
     }//GEN-LAST:event_sharedPanelMouseEntered
 
     private void sharedPanelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sharedPanelMouseExited
-        changeColor(sharedPanel, new Color(27, 38, 44));
+        changeColor(sharedPanel, new Color(62, 62, 62));
     }//GEN-LAST:event_sharedPanelMouseExited
 
     private void activityPanelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_activityPanelMouseEntered
-        changeColor(activityPanel, new Color(50, 130, 184));
+        changeColor(activityPanel, new Color(34, 151, 153));
     }//GEN-LAST:event_activityPanelMouseEntered
 
     private void activityPanelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_activityPanelMouseExited
-        changeColor(activityPanel, new Color(27, 38, 44));
+        changeColor(activityPanel, new Color(62, 62, 62));
     }//GEN-LAST:event_activityPanelMouseExited
+
+    private void jPanel3MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel3MouseEntered
+        //changeColor(jPanel3, new Color(55, 55, 55));
+        changeColor(profilePanel, new Color(55, 55, 55));
+        changeColor(jPanel4, new Color(55, 55, 55));
+        changeColor(jPanel5, new Color(55, 55, 55));
+    }//GEN-LAST:event_jPanel3MouseEntered
+
+    private void jPanel3MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel3MouseExited
+        changeColor(profilePanel, new Color(40, 40, 40));
+        changeColor(jPanel4, new Color(40, 40, 40));
+        changeColor(jPanel5, new Color(40, 40, 40));
+    }//GEN-LAST:event_jPanel3MouseExited
+
+    private void dashboardPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dashboardPanelMouseClicked
+        CardLayout cl = (CardLayout) homePanel.getLayout();
+        cl.show(homePanel, "Dashboard");
+    }//GEN-LAST:event_dashboardPanelMouseClicked
+
+    private void pernalPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pernalPanelMouseClicked
+        CardLayout cl = (CardLayout) homePanel.getLayout();
+        cl.show(homePanel, "MyFiles");
+    }//GEN-LAST:event_pernalPanelMouseClicked
     
     /**
      * @param args the command line arguments
@@ -381,6 +434,7 @@ public class Home extends javax.swing.JFrame implements UIMethods {
     private javax.swing.JPanel backgroundPanel;
     private javax.swing.JLabel dashboardLable;
     private javax.swing.JPanel dashboardPanel;
+    private javax.swing.JPanel homePanel;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
@@ -409,27 +463,68 @@ public class Home extends javax.swing.JFrame implements UIMethods {
         hover.setBackground(myColor);
     }
     
- private void applyIcons() {
+    private void applyIcons() {
 
-    try{
-        dashboardLable.setIcon(new ImageIcon(new File("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Icons/dashboard-icon.png")
+        try{
+            dashboardLable.setIcon(new ImageIcon(
+                    new File("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Icons/dashboard-icon.png")
+                        .toURI()
+                        .toURL()));
+
+            myfilesLable.setIcon(new ImageIcon(
+                    new File("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Icons/myfiles-icon.png")
                     .toURI()
                     .toURL()));
-            
-        myfilesLable.setIcon(new ImageIcon(new File("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Icons/myfiles-icon.png")
-                .toURI()
-                .toURL()));
 
-        sharedfilesLable.setIcon(new ImageIcon(new File("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Icons/shared-icon.png")
-                .toURI()
-                .toURL()));
+            sharedfilesLable.setIcon(new ImageIcon(
+                    new File("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Icons/shared-icon.png")
+                    .toURI()
+                    .toURL()));
 
-        activityLabel.setIcon(new ImageIcon(new File("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Icons/activity-icon.png")
-                .toURI()
-                .toURL()));
-    }catch(MalformedURLException e) {
-        System.err.println(e.getMessage());
-    }
+            activityLabel.setIcon(new ImageIcon(
+                    new File("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Icons/activity-icon.png")
+                    .toURI()
+                    .toURL()));
+
+            profileIcon.setIcon(new ImageIcon(
+                    new File("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Icons/user-icon.png")
+                    .toURI()
+                    .toURL()));
+
+        }catch(MalformedURLException e) {
+            System.err.println(e.getMessage());
+        }
             
    }
+    
+    private void addPanelsToCard() {
+        homePanel.add(new DashboardPanel(), "Dashboard");
+        homePanel.add(new MyFilesPanel(), "MyFiles");
+    }
+
+    @Override
+    public final void loadFonts() {
+        float menuFontSize = 16;
+        float usernameFontSize = 18;
+        
+        dashboardLable.setFont(CustomFont
+                .createFont("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Fonts/Inter_18pt-Bold.ttf", menuFontSize));
+        
+        myfilesLable.setFont(CustomFont
+                .createFont("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Fonts/Inter_18pt-Bold.ttf", menuFontSize));
+        
+        sharedfilesLable.setFont(CustomFont
+                .createFont("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Fonts/Inter_18pt-Bold.ttf", menuFontSize));
+        
+        activityLabel.setFont(CustomFont
+                .createFont("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Fonts/Inter_18pt-Bold.ttf", menuFontSize));
+        
+        usernamePanel.setFont(CustomFont
+                .createFont("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Fonts/Inter_18pt-Bold.ttf", usernameFontSize));
+    }
+
+    @Override
+    public void changeFontColor(JLabel text, Color myColor) {
+        text.setForeground(myColor);
+    }
 }

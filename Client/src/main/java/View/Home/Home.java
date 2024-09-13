@@ -8,10 +8,12 @@ import View.Home.HomePanels.DashboardPanel;
 import View.Home.HomePanels.MyFilesPanel;
 import View.Home.HomePanels.SharedFiles;
 import View.Resources.CustomFont;
-import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Image;
 import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -44,22 +46,22 @@ public class Home extends javax.swing.JFrame implements UIMethods {
         backgroundPanel = new javax.swing.JPanel();
         menuPanel = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
-        jPanel6 = new javax.swing.JPanel();
+        jPanel14 = new javax.swing.JPanel();
         dashboardPanel = new javax.swing.JPanel();
-        dashboardLable = new javax.swing.JLabel();
-        jPanel7 = new javax.swing.JPanel();
-        jPanel8 = new javax.swing.JPanel();
-        pernalPanel = new javax.swing.JPanel();
-        myfilesLable = new javax.swing.JLabel();
+        dashboardLabel = new javax.swing.JLabel();
         jPanel9 = new javax.swing.JPanel();
+        jPanel6 = new javax.swing.JPanel();
+        myFilesPanel = new javax.swing.JPanel();
+        myFilesLabel = new javax.swing.JLabel();
         jPanel10 = new javax.swing.JPanel();
-        sharedPanel = new javax.swing.JPanel();
-        sharedfilesLable = new javax.swing.JLabel();
+        jPanel7 = new javax.swing.JPanel();
+        myFilesPanel1 = new javax.swing.JPanel();
+        sharedFilesLabel = new javax.swing.JLabel();
         jPanel11 = new javax.swing.JPanel();
-        jPanel12 = new javax.swing.JPanel();
-        activityPanel = new javax.swing.JPanel();
+        jPanel8 = new javax.swing.JPanel();
+        myFilesPanel2 = new javax.swing.JPanel();
         activityLabel = new javax.swing.JLabel();
-        jPanel13 = new javax.swing.JPanel();
+        jPanel12 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         profilePanel = new javax.swing.JPanel();
@@ -96,11 +98,11 @@ public class Home extends javax.swing.JFrame implements UIMethods {
 
         menuPanel.add(jPanel1, java.awt.BorderLayout.PAGE_START);
 
-        jPanel6.setBackground(new java.awt.Color(62, 62, 62));
-        jPanel6.setLayout(new java.awt.BorderLayout());
+        jPanel14.setBackground(new java.awt.Color(62, 62, 62));
+        jPanel14.setLayout(new java.awt.BorderLayout());
 
         dashboardPanel.setBackground(new java.awt.Color(62, 62, 62));
-        dashboardPanel.setPreferredSize(new java.awt.Dimension(250, 50));
+        dashboardPanel.setPreferredSize(new java.awt.Dimension(250, 60));
         dashboardPanel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 dashboardPanelMouseClicked(evt);
@@ -114,58 +116,15 @@ public class Home extends javax.swing.JFrame implements UIMethods {
         });
         dashboardPanel.setLayout(new java.awt.BorderLayout());
 
-        dashboardLable.setFont(new java.awt.Font("Liberation Sans", 1, 16)); // NOI18N
-        dashboardLable.setForeground(new java.awt.Color(255, 255, 255));
-        dashboardLable.setText("Dashboard");
-        dashboardLable.setIconTextGap(10);
-        dashboardPanel.add(dashboardLable, java.awt.BorderLayout.CENTER);
+        dashboardLabel.setBackground(new java.awt.Color(255, 255, 255));
+        dashboardLabel.setFont(new java.awt.Font("Liberation Sans", 1, 16)); // NOI18N
+        dashboardLabel.setForeground(new java.awt.Color(255, 255, 255));
+        dashboardLabel.setText("Dashboard");
+        dashboardLabel.setIconTextGap(12);
+        dashboardPanel.add(dashboardLabel, java.awt.BorderLayout.CENTER);
 
-        jPanel7.setBackground(new java.awt.Color(27, 38, 44));
-        jPanel7.setOpaque(false);
-        jPanel7.setPreferredSize(new java.awt.Dimension(50, 50));
-
-        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
-        jPanel7.setLayout(jPanel7Layout);
-        jPanel7Layout.setHorizontalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 50, Short.MAX_VALUE)
-        );
-        jPanel7Layout.setVerticalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 50, Short.MAX_VALUE)
-        );
-
-        dashboardPanel.add(jPanel7, java.awt.BorderLayout.LINE_START);
-
-        jPanel6.add(dashboardPanel, java.awt.BorderLayout.PAGE_START);
-
-        jPanel8.setBackground(new java.awt.Color(62, 62, 62));
-        jPanel8.setLayout(new java.awt.BorderLayout());
-
-        pernalPanel.setBackground(new java.awt.Color(62, 62, 62));
-        pernalPanel.setPreferredSize(new java.awt.Dimension(250, 50));
-        pernalPanel.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                pernalPanelMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                pernalPanelMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                pernalPanelMouseExited(evt);
-            }
-        });
-        pernalPanel.setLayout(new java.awt.BorderLayout());
-
-        myfilesLable.setFont(new java.awt.Font("Liberation Sans", 1, 16)); // NOI18N
-        myfilesLable.setForeground(new java.awt.Color(255, 255, 255));
-        myfilesLable.setText("My Files");
-        myfilesLable.setIconTextGap(10);
-        pernalPanel.add(myfilesLable, java.awt.BorderLayout.CENTER);
-
-        jPanel9.setBackground(new java.awt.Color(27, 38, 44));
-        jPanel9.setOpaque(false);
-        jPanel9.setPreferredSize(new java.awt.Dimension(50, 50));
+        jPanel9.setBackground(new java.awt.Color(62, 62, 62));
+        jPanel9.setPreferredSize(new java.awt.Dimension(50, 60));
 
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
@@ -175,42 +134,59 @@ public class Home extends javax.swing.JFrame implements UIMethods {
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 50, Short.MAX_VALUE)
+            .addGap(0, 60, Short.MAX_VALUE)
         );
 
-        pernalPanel.add(jPanel9, java.awt.BorderLayout.LINE_START);
+        dashboardPanel.add(jPanel9, java.awt.BorderLayout.LINE_START);
 
-        jPanel8.add(pernalPanel, java.awt.BorderLayout.PAGE_START);
+        jPanel14.add(dashboardPanel, java.awt.BorderLayout.PAGE_START);
+
+        jPanel6.setLayout(new java.awt.BorderLayout());
+
+        myFilesPanel.setBackground(new java.awt.Color(62, 62, 62));
+        myFilesPanel.setPreferredSize(new java.awt.Dimension(250, 60));
+        myFilesPanel.setLayout(new java.awt.BorderLayout());
+
+        myFilesLabel.setBackground(new java.awt.Color(255, 255, 255));
+        myFilesLabel.setFont(new java.awt.Font("Liberation Sans", 1, 16)); // NOI18N
+        myFilesLabel.setForeground(new java.awt.Color(255, 255, 255));
+        myFilesLabel.setText("My Files");
+        myFilesLabel.setIconTextGap(12);
+        myFilesPanel.add(myFilesLabel, java.awt.BorderLayout.CENTER);
 
         jPanel10.setBackground(new java.awt.Color(62, 62, 62));
-        jPanel10.setLayout(new java.awt.BorderLayout());
+        jPanel10.setPreferredSize(new java.awt.Dimension(50, 60));
 
-        sharedPanel.setBackground(new java.awt.Color(62, 62, 62));
-        sharedPanel.setPreferredSize(new java.awt.Dimension(250, 50));
-        sharedPanel.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                sharedPanelMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                sharedPanelMouseExited(evt);
-            }
-        });
-        sharedPanel.setLayout(new java.awt.BorderLayout());
+        javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
+        jPanel10.setLayout(jPanel10Layout);
+        jPanel10Layout.setHorizontalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 50, Short.MAX_VALUE)
+        );
+        jPanel10Layout.setVerticalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 60, Short.MAX_VALUE)
+        );
 
-        sharedfilesLable.setFont(new java.awt.Font("Liberation Sans", 1, 16)); // NOI18N
-        sharedfilesLable.setForeground(new java.awt.Color(255, 255, 255));
-        sharedfilesLable.setText("Shared Files");
-        sharedfilesLable.setIconTextGap(10);
-        sharedfilesLable.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                sharedfilesLableMouseClicked(evt);
-            }
-        });
-        sharedPanel.add(sharedfilesLable, java.awt.BorderLayout.CENTER);
+        myFilesPanel.add(jPanel10, java.awt.BorderLayout.LINE_START);
 
-        jPanel11.setBackground(new java.awt.Color(27, 38, 44));
-        jPanel11.setOpaque(false);
-        jPanel11.setPreferredSize(new java.awt.Dimension(50, 50));
+        jPanel6.add(myFilesPanel, java.awt.BorderLayout.PAGE_START);
+
+        jPanel7.setLayout(new java.awt.BorderLayout());
+
+        myFilesPanel1.setBackground(new java.awt.Color(62, 62, 62));
+        myFilesPanel1.setPreferredSize(new java.awt.Dimension(250, 60));
+        myFilesPanel1.setLayout(new java.awt.BorderLayout());
+
+        sharedFilesLabel.setBackground(new java.awt.Color(255, 255, 255));
+        sharedFilesLabel.setFont(new java.awt.Font("Liberation Sans", 1, 16)); // NOI18N
+        sharedFilesLabel.setForeground(new java.awt.Color(255, 255, 255));
+        sharedFilesLabel.setText("Shared Files");
+        sharedFilesLabel.setIconTextGap(12);
+        myFilesPanel1.add(sharedFilesLabel, java.awt.BorderLayout.CENTER);
+
+        jPanel11.setBackground(new java.awt.Color(62, 62, 62));
+        jPanel11.setPreferredSize(new java.awt.Dimension(50, 60));
 
         javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
         jPanel11.setLayout(jPanel11Layout);
@@ -220,60 +196,52 @@ public class Home extends javax.swing.JFrame implements UIMethods {
         );
         jPanel11Layout.setVerticalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 50, Short.MAX_VALUE)
+            .addGap(0, 60, Short.MAX_VALUE)
         );
 
-        sharedPanel.add(jPanel11, java.awt.BorderLayout.LINE_START);
+        myFilesPanel1.add(jPanel11, java.awt.BorderLayout.LINE_START);
 
-        jPanel10.add(sharedPanel, java.awt.BorderLayout.PAGE_START);
+        jPanel7.add(myFilesPanel1, java.awt.BorderLayout.PAGE_START);
 
-        jPanel12.setBackground(new java.awt.Color(62, 62, 62));
-        jPanel12.setLayout(new java.awt.BorderLayout());
+        jPanel8.setBackground(new java.awt.Color(62, 62, 62));
+        jPanel8.setLayout(new java.awt.BorderLayout());
 
-        activityPanel.setBackground(new java.awt.Color(62, 62, 62));
-        activityPanel.setPreferredSize(new java.awt.Dimension(250, 50));
-        activityPanel.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                activityPanelMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                activityPanelMouseExited(evt);
-            }
-        });
-        activityPanel.setLayout(new java.awt.BorderLayout());
+        myFilesPanel2.setBackground(new java.awt.Color(62, 62, 62));
+        myFilesPanel2.setPreferredSize(new java.awt.Dimension(250, 60));
+        myFilesPanel2.setLayout(new java.awt.BorderLayout());
 
+        activityLabel.setBackground(new java.awt.Color(255, 255, 255));
         activityLabel.setFont(new java.awt.Font("Liberation Sans", 1, 16)); // NOI18N
         activityLabel.setForeground(new java.awt.Color(255, 255, 255));
         activityLabel.setText("Activity");
-        activityLabel.setIconTextGap(10);
-        activityPanel.add(activityLabel, java.awt.BorderLayout.CENTER);
+        activityLabel.setIconTextGap(12);
+        myFilesPanel2.add(activityLabel, java.awt.BorderLayout.CENTER);
 
-        jPanel13.setBackground(new java.awt.Color(27, 38, 44));
-        jPanel13.setOpaque(false);
-        jPanel13.setPreferredSize(new java.awt.Dimension(50, 50));
+        jPanel12.setBackground(new java.awt.Color(62, 62, 62));
+        jPanel12.setPreferredSize(new java.awt.Dimension(50, 60));
 
-        javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
-        jPanel13.setLayout(jPanel13Layout);
-        jPanel13Layout.setHorizontalGroup(
-            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
+        jPanel12.setLayout(jPanel12Layout);
+        jPanel12Layout.setHorizontalGroup(
+            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 50, Short.MAX_VALUE)
         );
-        jPanel13Layout.setVerticalGroup(
-            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 50, Short.MAX_VALUE)
+        jPanel12Layout.setVerticalGroup(
+            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 60, Short.MAX_VALUE)
         );
 
-        activityPanel.add(jPanel13, java.awt.BorderLayout.LINE_START);
+        myFilesPanel2.add(jPanel12, java.awt.BorderLayout.LINE_START);
 
-        jPanel12.add(activityPanel, java.awt.BorderLayout.PAGE_START);
+        jPanel8.add(myFilesPanel2, java.awt.BorderLayout.PAGE_START);
 
-        jPanel10.add(jPanel12, java.awt.BorderLayout.CENTER);
+        jPanel7.add(jPanel8, java.awt.BorderLayout.CENTER);
 
-        jPanel8.add(jPanel10, java.awt.BorderLayout.CENTER);
+        jPanel6.add(jPanel7, java.awt.BorderLayout.CENTER);
 
-        jPanel6.add(jPanel8, java.awt.BorderLayout.CENTER);
+        jPanel14.add(jPanel6, java.awt.BorderLayout.CENTER);
 
-        menuPanel.add(jPanel6, java.awt.BorderLayout.CENTER);
+        menuPanel.add(jPanel14, java.awt.BorderLayout.CENTER);
 
         backgroundPanel.add(menuPanel, java.awt.BorderLayout.LINE_START);
 
@@ -344,30 +312,6 @@ public class Home extends javax.swing.JFrame implements UIMethods {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void dashboardPanelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dashboardPanelMouseEntered
-        changeColor(dashboardPanel, new Color(34, 151, 153));
-    }//GEN-LAST:event_dashboardPanelMouseEntered
-
-    private void dashboardPanelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dashboardPanelMouseExited
-        changeColor(dashboardPanel, new Color(62, 62, 62));
-    }//GEN-LAST:event_dashboardPanelMouseExited
-
-    private void pernalPanelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pernalPanelMouseEntered
-        changeColor(pernalPanel, new Color(34, 151, 153));
-    }//GEN-LAST:event_pernalPanelMouseEntered
-
-    private void pernalPanelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pernalPanelMouseExited
-        changeColor(pernalPanel, new Color(62, 62, 62));
-    }//GEN-LAST:event_pernalPanelMouseExited
-
-    private void activityPanelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_activityPanelMouseEntered
-        changeColor(activityPanel, new Color(34, 151, 153));
-    }//GEN-LAST:event_activityPanelMouseEntered
-
-    private void activityPanelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_activityPanelMouseExited
-        changeColor(activityPanel, new Color(62, 62, 62));
-    }//GEN-LAST:event_activityPanelMouseExited
-
     private void jPanel3MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel3MouseEntered
         //changeColor(jPanel3, new Color(55, 55, 55));
         changeColor(profilePanel, new Color(55, 55, 55));
@@ -381,28 +325,19 @@ public class Home extends javax.swing.JFrame implements UIMethods {
         changeColor(jPanel5, new Color(40, 40, 40));
     }//GEN-LAST:event_jPanel3MouseExited
 
+    private void dashboardPanelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dashboardPanelMouseEntered
+        changeColor(dashboardPanel, new Color(34, 151, 153));
+        changeColor(jPanel9, new Color(34, 151, 153));
+    }//GEN-LAST:event_dashboardPanelMouseEntered
+
+    private void dashboardPanelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dashboardPanelMouseExited
+        changeColor(dashboardPanel, new Color(62, 62, 62));
+        changeColor(jPanel9, new Color(62, 62, 62));
+    }//GEN-LAST:event_dashboardPanelMouseExited
+
     private void dashboardPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dashboardPanelMouseClicked
-        CardLayout cl = (CardLayout) homePanel.getLayout();
-        cl.show(homePanel, "Dashboard");
+        // TODO add your handling code here:
     }//GEN-LAST:event_dashboardPanelMouseClicked
-
-    private void pernalPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pernalPanelMouseClicked
-        CardLayout cl = (CardLayout) homePanel.getLayout();
-        cl.show(homePanel, "MyFiles");
-    }//GEN-LAST:event_pernalPanelMouseClicked
-
-    private void sharedfilesLableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sharedfilesLableMouseClicked
-        CardLayout cl = (CardLayout) homePanel.getLayout();
-        cl.show(homePanel, "SharedFiles");
-    }//GEN-LAST:event_sharedfilesLableMouseClicked
-
-    private void sharedPanelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sharedPanelMouseEntered
-        changeColor(activityPanel, new Color(34, 151, 153));
-    }//GEN-LAST:event_sharedPanelMouseEntered
-
-    private void sharedPanelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sharedPanelMouseExited
-        changeColor(activityPanel, new Color(62, 62, 62));
-    }//GEN-LAST:event_sharedPanelMouseExited
     
     /**
      * @param args the command line arguments
@@ -441,16 +376,15 @@ public class Home extends javax.swing.JFrame implements UIMethods {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel activityLabel;
-    private javax.swing.JPanel activityPanel;
     private javax.swing.JPanel backgroundPanel;
-    private javax.swing.JLabel dashboardLable;
+    private javax.swing.JLabel dashboardLabel;
     private javax.swing.JPanel dashboardPanel;
     private javax.swing.JPanel homePanel;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;
-    private javax.swing.JPanel jPanel13;
+    private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -460,12 +394,13 @@ public class Home extends javax.swing.JFrame implements UIMethods {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JPanel menuPanel;
-    private javax.swing.JLabel myfilesLable;
-    private javax.swing.JPanel pernalPanel;
+    private javax.swing.JLabel myFilesLabel;
+    private javax.swing.JPanel myFilesPanel;
+    private javax.swing.JPanel myFilesPanel1;
+    private javax.swing.JPanel myFilesPanel2;
     private javax.swing.JLabel profileIcon;
     private javax.swing.JPanel profilePanel;
-    private javax.swing.JPanel sharedPanel;
-    private javax.swing.JLabel sharedfilesLable;
+    private javax.swing.JLabel sharedFilesLabel;
     private javax.swing.JLabel usernamePanel;
     // End of variables declaration//GEN-END:variables
 
@@ -475,36 +410,34 @@ public class Home extends javax.swing.JFrame implements UIMethods {
     }
     
     private void applyIcons() {
-
+        
         try{
-            dashboardLable.setIcon(new ImageIcon(
-                    new File("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Icons/dashboard-icon.png")
-                        .toURI()
-                        .toURL()));
-
-            myfilesLable.setIcon(new ImageIcon(
-                    new File("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Icons/myfiles-icon.png")
-                    .toURI()
-                    .toURL()));
-
-            sharedfilesLable.setIcon(new ImageIcon(
-                    new File("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Icons/shared-icon.png")
-                    .toURI()
-                    .toURL()));
-
-            activityLabel.setIcon(new ImageIcon(
-                    new File("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Icons/activity-icon.png")
-                    .toURI()
-                    .toURL()));
-
-            profileIcon.setIcon(new ImageIcon(
-                    new File("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Icons/user-icon.png")
-                    .toURI()
-                    .toURL()));
-
-        }catch(MalformedURLException e) {
+            dashboardLabel.setIcon(
+                    new ImageIcon(ImageIO.read(
+                            new File("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Icons/dashboard-icon.png"))));
+            
+            myFilesLabel.setIcon(
+                    new ImageIcon(ImageIO.read(
+                            new File("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Icons/myfiles-icon.png"))));
+            
+            sharedFilesLabel.setIcon(
+                    new ImageIcon(ImageIO.read(
+                            new File("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Icons/shared-icon.png"))));
+            
+            activityLabel.setIcon(
+                    new ImageIcon(ImageIO.read(
+                            new File("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Icons/activity-icon.png"))));
+            
+            profileIcon.setIcon(
+                    new ImageIcon(ImageIO.read(
+                            new File("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Icons/user-icon.png"))));
+            
+        }catch(IOException e) {
             System.err.println(e.getMessage());
         }
+        
+        
+       
             
    }
     
@@ -519,13 +452,13 @@ public class Home extends javax.swing.JFrame implements UIMethods {
         float menuFontSize = 16;
         float usernameFontSize = 18;
         
-        dashboardLable.setFont(CustomFont
+        dashboardLabel.setFont(CustomFont
                 .createFont("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Fonts/Inter_18pt-Bold.ttf", menuFontSize));
         
-        myfilesLable.setFont(CustomFont
+        myFilesLabel.setFont(CustomFont
                 .createFont("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Fonts/Inter_18pt-Bold.ttf", menuFontSize));
         
-        sharedfilesLable.setFont(CustomFont
+        sharedFilesLabel.setFont(CustomFont
                 .createFont("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Fonts/Inter_18pt-Bold.ttf", menuFontSize));
         
         activityLabel.setFont(CustomFont

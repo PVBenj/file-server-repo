@@ -84,7 +84,7 @@
                 </DimensionLayout>
               </Layout>
             </Container>
-            <Container class="javax.swing.JPanel" name="jPanel6">
+            <Container class="javax.swing.JPanel" name="jPanel14">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="3e" green="3e" red="3e" type="rgb"/>
@@ -104,7 +104,7 @@
                       <Color blue="3e" green="3e" red="3e" type="rgb"/>
                     </Property>
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[250, 50]"/>
+                      <Dimension value="[250, 60]"/>
                     </Property>
                   </Properties>
                   <Events>
@@ -120,8 +120,11 @@
 
                   <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
                   <SubComponents>
-                    <Component class="javax.swing.JLabel" name="dashboardLable">
+                    <Component class="javax.swing.JLabel" name="dashboardLabel">
                       <Properties>
+                        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                          <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                        </Property>
                         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                           <Font name="Liberation Sans" size="16" style="1"/>
                         </Property>
@@ -129,7 +132,7 @@
                           <Color blue="ff" green="ff" red="ff" type="rgb"/>
                         </Property>
                         <Property name="text" type="java.lang.String" value="Dashboard"/>
-                        <Property name="iconTextGap" type="int" value="10"/>
+                        <Property name="iconTextGap" type="int" value="12"/>
                       </Properties>
                       <Constraints>
                         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
@@ -137,14 +140,13 @@
                         </Constraint>
                       </Constraints>
                     </Component>
-                    <Container class="javax.swing.JPanel" name="jPanel7">
+                    <Container class="javax.swing.JPanel" name="jPanel9">
                       <Properties>
                         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                          <Color blue="2c" green="26" red="1b" type="rgb"/>
+                          <Color blue="3e" green="3e" red="3e" type="rgb"/>
                         </Property>
-                        <Property name="opaque" type="boolean" value="false"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[50, 50]"/>
+                          <Dimension value="[50, 60]"/>
                         </Property>
                       </Properties>
                       <Constraints>
@@ -161,19 +163,14 @@
                         </DimensionLayout>
                         <DimensionLayout dim="1">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <EmptySpace min="0" pref="50" max="32767" attributes="0"/>
+                              <EmptySpace min="0" pref="60" max="32767" attributes="0"/>
                           </Group>
                         </DimensionLayout>
                       </Layout>
                     </Container>
                   </SubComponents>
                 </Container>
-                <Container class="javax.swing.JPanel" name="jPanel8">
-                  <Properties>
-                    <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                      <Color blue="3e" green="3e" red="3e" type="rgb"/>
-                    </Property>
-                  </Properties>
+                <Container class="javax.swing.JPanel" name="jPanel6">
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
                       <BorderConstraints direction="Center"/>
@@ -182,20 +179,15 @@
 
                   <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
                   <SubComponents>
-                    <Container class="javax.swing.JPanel" name="pernalPanel">
+                    <Container class="javax.swing.JPanel" name="myFilesPanel">
                       <Properties>
                         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                           <Color blue="3e" green="3e" red="3e" type="rgb"/>
                         </Property>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[250, 50]"/>
+                          <Dimension value="[250, 60]"/>
                         </Property>
                       </Properties>
-                      <Events>
-                        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="pernalPanelMouseClicked"/>
-                        <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="pernalPanelMouseEntered"/>
-                        <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="pernalPanelMouseExited"/>
-                      </Events>
                       <Constraints>
                         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
                           <BorderConstraints direction="First"/>
@@ -204,8 +196,11 @@
 
                       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
                       <SubComponents>
-                        <Component class="javax.swing.JLabel" name="myfilesLable">
+                        <Component class="javax.swing.JLabel" name="myFilesLabel">
                           <Properties>
+                            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                            </Property>
                             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                               <Font name="Liberation Sans" size="16" style="1"/>
                             </Property>
@@ -213,7 +208,7 @@
                               <Color blue="ff" green="ff" red="ff" type="rgb"/>
                             </Property>
                             <Property name="text" type="java.lang.String" value="My Files"/>
-                            <Property name="iconTextGap" type="int" value="10"/>
+                            <Property name="iconTextGap" type="int" value="12"/>
                           </Properties>
                           <Constraints>
                             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
@@ -221,14 +216,13 @@
                             </Constraint>
                           </Constraints>
                         </Component>
-                        <Container class="javax.swing.JPanel" name="jPanel9">
+                        <Container class="javax.swing.JPanel" name="jPanel10">
                           <Properties>
                             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                              <Color blue="2c" green="26" red="1b" type="rgb"/>
+                              <Color blue="3e" green="3e" red="3e" type="rgb"/>
                             </Property>
-                            <Property name="opaque" type="boolean" value="false"/>
                             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                              <Dimension value="[50, 50]"/>
+                              <Dimension value="[50, 60]"/>
                             </Property>
                           </Properties>
                           <Constraints>
@@ -245,19 +239,14 @@
                             </DimensionLayout>
                             <DimensionLayout dim="1">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <EmptySpace min="0" pref="50" max="32767" attributes="0"/>
+                                  <EmptySpace min="0" pref="60" max="32767" attributes="0"/>
                               </Group>
                             </DimensionLayout>
                           </Layout>
                         </Container>
                       </SubComponents>
                     </Container>
-                    <Container class="javax.swing.JPanel" name="jPanel10">
-                      <Properties>
-                        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                          <Color blue="3e" green="3e" red="3e" type="rgb"/>
-                        </Property>
-                      </Properties>
+                    <Container class="javax.swing.JPanel" name="jPanel7">
                       <Constraints>
                         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
                           <BorderConstraints direction="Center"/>
@@ -266,19 +255,15 @@
 
                       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
                       <SubComponents>
-                        <Container class="javax.swing.JPanel" name="sharedPanel">
+                        <Container class="javax.swing.JPanel" name="myFilesPanel1">
                           <Properties>
                             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                               <Color blue="3e" green="3e" red="3e" type="rgb"/>
                             </Property>
                             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                              <Dimension value="[250, 50]"/>
+                              <Dimension value="[250, 60]"/>
                             </Property>
                           </Properties>
-                          <Events>
-                            <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="sharedPanelMouseEntered"/>
-                            <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="sharedPanelMouseExited"/>
-                          </Events>
                           <Constraints>
                             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
                               <BorderConstraints direction="First"/>
@@ -287,8 +272,11 @@
 
                           <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
                           <SubComponents>
-                            <Component class="javax.swing.JLabel" name="sharedfilesLable">
+                            <Component class="javax.swing.JLabel" name="sharedFilesLabel">
                               <Properties>
+                                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                                </Property>
                                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                                   <Font name="Liberation Sans" size="16" style="1"/>
                                 </Property>
@@ -296,11 +284,8 @@
                                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                                 </Property>
                                 <Property name="text" type="java.lang.String" value="Shared Files"/>
-                                <Property name="iconTextGap" type="int" value="10"/>
+                                <Property name="iconTextGap" type="int" value="12"/>
                               </Properties>
-                              <Events>
-                                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="sharedfilesLableMouseClicked"/>
-                              </Events>
                               <Constraints>
                                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
                                   <BorderConstraints direction="Center"/>
@@ -310,11 +295,10 @@
                             <Container class="javax.swing.JPanel" name="jPanel11">
                               <Properties>
                                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                                  <Color blue="2c" green="26" red="1b" type="rgb"/>
+                                  <Color blue="3e" green="3e" red="3e" type="rgb"/>
                                 </Property>
-                                <Property name="opaque" type="boolean" value="false"/>
                                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                                  <Dimension value="[50, 50]"/>
+                                  <Dimension value="[50, 60]"/>
                                 </Property>
                               </Properties>
                               <Constraints>
@@ -331,14 +315,14 @@
                                 </DimensionLayout>
                                 <DimensionLayout dim="1">
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <EmptySpace min="0" pref="50" max="32767" attributes="0"/>
+                                      <EmptySpace min="0" pref="60" max="32767" attributes="0"/>
                                   </Group>
                                 </DimensionLayout>
                               </Layout>
                             </Container>
                           </SubComponents>
                         </Container>
-                        <Container class="javax.swing.JPanel" name="jPanel12">
+                        <Container class="javax.swing.JPanel" name="jPanel8">
                           <Properties>
                             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                               <Color blue="3e" green="3e" red="3e" type="rgb"/>
@@ -352,19 +336,15 @@
 
                           <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
                           <SubComponents>
-                            <Container class="javax.swing.JPanel" name="activityPanel">
+                            <Container class="javax.swing.JPanel" name="myFilesPanel2">
                               <Properties>
                                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                                   <Color blue="3e" green="3e" red="3e" type="rgb"/>
                                 </Property>
                                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                                  <Dimension value="[250, 50]"/>
+                                  <Dimension value="[250, 60]"/>
                                 </Property>
                               </Properties>
-                              <Events>
-                                <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="activityPanelMouseEntered"/>
-                                <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="activityPanelMouseExited"/>
-                              </Events>
                               <Constraints>
                                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
                                   <BorderConstraints direction="First"/>
@@ -375,6 +355,9 @@
                               <SubComponents>
                                 <Component class="javax.swing.JLabel" name="activityLabel">
                                   <Properties>
+                                    <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                                      <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                                    </Property>
                                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                                       <Font name="Liberation Sans" size="16" style="1"/>
                                     </Property>
@@ -382,7 +365,7 @@
                                       <Color blue="ff" green="ff" red="ff" type="rgb"/>
                                     </Property>
                                     <Property name="text" type="java.lang.String" value="Activity"/>
-                                    <Property name="iconTextGap" type="int" value="10"/>
+                                    <Property name="iconTextGap" type="int" value="12"/>
                                   </Properties>
                                   <Constraints>
                                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
@@ -390,14 +373,13 @@
                                     </Constraint>
                                   </Constraints>
                                 </Component>
-                                <Container class="javax.swing.JPanel" name="jPanel13">
+                                <Container class="javax.swing.JPanel" name="jPanel12">
                                   <Properties>
                                     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                                      <Color blue="2c" green="26" red="1b" type="rgb"/>
+                                      <Color blue="3e" green="3e" red="3e" type="rgb"/>
                                     </Property>
-                                    <Property name="opaque" type="boolean" value="false"/>
                                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                                      <Dimension value="[50, 50]"/>
+                                      <Dimension value="[50, 60]"/>
                                     </Property>
                                   </Properties>
                                   <Constraints>
@@ -414,7 +396,7 @@
                                     </DimensionLayout>
                                     <DimensionLayout dim="1">
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <EmptySpace min="0" pref="50" max="32767" attributes="0"/>
+                                          <EmptySpace min="0" pref="60" max="32767" attributes="0"/>
                                       </Group>
                                     </DimensionLayout>
                                   </Layout>

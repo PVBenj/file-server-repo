@@ -6,6 +6,7 @@ package View.Home;
 
 import View.Home.HomePanels.DashboardPanel;
 import View.Home.HomePanels.MyFilesPanel;
+import View.Home.HomePanels.SharedFiles;
 import View.Resources.CustomFont;
 import java.awt.CardLayout;
 import java.awt.Color;
@@ -200,6 +201,11 @@ public class Home extends javax.swing.JFrame implements UIMethods {
         sharedfilesLable.setForeground(new java.awt.Color(255, 255, 255));
         sharedfilesLable.setText("Shared Files");
         sharedfilesLable.setIconTextGap(10);
+        sharedfilesLable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                sharedfilesLableMouseClicked(evt);
+            }
+        });
         sharedPanel.add(sharedfilesLable, java.awt.BorderLayout.CENTER);
 
         jPanel11.setBackground(new java.awt.Color(27, 38, 44));
@@ -354,14 +360,6 @@ public class Home extends javax.swing.JFrame implements UIMethods {
         changeColor(pernalPanel, new Color(62, 62, 62));
     }//GEN-LAST:event_pernalPanelMouseExited
 
-    private void sharedPanelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sharedPanelMouseEntered
-        changeColor(sharedPanel, new Color(34, 151, 153));
-    }//GEN-LAST:event_sharedPanelMouseEntered
-
-    private void sharedPanelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sharedPanelMouseExited
-        changeColor(sharedPanel, new Color(62, 62, 62));
-    }//GEN-LAST:event_sharedPanelMouseExited
-
     private void activityPanelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_activityPanelMouseEntered
         changeColor(activityPanel, new Color(34, 151, 153));
     }//GEN-LAST:event_activityPanelMouseEntered
@@ -392,6 +390,19 @@ public class Home extends javax.swing.JFrame implements UIMethods {
         CardLayout cl = (CardLayout) homePanel.getLayout();
         cl.show(homePanel, "MyFiles");
     }//GEN-LAST:event_pernalPanelMouseClicked
+
+    private void sharedfilesLableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sharedfilesLableMouseClicked
+        CardLayout cl = (CardLayout) homePanel.getLayout();
+        cl.show(homePanel, "SharedFiles");
+    }//GEN-LAST:event_sharedfilesLableMouseClicked
+
+    private void sharedPanelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sharedPanelMouseEntered
+        changeColor(activityPanel, new Color(34, 151, 153));
+    }//GEN-LAST:event_sharedPanelMouseEntered
+
+    private void sharedPanelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sharedPanelMouseExited
+        changeColor(activityPanel, new Color(62, 62, 62));
+    }//GEN-LAST:event_sharedPanelMouseExited
     
     /**
      * @param args the command line arguments
@@ -500,6 +511,7 @@ public class Home extends javax.swing.JFrame implements UIMethods {
     private void addPanelsToCard() {
         homePanel.add(new DashboardPanel(), "Dashboard");
         homePanel.add(new MyFilesPanel(), "MyFiles");
+        homePanel.add(new SharedFiles(), "SharedFiles");
     }
 
     @Override

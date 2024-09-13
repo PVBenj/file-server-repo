@@ -23,6 +23,8 @@ public class MyFilesPanel extends javax.swing.JPanel implements UIMethods {
         initComponents();
         loadFonts();
     }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -52,8 +54,17 @@ public class MyFilesPanel extends javax.swing.JPanel implements UIMethods {
         deleteLabel = new javax.swing.JLabel();
         jPanel10 = new javax.swing.JPanel();
         jPanel11 = new javax.swing.JPanel();
+        jPanel12 = new javax.swing.JPanel();
+        jPanel13 = new javax.swing.JPanel();
         uploadBTN = new View.Resources.RoundPanel();
         uploadLabel = new javax.swing.JLabel();
+        jPanel14 = new javax.swing.JPanel();
+        jPanel15 = new javax.swing.JPanel();
+        shareBTN = new View.Resources.RoundPanel();
+        shareLabel = new javax.swing.JLabel();
+        roundPanel6 = new View.Resources.RoundPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        myFilesTable = new javax.swing.JTable();
 
         setMaximumSize(new java.awt.Dimension(1080, 640));
         setMinimumSize(new java.awt.Dimension(1080, 640));
@@ -71,7 +82,7 @@ public class MyFilesPanel extends javax.swing.JPanel implements UIMethods {
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 610, Short.MAX_VALUE)
+            .addGap(0, 621, Short.MAX_VALUE)
         );
 
         add(jPanel1, java.awt.BorderLayout.LINE_START);
@@ -83,7 +94,7 @@ public class MyFilesPanel extends javax.swing.JPanel implements UIMethods {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1080, Short.MAX_VALUE)
+            .addGap(0, 1108, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -104,7 +115,7 @@ public class MyFilesPanel extends javax.swing.JPanel implements UIMethods {
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 610, Short.MAX_VALUE)
+            .addGap(0, 621, Short.MAX_VALUE)
         );
 
         add(jPanel3, java.awt.BorderLayout.LINE_END);
@@ -116,7 +127,7 @@ public class MyFilesPanel extends javax.swing.JPanel implements UIMethods {
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1080, Short.MAX_VALUE)
+            .addGap(0, 1108, Short.MAX_VALUE)
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -157,15 +168,15 @@ public class MyFilesPanel extends javax.swing.JPanel implements UIMethods {
         roundPanel3Layout.setVerticalGroup(
             roundPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(roundPanel3Layout.createSequentialGroup()
-                .addGap(30, 30, 30)
+                .addGap(35, 35, 35)
                 .addComponent(myFilesPanelHeading)
-                .addContainerGap(44, Short.MAX_VALUE))
+                .addContainerGap(39, Short.MAX_VALUE))
         );
 
         roundPanel2.add(roundPanel3, java.awt.BorderLayout.LINE_START);
 
         roundPanel4.setBackground(new java.awt.Color(255, 255, 255));
-        roundPanel4.setPreferredSize(new java.awt.Dimension(330, 100));
+        roundPanel4.setPreferredSize(new java.awt.Dimension(490, 100));
         roundPanel4.setRoundTopRight(10);
         roundPanel4.setLayout(new java.awt.BorderLayout());
 
@@ -197,7 +208,7 @@ public class MyFilesPanel extends javax.swing.JPanel implements UIMethods {
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGap(0, 460, Short.MAX_VALUE)
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -214,7 +225,7 @@ public class MyFilesPanel extends javax.swing.JPanel implements UIMethods {
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGap(0, 460, Short.MAX_VALUE)
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -228,7 +239,7 @@ public class MyFilesPanel extends javax.swing.JPanel implements UIMethods {
         jPanel9.setBackground(new java.awt.Color(255, 255, 255));
         jPanel9.setLayout(new java.awt.BorderLayout());
 
-        deleteBTN.setBackground(new java.awt.Color(255, 102, 102));
+        deleteBTN.setBackground(new java.awt.Color(204, 0, 0));
         deleteBTN.setPreferredSize(new java.awt.Dimension(140, 40));
         deleteBTN.setRoundBottomLeft(28);
         deleteBTN.setRoundBottomRight(28);
@@ -248,7 +259,7 @@ public class MyFilesPanel extends javax.swing.JPanel implements UIMethods {
         deleteBTN.setLayout(new java.awt.BorderLayout());
 
         deleteLabel.setFont(new java.awt.Font("Liberation Sans", 1, 16)); // NOI18N
-        deleteLabel.setForeground(new java.awt.Color(102, 51, 0));
+        deleteLabel.setForeground(new java.awt.Color(255, 204, 204));
         deleteLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         deleteLabel.setText("Delete");
         deleteBTN.add(deleteLabel, java.awt.BorderLayout.CENTER);
@@ -274,15 +285,19 @@ public class MyFilesPanel extends javax.swing.JPanel implements UIMethods {
 
         jPanel10.add(jPanel11, java.awt.BorderLayout.LINE_END);
 
+        jPanel12.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel12.setLayout(new java.awt.BorderLayout());
+
+        jPanel13.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel13.setLayout(new java.awt.BorderLayout());
+
         uploadBTN.setBackground(new java.awt.Color(34, 151, 153));
+        uploadBTN.setPreferredSize(new java.awt.Dimension(140, 45));
         uploadBTN.setRoundBottomLeft(28);
         uploadBTN.setRoundBottomRight(28);
         uploadBTN.setRoundTopLeft(28);
         uploadBTN.setRoundTopRight(28);
         uploadBTN.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                uploadBTNMouseClicked(evt);
-            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 uploadBTNMouseEntered(evt);
             }
@@ -292,13 +307,62 @@ public class MyFilesPanel extends javax.swing.JPanel implements UIMethods {
         });
         uploadBTN.setLayout(new java.awt.BorderLayout());
 
+        uploadLabel.setBackground(new java.awt.Color(255, 255, 255));
         uploadLabel.setFont(new java.awt.Font("Liberation Sans", 1, 16)); // NOI18N
         uploadLabel.setForeground(new java.awt.Color(255, 255, 255));
         uploadLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         uploadLabel.setText("Upload");
         uploadBTN.add(uploadLabel, java.awt.BorderLayout.CENTER);
 
-        jPanel10.add(uploadBTN, java.awt.BorderLayout.CENTER);
+        jPanel13.add(uploadBTN, java.awt.BorderLayout.LINE_END);
+
+        jPanel14.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel14.setLayout(new java.awt.BorderLayout());
+
+        jPanel15.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel15.setPreferredSize(new java.awt.Dimension(20, 45));
+
+        javax.swing.GroupLayout jPanel15Layout = new javax.swing.GroupLayout(jPanel15);
+        jPanel15.setLayout(jPanel15Layout);
+        jPanel15Layout.setHorizontalGroup(
+            jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 20, Short.MAX_VALUE)
+        );
+        jPanel15Layout.setVerticalGroup(
+            jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 45, Short.MAX_VALUE)
+        );
+
+        jPanel14.add(jPanel15, java.awt.BorderLayout.LINE_END);
+
+        shareBTN.setBackground(new java.awt.Color(64, 165, 120));
+        shareBTN.setRoundBottomLeft(28);
+        shareBTN.setRoundBottomRight(28);
+        shareBTN.setRoundTopLeft(28);
+        shareBTN.setRoundTopRight(28);
+        shareBTN.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                shareBTNMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                shareBTNMouseExited(evt);
+            }
+        });
+        shareBTN.setLayout(new java.awt.BorderLayout());
+
+        shareLabel.setFont(new java.awt.Font("Liberation Sans", 1, 16)); // NOI18N
+        shareLabel.setForeground(new java.awt.Color(204, 255, 204));
+        shareLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        shareLabel.setText("Share");
+        shareBTN.add(shareLabel, java.awt.BorderLayout.CENTER);
+
+        jPanel14.add(shareBTN, java.awt.BorderLayout.CENTER);
+
+        jPanel13.add(jPanel14, java.awt.BorderLayout.CENTER);
+
+        jPanel12.add(jPanel13, java.awt.BorderLayout.CENTER);
+
+        jPanel10.add(jPanel12, java.awt.BorderLayout.CENTER);
 
         jPanel9.add(jPanel10, java.awt.BorderLayout.CENTER);
 
@@ -312,17 +376,41 @@ public class MyFilesPanel extends javax.swing.JPanel implements UIMethods {
 
         roundPanel1.add(roundPanel2, java.awt.BorderLayout.PAGE_START);
 
+        roundPanel6.setBackground(new java.awt.Color(255, 255, 255));
+        roundPanel6.setRoundBottomLeft(10);
+        roundPanel6.setRoundBottomRight(10);
+        roundPanel6.setLayout(new java.awt.BorderLayout());
+
+        myFilesTable.setForeground(new java.awt.Color(255, 255, 255));
+        myFilesTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        myFilesTable.setGridColor(new java.awt.Color(255, 255, 255));
+        jScrollPane1.setViewportView(myFilesTable);
+
+        roundPanel6.add(jScrollPane1, java.awt.BorderLayout.CENTER);
+
+        roundPanel1.add(roundPanel6, java.awt.BorderLayout.CENTER);
+
         add(roundPanel1, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
     private void deleteBTNMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteBTNMouseEntered
-        changeFontColor(deleteLabel, new Color(255,102,102));
-        changeColor(deleteBTN, new Color(190, 49, 68));
+        changeFontColor(deleteLabel, new Color(102,51,0));
+        changeColor(deleteBTN, new Color(255,102,102));
     }//GEN-LAST:event_deleteBTNMouseEntered
 
     private void deleteBTNMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteBTNMouseExited
-        changeFontColor(deleteLabel, new Color(102,51,0));
-        changeColor(deleteBTN, new Color(255,102,102));
+        changeFontColor(deleteLabel, new Color(255,102,102));
+        changeColor(deleteBTN, new Color(190, 49, 68));
     }//GEN-LAST:event_deleteBTNMouseExited
 
     private void deleteBTNMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteBTNMouseClicked
@@ -337,9 +425,15 @@ public class MyFilesPanel extends javax.swing.JPanel implements UIMethods {
         changeColor(uploadBTN, new Color(34, 151, 153));
     }//GEN-LAST:event_uploadBTNMouseExited
 
-    private void uploadBTNMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_uploadBTNMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_uploadBTNMouseClicked
+    private void shareBTNMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_shareBTNMouseEntered
+        changeFontColor(shareLabel, new Color(64, 165, 120));
+        changeColor(shareBTN, new Color(157, 222, 139));
+    }//GEN-LAST:event_shareBTNMouseEntered
+
+    private void shareBTNMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_shareBTNMouseExited
+        changeFontColor(shareLabel, new Color(204,255,204));
+        changeColor(shareBTN, new Color(64,165,120));
+    }//GEN-LAST:event_shareBTNMouseExited
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -348,6 +442,10 @@ public class MyFilesPanel extends javax.swing.JPanel implements UIMethods {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
+    private javax.swing.JPanel jPanel12;
+    private javax.swing.JPanel jPanel13;
+    private javax.swing.JPanel jPanel14;
+    private javax.swing.JPanel jPanel15;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -356,12 +454,17 @@ public class MyFilesPanel extends javax.swing.JPanel implements UIMethods {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel myFilesPanelHeading;
+    private javax.swing.JTable myFilesTable;
     private View.Resources.RoundPanel roundPanel1;
     private View.Resources.RoundPanel roundPanel2;
     private View.Resources.RoundPanel roundPanel3;
     private View.Resources.RoundPanel roundPanel4;
     private View.Resources.RoundPanel roundPanel5;
+    private View.Resources.RoundPanel roundPanel6;
+    private View.Resources.RoundPanel shareBTN;
+    private javax.swing.JLabel shareLabel;
     private View.Resources.RoundPanel uploadBTN;
     private javax.swing.JLabel uploadLabel;
     // End of variables declaration//GEN-END:variables
@@ -388,6 +491,9 @@ public class MyFilesPanel extends javax.swing.JPanel implements UIMethods {
                 .createFont("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Fonts/Inter_18pt-Bold.ttf", buttonFontSize));
         
         deleteLabel.setFont(CustomFont
+                .createFont("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Fonts/Inter_18pt-Bold.ttf", buttonFontSize));
+        
+        shareLabel.setFont(CustomFont
                 .createFont("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Fonts/Inter_18pt-Bold.ttf", buttonFontSize));
     }
 }

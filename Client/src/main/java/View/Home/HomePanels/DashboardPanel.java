@@ -63,7 +63,7 @@ public class DashboardPanel extends javax.swing.JPanel implements UIMethods {
         jPanel20 = new javax.swing.JPanel();
         roundPanel4 = new View.Resources.RoundPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        recentActivityTable = new javax.swing.JTable();
         jPanel16 = new javax.swing.JPanel();
         jPanel17 = new javax.swing.JPanel();
         jPanel18 = new javax.swing.JPanel();
@@ -75,7 +75,7 @@ public class DashboardPanel extends javax.swing.JPanel implements UIMethods {
         jPanel23 = new javax.swing.JPanel();
         roundPanel6 = new View.Resources.RoundPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        recentUploadsTable = new javax.swing.JTable();
 
         setBackground(new java.awt.Color(245, 245, 245));
         setMaximumSize(new java.awt.Dimension(1080, 640));
@@ -411,7 +411,7 @@ public class DashboardPanel extends javax.swing.JPanel implements UIMethods {
 
         roundPanel3.add(roundPanel4, java.awt.BorderLayout.PAGE_END);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        recentActivityTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -422,8 +422,8 @@ public class DashboardPanel extends javax.swing.JPanel implements UIMethods {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jTable1.setSelectionBackground(new java.awt.Color(72, 207, 203));
-        jScrollPane1.setViewportView(jTable1);
+        recentActivityTable.setSelectionBackground(new java.awt.Color(72, 207, 203));
+        jScrollPane1.setViewportView(recentActivityTable);
 
         roundPanel3.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
@@ -544,7 +544,7 @@ public class DashboardPanel extends javax.swing.JPanel implements UIMethods {
 
         roundPanel5.add(roundPanel6, java.awt.BorderLayout.PAGE_END);
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        recentUploadsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -555,8 +555,8 @@ public class DashboardPanel extends javax.swing.JPanel implements UIMethods {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jTable2.setSelectionBackground(new java.awt.Color(72, 207, 203));
-        jScrollPane2.setViewportView(jTable2);
+        recentUploadsTable.setSelectionBackground(new java.awt.Color(72, 207, 203));
+        jScrollPane2.setViewportView(recentUploadsTable);
 
         roundPanel5.add(jScrollPane2, java.awt.BorderLayout.CENTER);
 
@@ -602,12 +602,12 @@ public class DashboardPanel extends javax.swing.JPanel implements UIMethods {
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
     private javax.swing.JLabel recentActivityHeading;
     private View.Resources.RoundPanel recentActivitySection;
+    private javax.swing.JTable recentActivityTable;
     private javax.swing.JLabel recentUploadsHeading;
     private View.Resources.RoundPanel recentUploadsSection;
+    private javax.swing.JTable recentUploadsTable;
     private View.Resources.RoundPanel roundPanel1;
     private View.Resources.RoundPanel roundPanel2;
     private View.Resources.RoundPanel roundPanel3;

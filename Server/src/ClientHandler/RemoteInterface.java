@@ -4,6 +4,6 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 public interface RemoteInterface extends Remote {
-    boolean login(String username, String password) throws RemoteException;
+    User login(String username, String password) throws RemoteException;
     void sayHello() throws RemoteException;
 }

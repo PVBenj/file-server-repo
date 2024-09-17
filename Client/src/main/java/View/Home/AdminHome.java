@@ -4,15 +4,18 @@
  */
 package View.Home;
 
-import View.Home.HomePanels.DashboardPanel;
+import Model.User;
+import View.Home.HomePanels.ActivityPanel;
+import View.Home.HomePanels.AdminDashboardPanel;
+import View.Home.HomePanels.GroupsPanel;
 import View.Home.HomePanels.MyFilesPanel;
 import View.Home.HomePanels.SharedFiles;
+import View.Home.HomePanels.UsersPanel;
 import View.Resources.CustomFont;
+import java.awt.CardLayout;
 import java.awt.Color;
-import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -22,16 +25,17 @@ import javax.swing.JPanel;
  *
  * @author benjamin
  */
-public class Home extends javax.swing.JFrame implements UIMethods {
+public class AdminHome extends javax.swing.JFrame implements UIMethods {
 
-    /**
-     * Creates new form Home
-     */
-    public Home() {
+    static User adminUser;
+    
+    public AdminHome(User user) {
         initComponents();
         loadFonts();
         applyIcons();
         addPanelsToCard();
+        adminUser = user;
+        usernamePanel.setText(adminUser.getFirstName());
     }
 
     /**
@@ -55,13 +59,21 @@ public class Home extends javax.swing.JFrame implements UIMethods {
         myFilesLabel = new javax.swing.JLabel();
         jPanel10 = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
-        myFilesPanel1 = new javax.swing.JPanel();
+        sharedFilesPanel = new javax.swing.JPanel();
         sharedFilesLabel = new javax.swing.JLabel();
         jPanel11 = new javax.swing.JPanel();
         jPanel8 = new javax.swing.JPanel();
-        myFilesPanel2 = new javax.swing.JPanel();
+        activityPanel = new javax.swing.JPanel();
         activityLabel = new javax.swing.JLabel();
         jPanel12 = new javax.swing.JPanel();
+        jPanel13 = new javax.swing.JPanel();
+        usersPanel = new javax.swing.JPanel();
+        usersLabel = new javax.swing.JLabel();
+        jPanel15 = new javax.swing.JPanel();
+        jPanel16 = new javax.swing.JPanel();
+        groupsPanel = new javax.swing.JPanel();
+        groupsLabel = new javax.swing.JLabel();
+        jPanel17 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         profilePanel = new javax.swing.JPanel();
@@ -73,6 +85,7 @@ public class Home extends javax.swing.JFrame implements UIMethods {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(1330, 800));
+        setMinimumSize(new java.awt.Dimension(1330, 800));
         setPreferredSize(new java.awt.Dimension(1330, 800));
 
         backgroundPanel.setLayout(new java.awt.BorderLayout());
@@ -145,6 +158,17 @@ public class Home extends javax.swing.JFrame implements UIMethods {
 
         myFilesPanel.setBackground(new java.awt.Color(62, 62, 62));
         myFilesPanel.setPreferredSize(new java.awt.Dimension(250, 60));
+        myFilesPanel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                myFilesPanelMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                myFilesPanelMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                myFilesPanelMouseExited(evt);
+            }
+        });
         myFilesPanel.setLayout(new java.awt.BorderLayout());
 
         myFilesLabel.setBackground(new java.awt.Color(255, 255, 255));
@@ -174,16 +198,27 @@ public class Home extends javax.swing.JFrame implements UIMethods {
 
         jPanel7.setLayout(new java.awt.BorderLayout());
 
-        myFilesPanel1.setBackground(new java.awt.Color(62, 62, 62));
-        myFilesPanel1.setPreferredSize(new java.awt.Dimension(250, 60));
-        myFilesPanel1.setLayout(new java.awt.BorderLayout());
+        sharedFilesPanel.setBackground(new java.awt.Color(62, 62, 62));
+        sharedFilesPanel.setPreferredSize(new java.awt.Dimension(250, 60));
+        sharedFilesPanel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                sharedFilesPanelMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                sharedFilesPanelMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                sharedFilesPanelMouseExited(evt);
+            }
+        });
+        sharedFilesPanel.setLayout(new java.awt.BorderLayout());
 
         sharedFilesLabel.setBackground(new java.awt.Color(255, 255, 255));
         sharedFilesLabel.setFont(new java.awt.Font("Liberation Sans", 1, 16)); // NOI18N
         sharedFilesLabel.setForeground(new java.awt.Color(255, 255, 255));
         sharedFilesLabel.setText("Shared Files");
         sharedFilesLabel.setIconTextGap(12);
-        myFilesPanel1.add(sharedFilesLabel, java.awt.BorderLayout.CENTER);
+        sharedFilesPanel.add(sharedFilesLabel, java.awt.BorderLayout.CENTER);
 
         jPanel11.setBackground(new java.awt.Color(62, 62, 62));
         jPanel11.setPreferredSize(new java.awt.Dimension(50, 60));
@@ -199,23 +234,34 @@ public class Home extends javax.swing.JFrame implements UIMethods {
             .addGap(0, 60, Short.MAX_VALUE)
         );
 
-        myFilesPanel1.add(jPanel11, java.awt.BorderLayout.LINE_START);
+        sharedFilesPanel.add(jPanel11, java.awt.BorderLayout.LINE_START);
 
-        jPanel7.add(myFilesPanel1, java.awt.BorderLayout.PAGE_START);
+        jPanel7.add(sharedFilesPanel, java.awt.BorderLayout.PAGE_START);
 
         jPanel8.setBackground(new java.awt.Color(62, 62, 62));
         jPanel8.setLayout(new java.awt.BorderLayout());
 
-        myFilesPanel2.setBackground(new java.awt.Color(62, 62, 62));
-        myFilesPanel2.setPreferredSize(new java.awt.Dimension(250, 60));
-        myFilesPanel2.setLayout(new java.awt.BorderLayout());
+        activityPanel.setBackground(new java.awt.Color(62, 62, 62));
+        activityPanel.setPreferredSize(new java.awt.Dimension(250, 60));
+        activityPanel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                activityPanelMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                activityPanelMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                activityPanelMouseExited(evt);
+            }
+        });
+        activityPanel.setLayout(new java.awt.BorderLayout());
 
         activityLabel.setBackground(new java.awt.Color(255, 255, 255));
         activityLabel.setFont(new java.awt.Font("Liberation Sans", 1, 16)); // NOI18N
         activityLabel.setForeground(new java.awt.Color(255, 255, 255));
         activityLabel.setText("Activity");
         activityLabel.setIconTextGap(12);
-        myFilesPanel2.add(activityLabel, java.awt.BorderLayout.CENTER);
+        activityPanel.add(activityLabel, java.awt.BorderLayout.CENTER);
 
         jPanel12.setBackground(new java.awt.Color(62, 62, 62));
         jPanel12.setPreferredSize(new java.awt.Dimension(50, 60));
@@ -231,9 +277,98 @@ public class Home extends javax.swing.JFrame implements UIMethods {
             .addGap(0, 60, Short.MAX_VALUE)
         );
 
-        myFilesPanel2.add(jPanel12, java.awt.BorderLayout.LINE_START);
+        activityPanel.add(jPanel12, java.awt.BorderLayout.LINE_START);
 
-        jPanel8.add(myFilesPanel2, java.awt.BorderLayout.PAGE_START);
+        jPanel8.add(activityPanel, java.awt.BorderLayout.PAGE_START);
+
+        jPanel13.setLayout(new java.awt.BorderLayout());
+
+        usersPanel.setBackground(new java.awt.Color(62, 62, 62));
+        usersPanel.setPreferredSize(new java.awt.Dimension(250, 60));
+        usersPanel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                usersPanelMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                usersPanelMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                usersPanelMouseExited(evt);
+            }
+        });
+        usersPanel.setLayout(new java.awt.BorderLayout());
+
+        usersLabel.setBackground(new java.awt.Color(255, 255, 255));
+        usersLabel.setFont(new java.awt.Font("Liberation Sans", 1, 16)); // NOI18N
+        usersLabel.setForeground(new java.awt.Color(255, 255, 255));
+        usersLabel.setText("Users");
+        usersLabel.setIconTextGap(12);
+        usersPanel.add(usersLabel, java.awt.BorderLayout.CENTER);
+
+        jPanel15.setBackground(new java.awt.Color(62, 62, 62));
+        jPanel15.setPreferredSize(new java.awt.Dimension(50, 60));
+
+        javax.swing.GroupLayout jPanel15Layout = new javax.swing.GroupLayout(jPanel15);
+        jPanel15.setLayout(jPanel15Layout);
+        jPanel15Layout.setHorizontalGroup(
+            jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 50, Short.MAX_VALUE)
+        );
+        jPanel15Layout.setVerticalGroup(
+            jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 60, Short.MAX_VALUE)
+        );
+
+        usersPanel.add(jPanel15, java.awt.BorderLayout.LINE_START);
+
+        jPanel13.add(usersPanel, java.awt.BorderLayout.PAGE_START);
+
+        jPanel16.setBackground(new java.awt.Color(62, 62, 62));
+        jPanel16.setLayout(new java.awt.BorderLayout());
+
+        groupsPanel.setBackground(new java.awt.Color(62, 62, 62));
+        groupsPanel.setPreferredSize(new java.awt.Dimension(250, 60));
+        groupsPanel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                groupsPanelMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                groupsPanelMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                groupsPanelMouseExited(evt);
+            }
+        });
+        groupsPanel.setLayout(new java.awt.BorderLayout());
+
+        groupsLabel.setBackground(new java.awt.Color(255, 255, 255));
+        groupsLabel.setFont(new java.awt.Font("Liberation Sans", 1, 16)); // NOI18N
+        groupsLabel.setForeground(new java.awt.Color(255, 255, 255));
+        groupsLabel.setText("Groups");
+        groupsLabel.setIconTextGap(12);
+        groupsPanel.add(groupsLabel, java.awt.BorderLayout.CENTER);
+
+        jPanel17.setBackground(new java.awt.Color(62, 62, 62));
+        jPanel17.setPreferredSize(new java.awt.Dimension(50, 60));
+
+        javax.swing.GroupLayout jPanel17Layout = new javax.swing.GroupLayout(jPanel17);
+        jPanel17.setLayout(jPanel17Layout);
+        jPanel17Layout.setHorizontalGroup(
+            jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 50, Short.MAX_VALUE)
+        );
+        jPanel17Layout.setVerticalGroup(
+            jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 60, Short.MAX_VALUE)
+        );
+
+        groupsPanel.add(jPanel17, java.awt.BorderLayout.LINE_START);
+
+        jPanel16.add(groupsPanel, java.awt.BorderLayout.PAGE_START);
+
+        jPanel13.add(jPanel16, java.awt.BorderLayout.CENTER);
+
+        jPanel8.add(jPanel13, java.awt.BorderLayout.CENTER);
 
         jPanel7.add(jPanel8, java.awt.BorderLayout.CENTER);
 
@@ -294,7 +429,7 @@ public class Home extends javax.swing.JFrame implements UIMethods {
         usernamePanel.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
         usernamePanel.setForeground(new java.awt.Color(255, 255, 255));
         usernamePanel.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-        usernamePanel.setText("Admin");
+        usernamePanel.setText("User");
         jPanel4.add(usernamePanel, java.awt.BorderLayout.CENTER);
 
         jPanel3.add(jPanel4, java.awt.BorderLayout.CENTER);
@@ -336,55 +471,141 @@ public class Home extends javax.swing.JFrame implements UIMethods {
     }//GEN-LAST:event_dashboardPanelMouseExited
 
     private void dashboardPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dashboardPanelMouseClicked
-        // TODO add your handling code here:
+        CardLayout cl = (CardLayout) homePanel.getLayout();
+        cl.show(homePanel, "AdminDashboard");
     }//GEN-LAST:event_dashboardPanelMouseClicked
+
+    private void myFilesPanelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_myFilesPanelMouseEntered
+        changeColor(myFilesPanel, new Color(34, 151, 153));
+        changeColor(jPanel10, new Color(34, 151, 153));
+    }//GEN-LAST:event_myFilesPanelMouseEntered
+
+    private void myFilesPanelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_myFilesPanelMouseExited
+        changeColor(myFilesPanel, new Color(62, 62, 62));
+        changeColor(jPanel10, new Color(62, 62, 62));
+    }//GEN-LAST:event_myFilesPanelMouseExited
+
+    private void myFilesPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_myFilesPanelMouseClicked
+        CardLayout cl = (CardLayout) homePanel.getLayout();
+        cl.show(homePanel, "MyFiles");
+    }//GEN-LAST:event_myFilesPanelMouseClicked
+
+    private void sharedFilesPanelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sharedFilesPanelMouseEntered
+        changeColor(sharedFilesPanel, new Color(34, 151, 153));
+        changeColor(jPanel11, new Color(34, 151, 153));
+    }//GEN-LAST:event_sharedFilesPanelMouseEntered
+
+    private void sharedFilesPanelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sharedFilesPanelMouseExited
+        changeColor(sharedFilesPanel, new Color(62, 62, 62));
+        changeColor(jPanel11, new Color(62, 62, 62));
+    }//GEN-LAST:event_sharedFilesPanelMouseExited
+
+    private void sharedFilesPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sharedFilesPanelMouseClicked
+        CardLayout cl = (CardLayout) homePanel.getLayout();
+        cl.show(homePanel, "SharedFiles");
+    }//GEN-LAST:event_sharedFilesPanelMouseClicked
+
+    private void activityPanelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_activityPanelMouseEntered
+        changeColor(activityPanel, new Color(34, 151, 153));
+        changeColor(jPanel12, new Color(34, 151, 153));
+    }//GEN-LAST:event_activityPanelMouseEntered
+
+    private void activityPanelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_activityPanelMouseExited
+        changeColor(activityPanel, new Color(62, 62, 62));
+        changeColor(jPanel12, new Color(62, 62, 62));
+    }//GEN-LAST:event_activityPanelMouseExited
+
+    private void activityPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_activityPanelMouseClicked
+        CardLayout cl = (CardLayout) homePanel.getLayout();
+        cl.show(homePanel, "ActivityPanel");
+    }//GEN-LAST:event_activityPanelMouseClicked
+
+    private void usersPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_usersPanelMouseClicked
+        CardLayout cl = (CardLayout) homePanel.getLayout();
+        cl.show(homePanel, "Users");
+    }//GEN-LAST:event_usersPanelMouseClicked
+
+    private void usersPanelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_usersPanelMouseEntered
+        changeColor(usersPanel, new Color(34, 151, 153));
+        changeColor(jPanel15, new Color(34, 151, 153));
+    }//GEN-LAST:event_usersPanelMouseEntered
+
+    private void usersPanelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_usersPanelMouseExited
+        changeColor(usersPanel, new Color(62, 62, 62));
+        changeColor(jPanel15, new Color(62, 62, 62));
+    }//GEN-LAST:event_usersPanelMouseExited
+
+    private void groupsPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_groupsPanelMouseClicked
+        CardLayout cl = (CardLayout) homePanel.getLayout();
+        cl.show(homePanel, "Groups");
+    }//GEN-LAST:event_groupsPanelMouseClicked
+
+    private void groupsPanelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_groupsPanelMouseEntered
+        changeColor(groupsPanel, new Color(34, 151, 153));
+        changeColor(jPanel17, new Color(34, 151, 153));
+    }//GEN-LAST:event_groupsPanelMouseEntered
+
+    private void groupsPanelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_groupsPanelMouseExited
+        changeColor(groupsPanel, new Color(62, 62, 62));
+        changeColor(jPanel17, new Color(62, 62, 62));
+    }//GEN-LAST:event_groupsPanelMouseExited
     
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Home.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Home.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Home.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Home.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Home().setVisible(true);
-            }
-        });
-    }
+//    public static void main(String args[]) {
+//        /* Set the Nimbus look and feel */
+//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+//         */
+//        try {
+//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+//                if ("Nimbus".equals(info.getName())) {
+//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+//            }
+//        } catch (ClassNotFoundException ex) {
+//            java.util.logging.Logger.getLogger(AdminHome.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (InstantiationException ex) {
+//            java.util.logging.Logger.getLogger(AdminHome.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (IllegalAccessException ex) {
+//            java.util.logging.Logger.getLogger(AdminHome.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+//            java.util.logging.Logger.getLogger(AdminHome.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        }
+//        //</editor-fold>
+//        //</editor-fold>
+//        //</editor-fold>
+//        //</editor-fold>
+//
+//        /* Create and display the form */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new AdminHome().setVisible(true);
+//            }
+//        });
+//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel activityLabel;
+    private javax.swing.JPanel activityPanel;
     private javax.swing.JPanel backgroundPanel;
     private javax.swing.JLabel dashboardLabel;
     private javax.swing.JPanel dashboardPanel;
+    private javax.swing.JLabel groupsLabel;
+    private javax.swing.JPanel groupsPanel;
     private javax.swing.JPanel homePanel;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;
+    private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel14;
+    private javax.swing.JPanel jPanel15;
+    private javax.swing.JPanel jPanel16;
+    private javax.swing.JPanel jPanel17;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -396,12 +617,13 @@ public class Home extends javax.swing.JFrame implements UIMethods {
     private javax.swing.JPanel menuPanel;
     private javax.swing.JLabel myFilesLabel;
     private javax.swing.JPanel myFilesPanel;
-    private javax.swing.JPanel myFilesPanel1;
-    private javax.swing.JPanel myFilesPanel2;
     private javax.swing.JLabel profileIcon;
     private javax.swing.JPanel profilePanel;
     private javax.swing.JLabel sharedFilesLabel;
+    private javax.swing.JPanel sharedFilesPanel;
     private javax.swing.JLabel usernamePanel;
+    private javax.swing.JLabel usersLabel;
+    private javax.swing.JPanel usersPanel;
     // End of variables declaration//GEN-END:variables
 
     @Override
@@ -428,9 +650,17 @@ public class Home extends javax.swing.JFrame implements UIMethods {
                     new ImageIcon(ImageIO.read(
                             new File("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Icons/activity-icon.png"))));
             
+            groupsLabel.setIcon(
+                    new ImageIcon(ImageIO.read(
+                            new File("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Icons/groups-icon.png"))));
+            
             profileIcon.setIcon(
                     new ImageIcon(ImageIO.read(
                             new File("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Icons/user-icon.png"))));
+            
+            usersLabel.setIcon(
+                    new ImageIcon(ImageIO.read(
+                            new File("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Icons/users-icon.png"))));
             
         }catch(IOException e) {
             System.err.println(e.getMessage());
@@ -442,9 +672,12 @@ public class Home extends javax.swing.JFrame implements UIMethods {
    }
     
     private void addPanelsToCard() {
-        homePanel.add(new DashboardPanel(), "Dashboard");
+        homePanel.add(new AdminDashboardPanel(), "AdminDashboard");
         homePanel.add(new MyFilesPanel(), "MyFiles");
         homePanel.add(new SharedFiles(), "SharedFiles");
+        homePanel.add(new ActivityPanel(), "ActivityPanel");
+        homePanel.add(new UsersPanel(), "Users");
+        homePanel.add(new GroupsPanel(), "Groups");
     }
 
     @Override

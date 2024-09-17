@@ -1,6 +1,10 @@
 package View.Login;
 
-import View.Home.Home;
+import Controller.LoginController;
+import Model.User;
+import ServerHandler.RemoteInterface;
+import View.Home.AdminHome;
+import View.Home.UserHome;
 import javax.swing.JOptionPane;
 
 /**
@@ -113,22 +117,13 @@ public class Login extends javax.swing.JFrame {
     private void loginBTNMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginBTNMouseClicked
         String username = usernameTF.getText().trim();
         String password = new String(passwordPF.getPassword());
-        System.out.println(password);
         login(username, password);
     }//GEN-LAST:event_loginBTNMouseClicked
 
     private void login(String username, String password) {
         if(!username.isEmpty() && !password.isEmpty()) {
-            //method for login
             
-            //temporary login logic to check the login UI
-            if(username.equals("admin") && password.equals("admin")) {
-                JOptionPane.showMessageDialog(null, "Login successfull!", "Success!", JOptionPane.INFORMATION_MESSAGE);
-                new Home().setVisible(true);
-                this.dispose();
-            }else {
-                JOptionPane.showMessageDialog(null, "Incorrect Credentials!", "Warning", JOptionPane.WARNING_MESSAGE);
-            }
+            LoginController.login(username, password);
             
         } else {
             JOptionPane.showMessageDialog(null, "Please enter both username & password!", "Warning", JOptionPane.WARNING_MESSAGE);

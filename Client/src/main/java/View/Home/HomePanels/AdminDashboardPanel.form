@@ -51,16 +51,16 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
                   <Component id="dashboardHeading" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="991" max="32767" attributes="0"/>
+                  <EmptySpace pref="880" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                   <Component id="dashboardHeading" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="22" max="32767" attributes="0"/>
+                  <EmptySpace pref="16" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -68,7 +68,10 @@
       <SubComponents>
         <Component class="javax.swing.JLabel" name="dashboardHeading">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Dashboard"/>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Liberation Sans" size="22" style="1"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Admin Dashboard"/>
           </Properties>
         </Component>
       </SubComponents>
@@ -214,7 +217,7 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
                           <Component id="section1Heading" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="216" max="32767" attributes="0"/>
+                          <EmptySpace pref="233" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -234,7 +237,7 @@
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Liberation Sans" size="16" style="1"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="My Files"/>
+                    <Property name="text" type="java.lang.String" value="Users"/>
                   </Properties>
                 </Component>
               </SubComponents>
@@ -310,7 +313,7 @@
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
                                   <Component id="section2Heading" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace pref="161" max="32767" attributes="0"/>
+                                  <EmptySpace pref="222" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -330,7 +333,7 @@
                             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                               <Font name="Liberation Sans" size="16" style="1"/>
                             </Property>
-                            <Property name="text" type="java.lang.String" value="Shared with me"/>
+                            <Property name="text" type="java.lang.String" value="Groups"/>
                           </Properties>
                         </Component>
                       </SubComponents>
@@ -806,7 +809,7 @@
                                       <Group type="102" alignment="0" attributes="0">
                                           <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
                                           <Component id="recentUploadsHeading" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace pref="358" max="32767" attributes="0"/>
+                                          <EmptySpace pref="383" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                                 </DimensionLayout>
@@ -826,7 +829,7 @@
                                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                                       <Font name="Liberation Sans" size="16" style="1"/>
                                     </Property>
-                                    <Property name="text" type="java.lang.String" value="Recent Uploads"/>
+                                    <Property name="text" type="java.lang.String" value="User Groups"/>
                                   </Properties>
                                 </Component>
                               </SubComponents>
@@ -945,7 +948,7 @@
 
                                   <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                                   <SubComponents>
-                                    <Component class="javax.swing.JTable" name="recentUploadsTable">
+                                    <Component class="javax.swing.JTable" name="userGroupsTabel">
                                       <Properties>
                                         <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                                           <Table columnCount="4" rowCount="4">

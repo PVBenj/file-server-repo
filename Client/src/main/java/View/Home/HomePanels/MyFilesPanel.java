@@ -1,15 +1,15 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package View.Home.HomePanels;
 
+import Controller.FileController;
 import View.Home.FileUploadWindow;
+import View.Home.Home;
 import View.Home.UIMethods;
 import View.Resources.CustomFont;
 import java.awt.Color;
+import java.awt.Dimension;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.table.JTableHeader;
 
 /**
  *
@@ -17,12 +17,42 @@ import javax.swing.JPanel;
  */
 public class MyFilesPanel extends javax.swing.JPanel implements UIMethods {
 
-    /**
-     * Creates new form MyFilesPanel
-     */
+    
     public MyFilesPanel() {
         initComponents();
         loadFonts();
+        repaintTable();
+        myFileTable.setModel(FileController.getUserFileTable(Home.user));
+    }
+    
+    @Override
+    public void changeColor(JPanel hover, Color myColor) {
+        hover.setBackground(myColor);
+    }
+
+    @Override
+    public void changeFontColor(JLabel text, Color myColor) {
+        text.setForeground(myColor);
+    }
+
+    @Override
+    public final void loadFonts() {
+        
+        myFilesPanelHeading.setFont(CustomFont.panelHeadingFont);
+        uploadLabel.setFont(CustomFont.formLabelFont);
+        deleteLabel.setFont(CustomFont.formLabelFont);
+        shareLabel.setFont(CustomFont.formLabelFont);
+        myFileTable.setFont(CustomFont.tableRowFont);
+        myFileTable.getTableHeader().setFont(CustomFont.tableHeaderFont);
+        
+    }
+    
+    private void repaintTable() {
+        JTableHeader header = myFileTable.getTableHeader();
+        header.setBackground(new Color(62, 62, 62));
+        header.setForeground(new Color(255, 255, 255));
+        header.setPreferredSize(
+                new Dimension(header.getWidth(), 40));
     }
     
     
@@ -69,7 +99,7 @@ public class MyFilesPanel extends javax.swing.JPanel implements UIMethods {
         jPanel20 = new javax.swing.JPanel();
         roundPanel8 = new View.Resources.RoundPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        myFileTabel = new javax.swing.JTable();
+        myFileTable = new javax.swing.JTable();
 
         setMaximumSize(new java.awt.Dimension(1080, 640));
         setMinimumSize(new java.awt.Dimension(1080, 640));
@@ -173,9 +203,9 @@ public class MyFilesPanel extends javax.swing.JPanel implements UIMethods {
         roundPanel3Layout.setVerticalGroup(
             roundPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(roundPanel3Layout.createSequentialGroup()
-                .addGap(35, 35, 35)
+                .addGap(25, 25, 25)
                 .addComponent(myFilesPanelHeading)
-                .addContainerGap(39, Short.MAX_VALUE))
+                .addContainerGap(49, Short.MAX_VALUE))
         );
 
         roundPanel2.add(roundPanel3, java.awt.BorderLayout.LINE_START);
@@ -444,7 +474,7 @@ public class MyFilesPanel extends javax.swing.JPanel implements UIMethods {
 
         roundPanel7.add(roundPanel8, java.awt.BorderLayout.PAGE_END);
 
-        myFileTabel.setModel(new javax.swing.table.DefaultTableModel(
+        myFileTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -452,11 +482,12 @@ public class MyFilesPanel extends javax.swing.JPanel implements UIMethods {
                 {null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "File Name", "Owner", "Created", "Size"
             }
         ));
-        myFileTabel.setSelectionBackground(new java.awt.Color(72, 207, 203));
-        jScrollPane1.setViewportView(myFileTabel);
+        myFileTable.setRowHeight(40);
+        myFileTable.setSelectionBackground(new java.awt.Color(72, 207, 203));
+        jScrollPane1.setViewportView(myFileTable);
 
         roundPanel7.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
@@ -525,7 +556,7 @@ public class MyFilesPanel extends javax.swing.JPanel implements UIMethods {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable myFileTabel;
+    private javax.swing.JTable myFileTable;
     private javax.swing.JLabel myFilesPanelHeading;
     private View.Resources.RoundPanel roundPanel1;
     private View.Resources.RoundPanel roundPanel2;
@@ -541,31 +572,5 @@ public class MyFilesPanel extends javax.swing.JPanel implements UIMethods {
     private javax.swing.JLabel uploadLabel;
     // End of variables declaration//GEN-END:variables
 
-    @Override
-    public void changeColor(JPanel hover, Color myColor) {
-        hover.setBackground(myColor);
-    }
-
-    @Override
-    public void changeFontColor(JLabel text, Color myColor) {
-        text.setForeground(myColor);
-    }
-
-    @Override
-    public final void loadFonts() {
-        float headingFontSize = 22;
-        float buttonFontSize = 16;
-        
-        myFilesPanelHeading.setFont(CustomFont
-                .createFont("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Fonts/Inter_18pt-Bold.ttf", headingFontSize));
-        
-        uploadLabel.setFont(CustomFont
-                .createFont("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Fonts/Inter_18pt-Bold.ttf", buttonFontSize));
-        
-        deleteLabel.setFont(CustomFont
-                .createFont("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Fonts/Inter_18pt-Bold.ttf", buttonFontSize));
-        
-        shareLabel.setFont(CustomFont
-                .createFont("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Fonts/Inter_18pt-Bold.ttf", buttonFontSize));
-    }
+    
 }

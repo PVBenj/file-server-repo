@@ -1,32 +1,32 @@
-package View.Home;
+package View.Home.HomePanels;
 
 import Controller.UserController;
+import Model.PasswordHash;
 import Model.UserModel;
+import View.Home.Home;
+import View.Home.UIMethods;
 import View.Resources.CustomFont;
 import java.awt.Color;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.table.DefaultTableModel;
+import javax.swing.JPasswordField;
 
 /**
  *
  * @author benjamin
  */
-public final class CreateUserWindow extends javax.swing.JFrame implements UIMethods {
-    private String newUserId;
-    private DefaultTableModel userTable;
-    private Set<String> userNames = new HashSet<>();
-    
-    public CreateUserWindow() {
+public final class AccountDetailsPanel extends javax.swing.JPanel implements UIMethods {
+     private UserModel updatedUser;
+    /**
+     * Creates new form AccountDetailsPanel
+     */
+    public AccountDetailsPanel() {
         initComponents();
         loadFonts();
-        userIdField.setText(createUserId().substring(0, 11));
-        roleCombo.setSelectedIndex(-1);
-        
+        setAccountFields();
     }
 
     /**
@@ -38,7 +38,6 @@ public final class CreateUserWindow extends javax.swing.JFrame implements UIMeth
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel42 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
@@ -61,18 +60,19 @@ public final class CreateUserWindow extends javax.swing.JFrame implements UIMeth
         roundPanel14 = new View.Resources.RoundPanel();
         jPanel47 = new javax.swing.JPanel();
         roundPanel15 = new View.Resources.RoundPanel();
-        cancelBTN = new View.Resources.RoundPanel();
-        cancelLabel = new javax.swing.JLabel();
+        revertBTN = new View.Resources.RoundPanel();
+        revertLabel = new javax.swing.JLabel();
         jPanel40 = new javax.swing.JPanel();
         jPanel41 = new javax.swing.JPanel();
         jPanel44 = new javax.swing.JPanel();
-        createBTN = new View.Resources.RoundPanel();
-        createLabel = new javax.swing.JLabel();
+        updateBTN = new View.Resources.RoundPanel();
+        updateLabel = new javax.swing.JLabel();
         jPanel9 = new javax.swing.JPanel();
         roundPanel1 = new View.Resources.RoundPanel();
         roundPanel3 = new View.Resources.RoundPanel();
         roundPanel5 = new View.Resources.RoundPanel();
         sectionHeadingLabel = new javax.swing.JLabel();
+        editFieldsBTN = new javax.swing.JButton();
         roundPanel6 = new View.Resources.RoundPanel();
         roundPanel7 = new View.Resources.RoundPanel();
         jPanel10 = new javax.swing.JPanel();
@@ -123,8 +123,8 @@ public final class CreateUserWindow extends javax.swing.JFrame implements UIMeth
         emailTF = new javax.swing.JTextField();
         jPanel48 = new javax.swing.JPanel();
         roundPanel18 = new View.Resources.RoundPanel();
-        groupLabel = new javax.swing.JLabel();
-        groupCombo = new javax.swing.JComboBox<>();
+        groupsLabel = new javax.swing.JLabel();
+        groupsTF = new javax.swing.JTextField();
         roundPanel19 = new View.Resources.RoundPanel();
         jPanel57 = new javax.swing.JPanel();
         jPanel58 = new javax.swing.JPanel();
@@ -134,20 +134,7 @@ public final class CreateUserWindow extends javax.swing.JFrame implements UIMeth
         jPanel61 = new javax.swing.JPanel();
         mobileTF = new javax.swing.JTextField();
 
-        javax.swing.GroupLayout jPanel42Layout = new javax.swing.GroupLayout(jPanel42);
-        jPanel42.setLayout(jPanel42Layout);
-        jPanel42Layout.setHorizontalGroup(
-            jPanel42Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
-        );
-        jPanel42Layout.setVerticalGroup(
-            jPanel42Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
-        );
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setMinimumSize(new java.awt.Dimension(1053, 700));
-        setResizable(false);
+        setLayout(new java.awt.BorderLayout());
 
         jPanel1.setBackground(new java.awt.Color(240, 240, 240));
         jPanel1.setPreferredSize(new java.awt.Dimension(15, 630));
@@ -160,10 +147,10 @@ public final class CreateUserWindow extends javax.swing.JFrame implements UIMeth
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 736, Short.MAX_VALUE)
+            .addGap(0, 683, Short.MAX_VALUE)
         );
 
-        getContentPane().add(jPanel1, java.awt.BorderLayout.LINE_START);
+        add(jPanel1, java.awt.BorderLayout.LINE_START);
 
         jPanel2.setBackground(new java.awt.Color(240, 240, 240));
         jPanel2.setPreferredSize(new java.awt.Dimension(589, 15));
@@ -172,14 +159,14 @@ public final class CreateUserWindow extends javax.swing.JFrame implements UIMeth
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1053, Short.MAX_VALUE)
+            .addGap(0, 976, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 15, Short.MAX_VALUE)
         );
 
-        getContentPane().add(jPanel2, java.awt.BorderLayout.PAGE_START);
+        add(jPanel2, java.awt.BorderLayout.PAGE_START);
 
         jPanel3.setBackground(new java.awt.Color(240, 240, 240));
         jPanel3.setPreferredSize(new java.awt.Dimension(15, 630));
@@ -192,10 +179,10 @@ public final class CreateUserWindow extends javax.swing.JFrame implements UIMeth
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 736, Short.MAX_VALUE)
+            .addGap(0, 683, Short.MAX_VALUE)
         );
 
-        getContentPane().add(jPanel3, java.awt.BorderLayout.LINE_END);
+        add(jPanel3, java.awt.BorderLayout.LINE_END);
 
         jPanel4.setBackground(new java.awt.Color(240, 240, 240));
         jPanel4.setPreferredSize(new java.awt.Dimension(589, 15));
@@ -204,14 +191,14 @@ public final class CreateUserWindow extends javax.swing.JFrame implements UIMeth
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1053, Short.MAX_VALUE)
+            .addGap(0, 976, Short.MAX_VALUE)
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 15, Short.MAX_VALUE)
         );
 
-        getContentPane().add(jPanel4, java.awt.BorderLayout.PAGE_END);
+        add(jPanel4, java.awt.BorderLayout.PAGE_END);
 
         jPanel5.setLayout(new java.awt.BorderLayout());
 
@@ -223,7 +210,7 @@ public final class CreateUserWindow extends javax.swing.JFrame implements UIMeth
         roundPanel2.setRoundTopRight(10);
 
         panelHeading.setFont(new java.awt.Font("Liberation Sans", 1, 20)); // NOI18N
-        panelHeading.setText("Create User");
+        panelHeading.setText("Account Details");
 
         userIdLabel.setFont(new java.awt.Font("Liberation Sans", 1, 16)); // NOI18N
         userIdLabel.setText("User ID:");
@@ -243,7 +230,7 @@ public final class CreateUserWindow extends javax.swing.JFrame implements UIMeth
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(userIdField))
                     .addComponent(panelHeading))
-                .addContainerGap(871, Short.MAX_VALUE))
+                .addContainerGap(780, Short.MAX_VALUE))
         );
         roundPanel2Layout.setVerticalGroup(
             roundPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -269,7 +256,7 @@ public final class CreateUserWindow extends javax.swing.JFrame implements UIMeth
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1023, Short.MAX_VALUE)
+            .addGap(0, 946, Short.MAX_VALUE)
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -358,7 +345,7 @@ public final class CreateUserWindow extends javax.swing.JFrame implements UIMeth
         roundPanel15.setLayout(roundPanel15Layout);
         roundPanel15Layout.setHorizontalGroup(
             roundPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 993, Short.MAX_VALUE)
+            .addGap(0, 916, Short.MAX_VALUE)
         );
         roundPanel15Layout.setVerticalGroup(
             roundPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -369,32 +356,32 @@ public final class CreateUserWindow extends javax.swing.JFrame implements UIMeth
 
         jPanel45.add(jPanel47, java.awt.BorderLayout.NORTH);
 
-        cancelBTN.setBackground(new java.awt.Color(204, 0, 0));
-        cancelBTN.setPreferredSize(new java.awt.Dimension(140, 45));
-        cancelBTN.setRoundBottomLeft(30);
-        cancelBTN.setRoundBottomRight(30);
-        cancelBTN.setRoundTopLeft(30);
-        cancelBTN.setRoundTopRight(30);
-        cancelBTN.addMouseListener(new java.awt.event.MouseAdapter() {
+        revertBTN.setBackground(new java.awt.Color(204, 0, 0));
+        revertBTN.setPreferredSize(new java.awt.Dimension(140, 45));
+        revertBTN.setRoundBottomLeft(30);
+        revertBTN.setRoundBottomRight(30);
+        revertBTN.setRoundTopLeft(30);
+        revertBTN.setRoundTopRight(30);
+        revertBTN.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                cancelBTNMouseClicked(evt);
+                revertBTNMouseClicked(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                cancelBTNMouseEntered(evt);
+                revertBTNMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                cancelBTNMouseExited(evt);
+                revertBTNMouseExited(evt);
             }
         });
-        cancelBTN.setLayout(new java.awt.BorderLayout());
+        revertBTN.setLayout(new java.awt.BorderLayout());
 
-        cancelLabel.setFont(new java.awt.Font("Liberation Sans", 1, 16)); // NOI18N
-        cancelLabel.setForeground(new java.awt.Color(255, 204, 204));
-        cancelLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        cancelLabel.setText("Cancel");
-        cancelBTN.add(cancelLabel, java.awt.BorderLayout.CENTER);
+        revertLabel.setFont(new java.awt.Font("Liberation Sans", 1, 16)); // NOI18N
+        revertLabel.setForeground(new java.awt.Color(255, 204, 204));
+        revertLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        revertLabel.setText("Revert");
+        revertBTN.add(revertLabel, java.awt.BorderLayout.CENTER);
 
-        jPanel45.add(cancelBTN, java.awt.BorderLayout.LINE_END);
+        jPanel45.add(revertBTN, java.awt.BorderLayout.LINE_END);
 
         jPanel40.setBackground(new java.awt.Color(255, 255, 255));
         jPanel40.setLayout(new java.awt.BorderLayout());
@@ -418,32 +405,32 @@ public final class CreateUserWindow extends javax.swing.JFrame implements UIMeth
         jPanel44.setBackground(new java.awt.Color(255, 255, 255));
         jPanel44.setLayout(new java.awt.BorderLayout());
 
-        createBTN.setBackground(new java.awt.Color(64, 165, 120));
-        createBTN.setPreferredSize(new java.awt.Dimension(140, 45));
-        createBTN.setRoundBottomLeft(30);
-        createBTN.setRoundBottomRight(30);
-        createBTN.setRoundTopLeft(30);
-        createBTN.setRoundTopRight(30);
-        createBTN.addMouseListener(new java.awt.event.MouseAdapter() {
+        updateBTN.setBackground(new java.awt.Color(64, 165, 120));
+        updateBTN.setPreferredSize(new java.awt.Dimension(140, 45));
+        updateBTN.setRoundBottomLeft(30);
+        updateBTN.setRoundBottomRight(30);
+        updateBTN.setRoundTopLeft(30);
+        updateBTN.setRoundTopRight(30);
+        updateBTN.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                createBTNMouseClicked(evt);
+                updateBTNMouseClicked(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                createBTNMouseEntered(evt);
+                updateBTNMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                createBTNMouseExited(evt);
+                updateBTNMouseExited(evt);
             }
         });
-        createBTN.setLayout(new java.awt.BorderLayout());
+        updateBTN.setLayout(new java.awt.BorderLayout());
 
-        createLabel.setFont(new java.awt.Font("Liberation Sans", 1, 16)); // NOI18N
-        createLabel.setForeground(new java.awt.Color(204, 255, 204));
-        createLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        createLabel.setText("Create");
-        createBTN.add(createLabel, java.awt.BorderLayout.CENTER);
+        updateLabel.setFont(new java.awt.Font("Liberation Sans", 1, 16)); // NOI18N
+        updateLabel.setForeground(new java.awt.Color(204, 255, 204));
+        updateLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        updateLabel.setText("Update");
+        updateBTN.add(updateLabel, java.awt.BorderLayout.CENTER);
 
-        jPanel44.add(createBTN, java.awt.BorderLayout.LINE_END);
+        jPanel44.add(updateBTN, java.awt.BorderLayout.LINE_END);
 
         jPanel40.add(jPanel44, java.awt.BorderLayout.CENTER);
 
@@ -476,6 +463,13 @@ public final class CreateUserWindow extends javax.swing.JFrame implements UIMeth
         sectionHeadingLabel.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
         sectionHeadingLabel.setText("User Details");
 
+        editFieldsBTN.setText("Edit");
+        editFieldsBTN.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                editFieldsBTNMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout roundPanel5Layout = new javax.swing.GroupLayout(roundPanel5);
         roundPanel5.setLayout(roundPanel5Layout);
         roundPanel5Layout.setHorizontalGroup(
@@ -483,14 +477,18 @@ public final class CreateUserWindow extends javax.swing.JFrame implements UIMeth
             .addGroup(roundPanel5Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(sectionHeadingLabel)
-                .addContainerGap(897, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 731, Short.MAX_VALUE)
+                .addComponent(editFieldsBTN)
+                .addGap(17, 17, 17))
         );
         roundPanel5Layout.setVerticalGroup(
             roundPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(roundPanel5Layout.createSequentialGroup()
                 .addGap(19, 19, 19)
-                .addComponent(sectionHeadingLabel)
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addGroup(roundPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(sectionHeadingLabel)
+                    .addComponent(editFieldsBTN))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
 
         roundPanel3.add(roundPanel5, java.awt.BorderLayout.PAGE_START);
@@ -677,6 +675,11 @@ public final class CreateUserWindow extends javax.swing.JFrame implements UIMeth
 
         passwordPF.setFont(new java.awt.Font("Liberation Sans", 0, 16)); // NOI18N
         passwordPF.setPreferredSize(new java.awt.Dimension(85, 40));
+        passwordPF.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                passwordPFMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel19Layout = new javax.swing.GroupLayout(jPanel19);
         jPanel19.setLayout(jPanel19Layout);
@@ -787,7 +790,7 @@ public final class CreateUserWindow extends javax.swing.JFrame implements UIMeth
         jPanel33.setLayout(jPanel33Layout);
         jPanel33Layout.setHorizontalGroup(
             jPanel33Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1023, Short.MAX_VALUE)
+            .addGap(0, 946, Short.MAX_VALUE)
         );
         jPanel33Layout.setVerticalGroup(
             jPanel33Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -822,7 +825,7 @@ public final class CreateUserWindow extends javax.swing.JFrame implements UIMeth
             .addGroup(roundPanel11Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(sectionHeadingLabel1)
-                .addContainerGap(871, Short.MAX_VALUE))
+                .addContainerGap(794, Short.MAX_VALUE))
         );
         roundPanel11Layout.setVerticalGroup(
             roundPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -923,29 +926,30 @@ public final class CreateUserWindow extends javax.swing.JFrame implements UIMeth
 
         roundPanel18.setBackground(new java.awt.Color(255, 255, 255));
 
-        groupLabel.setBackground(new java.awt.Color(255, 255, 255));
-        groupLabel.setFont(new java.awt.Font("Liberation Sans", 1, 16)); // NOI18N
-        groupLabel.setText("Group");
+        groupsLabel.setBackground(new java.awt.Color(255, 255, 255));
+        groupsLabel.setFont(new java.awt.Font("Liberation Sans", 1, 16)); // NOI18N
+        groupsLabel.setText("Group");
+
+        groupsTF.setFont(new java.awt.Font("Liberation Sans", 0, 16)); // NOI18N
+        groupsTF.setPreferredSize(new java.awt.Dimension(85, 40));
 
         javax.swing.GroupLayout roundPanel18Layout = new javax.swing.GroupLayout(roundPanel18);
         roundPanel18.setLayout(roundPanel18Layout);
         roundPanel18Layout.setHorizontalGroup(
             roundPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(roundPanel18Layout.createSequentialGroup()
-                .addComponent(groupLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(groupCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(groupsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(21, 21, 21)
+                .addComponent(groupsTF, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 48, Short.MAX_VALUE))
         );
         roundPanel18Layout.setVerticalGroup(
             roundPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(roundPanel18Layout.createSequentialGroup()
-                .addComponent(groupLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(roundPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(groupsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(groupsTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 20, Short.MAX_VALUE))
-            .addGroup(roundPanel18Layout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addComponent(groupCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         roundPanel17.add(roundPanel18, java.awt.BorderLayout.CENTER);
@@ -1040,87 +1044,87 @@ public final class CreateUserWindow extends javax.swing.JFrame implements UIMeth
 
         jPanel5.add(jPanel6, java.awt.BorderLayout.CENTER);
 
-        getContentPane().add(jPanel5, java.awt.BorderLayout.CENTER);
-
-        pack();
-        setLocationRelativeTo(null);
+        add(jPanel5, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void createBTNMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_createBTNMouseEntered
-        changeFontColor(createLabel, new Color(64, 165, 120));
-        changeColor(createBTN, new Color(157, 222, 139));
-    }//GEN-LAST:event_createBTNMouseEntered
+    private void updateBTNMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_updateBTNMouseExited
+        changeFontColor(updateLabel, new Color(204,255,204));
+        changeColor(updateBTN, new Color(64,165,120));
+    }//GEN-LAST:event_updateBTNMouseExited
 
-    private void createBTNMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_createBTNMouseExited
-        changeFontColor(createLabel, new Color(204,255,204));
-        changeColor(createBTN, new Color(64,165,120));
-    }//GEN-LAST:event_createBTNMouseExited
+    private void updateBTNMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_updateBTNMouseEntered
+        changeFontColor(updateLabel, new Color(64, 165, 120));
+        changeColor(updateBTN, new Color(157, 222, 139));
+    }//GEN-LAST:event_updateBTNMouseEntered
 
-    private void createBTNMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_createBTNMouseClicked
-        //Checks if the form validation returns a true
-        if(formValidate()) {
-            if(checkUsernameAvailability()) {
-                UserController.createUser(createUserObj(), groupCombo.getSelectedItem().toString());
-            }
-        }
-    }//GEN-LAST:event_createBTNMouseClicked
+    private void updateBTNMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_updateBTNMouseClicked
+         try {
+             updateUserObj();
+             UserController.updateUser(updatedUser);
+         } catch (Exception ex) {
+             Logger.getLogger(AccountDetailsPanel.class.getName()).log(Level.SEVERE, null, ex);
+         }
+    }//GEN-LAST:event_updateBTNMouseClicked
 
-    private void cancelBTNMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cancelBTNMouseEntered
-        changeFontColor(cancelLabel, new Color(102,51,0));
-        changeColor(cancelBTN, new Color(255,102,102));
-    }//GEN-LAST:event_cancelBTNMouseEntered
+    private void revertBTNMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_revertBTNMouseExited
+        changeFontColor(revertLabel, new Color(255,102,102));
+        changeColor(revertBTN, new Color(190, 49, 68));
+    }//GEN-LAST:event_revertBTNMouseExited
 
-    private void cancelBTNMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cancelBTNMouseExited
-        changeFontColor(cancelLabel, new Color(255,102,102));
-        changeColor(cancelBTN, new Color(190, 49, 68));
-    }//GEN-LAST:event_cancelBTNMouseExited
+    private void revertBTNMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_revertBTNMouseEntered
+        changeFontColor(revertLabel, new Color(102,51,0));
+        changeColor(revertBTN, new Color(255,102,102));
+    }//GEN-LAST:event_revertBTNMouseEntered
 
-    private void cancelBTNMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cancelBTNMouseClicked
-        int response = JOptionPane.showConfirmDialog(null, "Do want to exit?", "Warning!", JOptionPane.OK_CANCEL_OPTION);
+    private void revertBTNMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_revertBTNMouseClicked
+        int response = JOptionPane.showConfirmDialog(null, "Do want to revert the changes?", "Warning!", JOptionPane.OK_CANCEL_OPTION);
         if(response == 0) {
-            this.dispose();
+            setAccountFields();
         }
-    }//GEN-LAST:event_cancelBTNMouseClicked
+    }//GEN-LAST:event_revertBTNMouseClicked
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
+    private void editFieldsBTNMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_editFieldsBTNMouseClicked
+        usernameTF.setEnabled(true);
+        passwordPF.setEnabled(true);
+        firstNameTF.setEnabled(true);
+        mobileTF.setEnabled(true);
+        roleCombo.setEnabled(true);
+        emailTF.setEnabled(true);
+    }//GEN-LAST:event_editFieldsBTNMouseClicked
+
+    private void passwordPFMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_passwordPFMouseClicked
+        JPasswordField confirmPassword = new JPasswordField();
+        int option = JOptionPane.showConfirmDialog(null, confirmPassword, "Confirm the exsiting password", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+        
+        if (option == JOptionPane.OK_OPTION) {
+            // Get the entered password as a string
+            String enteredPassword = new String(confirmPassword.getPassword());
+            //Entered password should be hashed
+            //String hashedPassowrd = PasswordHash.hash(enteredPassword);
+            //Check if the user entered password is matching with the user account password
+            if(Home.user.getPassword().equals(enteredPassword)) {
+               passwordPF.setText(null); 
+            } else {
+                JOptionPane.showMessageDialog(null, "Incorrect password!", "Warning", JOptionPane.WARNING_MESSAGE);
+                setAccountFields();
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CreateUserWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CreateUserWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CreateUserWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CreateUserWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                
+        } else {
+            setAccountFields();
         }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
+    }//GEN-LAST:event_passwordPFMouseClicked
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new CreateUserWindow().setVisible(true);
-            }
-        });
+    private void updateUserObj() throws Exception {
+        updatedUser.setUsername(usernameTF.getText());
+        updatedUser.setPassword(PasswordHash.hash(new String(passwordPF.getPassword())));
+        updatedUser.setFirstName(firstNameTF.getText());
+        updatedUser.setMobile(mobileTF.getText());
+        updatedUser.setRole(roleCombo.getSelectedItem().toString());
+        updatedUser.setEmail(emailTF.getText());
     }
     
-        @Override
+    
+    @Override
     public void changeColor(JPanel hover, Color myColor) {
         hover.setBackground(myColor);
     }
@@ -1132,12 +1136,11 @@ public final class CreateUserWindow extends javax.swing.JFrame implements UIMeth
 
     @Override
     public void loadFonts() {
-        
         sectionHeadingLabel.setFont(CustomFont.sectionHeadingFont);
         sectionHeadingLabel1.setFont(CustomFont.sectionHeadingFont);
         panelHeading.setFont(CustomFont.subPanelHeadingFont);
-        createLabel.setFont(CustomFont.formLabelFont);
-        cancelLabel.setFont(CustomFont.formLabelFont);
+        updateLabel.setFont(CustomFont.formLabelFont);
+        revertLabel.setFont(CustomFont.formLabelFont);
         userIdLabel.setFont(CustomFont.formLabelFont);
         usernameLabel.setFont(CustomFont.formLabelFont);
         passwordLabel.setFont(CustomFont.formLabelFont);
@@ -1145,7 +1148,7 @@ public final class CreateUserWindow extends javax.swing.JFrame implements UIMeth
         mobileLabel.setFont(CustomFont.formLabelFont);
         roleLabel.setFont(CustomFont.formLabelFont);
         emailLabel.setFont(CustomFont.formLabelFont);
-        groupLabel.setFont(CustomFont.formLabelFont);
+        groupsLabel.setFont(CustomFont.formLabelFont);
         usernameTF.setFont(CustomFont.formTextFieldFont);
         usernameTF.setFont(CustomFont.formTextFieldFont);
         passwordPF.setFont(CustomFont.formTextFieldFont);
@@ -1153,89 +1156,39 @@ public final class CreateUserWindow extends javax.swing.JFrame implements UIMeth
         mobileTF.setFont(CustomFont.formTextFieldFont);
         roleCombo.setFont(CustomFont.formTextFieldFont);
         emailTF.setFont(CustomFont.formTextFieldFont);
-        groupCombo.setFont(CustomFont.formTextFieldFont);
+        groupsTF.setFont(CustomFont.formTextFieldFont);
+    }
+    
+    private void setAccountFields() {
+        //Textfields are disabled by default
+        usernameTF.setEnabled(false);
+        passwordPF.setEnabled(false);
+        firstNameTF.setEnabled(false);
+        mobileTF.setEnabled(false);
+        roleCombo.setEnabled(false);
+        emailTF.setEnabled(false);
         
-    }
-    
-    private UserModel createUserObj() {
-        String userId = this.newUserId;
-        String username = usernameTF.getText();
-        String password = new String(passwordPF.getPassword());
-        String firstName = firstNameTF.getText();
-        String mobile = mobileTF.getText();
-        String role = roleCombo.getSelectedItem().toString();
-        String groupId;
-        if(groupCombo.getSelectedIndex() != -1) {
-            groupId = groupCombo.getSelectedItem().toString();
-        } else {
-            groupId = null;
-        }
         
-        UserModel user = new UserModel(userId, username, password, firstName, mobile, role);
-        //user.addGroup(groupId);
+        //Setting textfields as per user details
+        userIdField.setText(Home.user.getUserId());
+        usernameTF.setText(Home.user.getUsername());
+        passwordPF.setText(Home.user.getPassword());
+        firstNameTF.setText(Home.user.getFirstName());
+        mobileTF.setText(Home.user.getMobile());
+        roleCombo.setSelectedItem(Home.user.getRole());
+        emailTF.setText(Home.user.getEmail());
+        //set groups names.
         
-        return user;
-    }
-    
-    private String createUserId() {
-        return this.newUserId = "user-" + UUID.randomUUID().toString();
-    }
-    
-    private boolean formValidate() {
-        //Checks if the form fields are not empty
-        if(!firstNameTF.getText().isEmpty() && roleCombo.getSelectedIndex() != -1 && !usernameTF.getText().isEmpty() 
-                && passwordPF.getPassword().length != 0 && !emailTF.getText().isEmpty() && !mobileTF.getText().isEmpty()) {
-            return validateFields();
-        }else {
-            JOptionPane.showMessageDialog(null, "Fill all the fields", "Warning", JOptionPane.WARNING_MESSAGE);
-            return false;
-        }
-    }
-    
-    private boolean validateFields() {
-        final String EMAIL_PATTERN = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$";
-        final String MOBILE_PATTERN = "^[0-9]{10}$";
-        
-        //Checks if the mobile and email fields are matching the pattern
-        if(emailTF.getText().matches(EMAIL_PATTERN) && mobileTF.getText().matches(MOBILE_PATTERN)) {
-            return true;
-        }else {
-            if(!emailTF.getText().matches(EMAIL_PATTERN)) {
-                JOptionPane.showMessageDialog(null, "Enter a correct email address!", "Warning", JOptionPane.WARNING_MESSAGE);
-            } else {
-                JOptionPane.showMessageDialog(null, "Enter a correct mobile number!", "Warning", JOptionPane.WARNING_MESSAGE);
-            }
-        }
-        
-        return false;
-    }
-    
-    private boolean checkUsernameAvailability() {
-        if(!userNames.contains(usernameTF.getText())) {
-            return true;
-        }else {
-            JOptionPane.showMessageDialog(null, "Username already taken!", "Warning", JOptionPane.WARNING_MESSAGE);
-        }
-        return false;
-    }
-    
-    private void tableToHashSet(DefaultTableModel table) {
-        for(int i = 0; i < table.getRowCount(); i++) {
-            userNames.add(table.getValueAt(i, 1).toString());
-        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private View.Resources.RoundPanel cancelBTN;
-    private javax.swing.JLabel cancelLabel;
-    private View.Resources.RoundPanel createBTN;
-    private javax.swing.JLabel createLabel;
+    private javax.swing.JButton editFieldsBTN;
     private javax.swing.JLabel emailLabel;
     private javax.swing.JTextField emailTF;
     private javax.swing.JLabel firstNameLabel;
     private javax.swing.JTextField firstNameTF;
-    private javax.swing.JComboBox<String> groupCombo;
-    private javax.swing.JLabel groupLabel;
+    private javax.swing.JLabel groupsLabel;
+    private javax.swing.JTextField groupsTF;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
@@ -1272,7 +1225,6 @@ public final class CreateUserWindow extends javax.swing.JFrame implements UIMeth
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel40;
     private javax.swing.JPanel jPanel41;
-    private javax.swing.JPanel jPanel42;
     private javax.swing.JPanel jPanel43;
     private javax.swing.JPanel jPanel44;
     private javax.swing.JPanel jPanel45;
@@ -1294,6 +1246,8 @@ public final class CreateUserWindow extends javax.swing.JFrame implements UIMeth
     private javax.swing.JLabel panelHeading;
     private javax.swing.JLabel passwordLabel;
     private javax.swing.JPasswordField passwordPF;
+    private View.Resources.RoundPanel revertBTN;
+    private javax.swing.JLabel revertLabel;
     private javax.swing.JComboBox<String> roleCombo;
     private javax.swing.JLabel roleLabel;
     private View.Resources.RoundPanel roundPanel1;
@@ -1317,11 +1271,12 @@ public final class CreateUserWindow extends javax.swing.JFrame implements UIMeth
     private View.Resources.RoundPanel roundPanel9;
     private javax.swing.JLabel sectionHeadingLabel;
     private javax.swing.JLabel sectionHeadingLabel1;
+    private View.Resources.RoundPanel updateBTN;
+    private javax.swing.JLabel updateLabel;
     private javax.swing.JLabel userIdField;
     private javax.swing.JLabel userIdLabel;
     private javax.swing.JLabel usernameLabel;
     private javax.swing.JTextField usernameTF;
     // End of variables declaration//GEN-END:variables
-
 
 }

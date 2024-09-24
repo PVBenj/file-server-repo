@@ -1,15 +1,14 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package View.Home.HomePanels;
 
+import Controller.UserController;
 import View.Home.CreateUserWindow;
 import View.Home.UIMethods;
 import View.Resources.CustomFont;
 import java.awt.Color;
+import java.awt.Dimension;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.table.JTableHeader;
 
 /**
  *
@@ -22,6 +21,37 @@ public class UsersPanel extends javax.swing.JPanel implements UIMethods {
      */
     public UsersPanel() {
         initComponents();
+        loadFonts();
+        repaintTable();
+        userTable.setModel(UserController.getUserTable());
+    }
+    
+        @Override
+    public void changeColor(JPanel hover, Color myColor) {
+        hover.setBackground(myColor);
+    }
+
+    @Override
+    public void changeFontColor(JLabel text, Color myColor) {
+        text.setForeground(myColor);
+    }
+
+    @Override
+    public final void loadFonts() {
+        
+        usersPanelHeading.setFont(CustomFont.panelHeadingFont);
+        createLabel.setFont(CustomFont.formLabelFont);
+        removeLabel.setFont(CustomFont.formLabelFont);
+        userTable.setFont(CustomFont.tableRowFont);
+        userTable.getTableHeader().setFont(CustomFont.tableHeaderFont);
+    }
+    
+    private void repaintTable() {
+        JTableHeader header = userTable.getTableHeader();
+        header.setBackground(new Color(62, 62, 62));
+        header.setForeground(new Color(255, 255, 255));
+        header.setPreferredSize(
+                new Dimension(header.getWidth(), 40));
     }
 
     /**
@@ -64,7 +94,7 @@ public class UsersPanel extends javax.swing.JPanel implements UIMethods {
         jPanel20 = new javax.swing.JPanel();
         roundPanel8 = new View.Resources.RoundPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        userTabel = new javax.swing.JTable();
+        userTable = new javax.swing.JTable();
 
         setLayout(new java.awt.BorderLayout());
 
@@ -165,9 +195,9 @@ public class UsersPanel extends javax.swing.JPanel implements UIMethods {
         roundPanel3Layout.setVerticalGroup(
             roundPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(roundPanel3Layout.createSequentialGroup()
-                .addGap(35, 35, 35)
+                .addGap(25, 25, 25)
                 .addComponent(usersPanelHeading)
-                .addContainerGap(39, Short.MAX_VALUE))
+                .addContainerGap(49, Short.MAX_VALUE))
         );
 
         roundPanel2.add(roundPanel3, java.awt.BorderLayout.LINE_START);
@@ -396,19 +426,21 @@ public class UsersPanel extends javax.swing.JPanel implements UIMethods {
 
         roundPanel7.add(roundPanel8, java.awt.BorderLayout.PAGE_END);
 
-        userTabel.setModel(new javax.swing.table.DefaultTableModel(
+        userTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "User ID", "Username", "First Name", "Email", "Mobile"
             }
         ));
-        userTabel.setSelectionBackground(new java.awt.Color(72, 207, 203));
-        jScrollPane1.setViewportView(userTabel);
+        userTable.setGridColor(new java.awt.Color(255, 255, 255));
+        userTable.setRowHeight(40);
+        userTable.setSelectionBackground(new java.awt.Color(72, 207, 203));
+        jScrollPane1.setViewportView(userTable);
 
         roundPanel7.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
@@ -481,33 +513,9 @@ public class UsersPanel extends javax.swing.JPanel implements UIMethods {
     private View.Resources.RoundPanel roundPanel6;
     private View.Resources.RoundPanel roundPanel7;
     private View.Resources.RoundPanel roundPanel8;
-    private javax.swing.JTable userTabel;
+    private javax.swing.JTable userTable;
     private javax.swing.JLabel usersPanelHeading;
     // End of variables declaration//GEN-END:variables
 
-    @Override
-    public void changeColor(JPanel hover, Color myColor) {
-        hover.setBackground(myColor);
-    }
 
-    @Override
-    public void changeFontColor(JLabel text, Color myColor) {
-        text.setForeground(myColor);
-    }
-
-    @Override
-    public void loadFonts() {
-        float headingFontSize = 22;
-        float buttonFontSize = 16;
-        
-        usersPanelHeading.setFont(CustomFont
-                .createFont("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Fonts/Inter_18pt-Bold.ttf", headingFontSize));
-        
-        createLabel.setFont(CustomFont
-                .createFont("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Fonts/Inter_18pt-Bold.ttf", buttonFontSize));
-        
-        removeLabel.setFont(CustomFont
-                .createFont("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Fonts/Inter_18pt-Bold.ttf", buttonFontSize));
-        
-    }
 }

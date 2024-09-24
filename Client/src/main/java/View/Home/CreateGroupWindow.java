@@ -1,27 +1,28 @@
 package View.Home;
 
 import Controller.GroupController;
-import Model.Group;
-import static View.Home.AdminHome.adminUser;
+import Model.GroupModel;
 import View.Resources.CustomFont;
 import java.awt.Color;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import static View.Home.Home.user;
 
 public final class CreateGroupWindow extends javax.swing.JFrame implements UIMethods {
     private String newGroupId;
-    private Set<String> addedUsers;
+    private List<String> addedUsers;
+    private JLabel userList = new JLabel();
     
     public CreateGroupWindow() {
         initComponents();
         loadFonts();
         groupIdField.setText(createGroupId().substring(0, 11));
         userListCombo.setSelectedIndex(-1);
-        this.addedUsers = new HashSet<>();
+        this.addedUsers = new ArrayList<>();
     }
 
     /**
@@ -98,10 +99,10 @@ public final class CreateGroupWindow extends javax.swing.JFrame implements UIMet
         createBTN = new View.Resources.RoundPanel();
         createLabel = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(541, 552));
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setMaximumSize(new java.awt.Dimension(541, 560));
         setMinimumSize(new java.awt.Dimension(541, 552));
-        setPreferredSize(new java.awt.Dimension(541, 600));
+        setPreferredSize(new java.awt.Dimension(541, 560));
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(240, 240, 240));
@@ -204,13 +205,13 @@ public final class CreateGroupWindow extends javax.swing.JFrame implements UIMet
         roundPanel2Layout.setVerticalGroup(
             roundPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(roundPanel2Layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(panelHeading)
                 .addGap(10, 10, 10)
+                .addComponent(panelHeading)
+                .addGap(5, 5, 5)
                 .addGroup(roundPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(groupIdLabel)
                     .addComponent(groupIdField))
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addContainerGap(42, Short.MAX_VALUE))
         );
 
         jPanel5.add(roundPanel2, java.awt.BorderLayout.PAGE_START);
@@ -455,6 +456,11 @@ public final class CreateGroupWindow extends javax.swing.JFrame implements UIMet
         jPanel21.setLayout(new java.awt.BorderLayout());
 
         removeUserBTN.setText("Remove");
+        removeUserBTN.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                removeUserBTNMouseClicked(evt);
+            }
+        });
         jPanel21.add(removeUserBTN, java.awt.BorderLayout.EAST);
 
         jPanel22.setBackground(new java.awt.Color(255, 255, 255));
@@ -791,7 +797,7 @@ public final class CreateGroupWindow extends javax.swing.JFrame implements UIMet
 
     private void addUserBTNMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addUserBTNMouseClicked
         if (userListCombo.getSelectedIndex() != -1) {
-        String selectedUser = userListCombo.getSelectedItem().toString();
+            String selectedUser = userListCombo.getSelectedItem().toString();
         
             // Check if the user is already added
             if (addedUsers.contains(selectedUser)) {
@@ -799,10 +805,16 @@ public final class CreateGroupWindow extends javax.swing.JFrame implements UIMet
             } else {
                 // Add the user to the set and display it on the panel
                 addedUsers.add(selectedUser);
-                JLabel user = new JLabel();
-                user.setText(selectedUser);
-                user.setFont(CustomFont.createFont("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Fonts/Inter_18pt-Regular.ttf", 14));
-                userDisplayPanel.add(user);
+                
+                if(userList.getText().isEmpty()) {
+                    userList.setText(selectedUser);
+                }else {
+                    userList.setText(
+                            userList.getText() + " " + selectedUser);
+                }
+                
+                userList.setFont(CustomFont.createFont("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Fonts/SFPRODISPLAYREGULAR.OTF", 15));
+                userDisplayPanel.add(userList);
                 userDisplayPanel.revalidate();
                 userDisplayPanel.repaint();
             }
@@ -811,8 +823,21 @@ public final class CreateGroupWindow extends javax.swing.JFrame implements UIMet
         }
     }//GEN-LAST:event_addUserBTNMouseClicked
 
+    private void removeUserBTNMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_removeUserBTNMouseClicked
+        
+        if(!addedUsers.isEmpty()) {
+            addedUsers.clear();
+            userList.setText(" ");
+        }else {
+            JOptionPane.showMessageDialog(null, "No users selected to remove!", "Warning", JOptionPane.WARNING_MESSAGE);
+        }
+        
+        
+    }//GEN-LAST:event_removeUserBTNMouseClicked
+
     /**
-     * @param args the command line arguments
+     * @param hover
+     * @param myColor
      */
 //    public static void main(String args[]) {
 //        /* Set the Nimbus look and feel */
@@ -846,6 +871,50 @@ public final class CreateGroupWindow extends javax.swing.JFrame implements UIMet
 //            }
 //        });
 //    }
+    
+    @Override
+    public void changeColor(JPanel hover, Color myColor) {
+        hover.setBackground(myColor);
+    }
+
+    @Override
+    public void changeFontColor(JLabel text, Color myColor) {
+        text.setForeground(myColor);
+    }
+
+    @Override
+    public void loadFonts() {
+        
+        sectionHeadingLabel.setFont(CustomFont.sectionHeadingFont);
+        panelHeading.setFont(CustomFont.subPanelHeadingFont);
+        groupIdLabel.setFont(CustomFont.formLabelFont);
+        groupIdField.setFont(CustomFont.formTextFieldFont);
+        groupNameLabel.setFont(CustomFont.formLabelFont);
+        addUsersLabel.setFont(CustomFont.formLabelFont);
+        groupNameTF.setFont(CustomFont.formTextFieldFont);
+        userListCombo.setFont(CustomFont.formTextFieldFont);
+        createLabel.setFont(CustomFont.formLabelFont);
+        cancelLabel.setFont(CustomFont.formLabelFont);
+        
+    }
+    
+    private String createGroupId() {
+        return this.newGroupId = "group-" + UUID.randomUUID().toString();
+    }
+    
+    private boolean formValidate() {
+        //Checks if group name field is not empty
+        if(!groupNameTF.getText().isEmpty()) {
+            return true;
+        }else {
+            JOptionPane.showMessageDialog(null, "Group name should be defined", "Warning", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+    }
+    
+    private GroupModel createGroupObj() {
+        return new GroupModel(newGroupId ,groupNameTF.getText(), Home.user);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addUserBTN;
@@ -914,70 +983,5 @@ public final class CreateGroupWindow extends javax.swing.JFrame implements UIMet
     private javax.swing.JComboBox<String> userListCombo;
     // End of variables declaration//GEN-END:variables
 
-    @Override
-    public void changeColor(JPanel hover, Color myColor) {
-        hover.setBackground(myColor);
-    }
-
-    @Override
-    public void changeFontColor(JLabel text, Color myColor) {
-        text.setForeground(myColor);
-    }
-
-    @Override
-    public void loadFonts() {
-        float headingFontSize = 22;
-        float buttonFontSize = 16;
-        float formLabelSize = 16;
-        float sectionHeadingSize = 18;
-        
-        sectionHeadingLabel.setFont(CustomFont
-                .createFont("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Fonts/Inter_18pt-Bold.ttf", sectionHeadingSize));
-        
-        panelHeading.setFont(CustomFont
-                .createFont("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Fonts/Inter_18pt-Bold.ttf", headingFontSize));
-        
-        groupIdLabel.setFont(CustomFont
-                .createFont("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Fonts/Inter_18pt-Bold.ttf", formLabelSize));
-        
-        groupIdField.setFont(CustomFont
-                .createFont("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Fonts/Inter_18pt-Regular.ttf", formLabelSize));
-        
-        groupNameLabel.setFont(CustomFont
-                .createFont("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Fonts/Inter_18pt-Bold.ttf", formLabelSize));
-        
-        addUsersLabel.setFont(CustomFont
-                .createFont("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Fonts/Inter_18pt-Bold.ttf", formLabelSize));
-        
-        groupNameTF.setFont(CustomFont
-                .createFont("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Fonts/Inter_18pt-Regular.ttf", formLabelSize));
-        
-        userListCombo.setFont(CustomFont
-                .createFont("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Fonts/Inter_18pt-Regular.ttf", formLabelSize));
-        
-        createLabel.setFont(CustomFont
-                .createFont("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Fonts/Inter_18pt-Bold.ttf", buttonFontSize));
-        
-        cancelLabel.setFont(CustomFont
-                .createFont("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Fonts/Inter_18pt-Bold.ttf", buttonFontSize));
-        
-    }
     
-    private String createGroupId() {
-        return this.newGroupId = "group-" + UUID.randomUUID().toString();
-    }
-    
-    private boolean formValidate() {
-        //Checks if group name field is not empty
-        if(!groupNameTF.getText().isEmpty()) {
-            return true;
-        }else {
-            JOptionPane.showMessageDialog(null, "Group name should be defined", "Warning", JOptionPane.WARNING_MESSAGE);
-            return false;
-        }
-    }
-    
-    private Group createGroupObj() {
-        return new Group(newGroupId ,groupNameTF.getText(), adminUser.getUserId());
-    }
 }

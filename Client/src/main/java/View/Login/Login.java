@@ -1,11 +1,14 @@
 package View.Login;
 
 import Controller.LoginController;
-import Model.User;
-import ServerHandler.RemoteInterface;
-import View.Home.AdminHome;
-import View.Home.UserHome;
+import Model.UserModel;
+import View.Home.Home;
+import View.Resources.CustomFont;
+import com.formdev.flatlaf.themes.FlatMacLightLaf;
+import java.awt.Color;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
+import Controller.RemoteUserInterface;
 
 /**
  *
@@ -18,6 +21,7 @@ public class Login extends javax.swing.JFrame {
      */
     public Login() {
         initComponents();
+        loadFonts();
     }
 
     /**
@@ -30,47 +34,49 @@ public class Login extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        passwordLabel = new javax.swing.JLabel();
+        userNameLabel = new javax.swing.JLabel();
         usernameTF = new javax.swing.JTextField();
         passwordPF = new javax.swing.JPasswordField();
         loginBTN = new javax.swing.JButton();
-        jLabel3 = new javax.swing.JLabel();
+        logoLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
         setSize(new java.awt.Dimension(369, 575));
 
-        jPanel1.setBackground(new java.awt.Color(60, 60, 60));
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel1.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(245, 245, 245));
-        jLabel1.setText("Password:");
+        passwordLabel.setBackground(new java.awt.Color(62, 62, 62));
+        passwordLabel.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+        passwordLabel.setForeground(new java.awt.Color(62, 62, 62));
+        passwordLabel.setText("Password:");
 
-        jLabel2.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(245, 245, 245));
-        jLabel2.setText("Username:");
+        userNameLabel.setBackground(new java.awt.Color(62, 62, 62));
+        userNameLabel.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+        userNameLabel.setForeground(new java.awt.Color(62, 62, 62));
+        userNameLabel.setText("Username:");
 
         usernameTF.setFont(new java.awt.Font("Liberation Sans", 0, 18)); // NOI18N
-        usernameTF.setPreferredSize(new java.awt.Dimension(258, 40));
+        usernameTF.setPreferredSize(new java.awt.Dimension(258, 45));
 
         passwordPF.setFont(new java.awt.Font("Liberation Sans", 0, 18)); // NOI18N
-        passwordPF.setPreferredSize(new java.awt.Dimension(258, 40));
+        passwordPF.setPreferredSize(new java.awt.Dimension(258, 45));
 
         loginBTN.setBackground(new java.awt.Color(34, 151, 153));
         loginBTN.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
-        loginBTN.setForeground(new java.awt.Color(245, 245, 245));
+        loginBTN.setForeground(new java.awt.Color(255, 255, 255));
         loginBTN.setLabel("Login");
-        loginBTN.setPreferredSize(new java.awt.Dimension(258, 40));
+        loginBTN.setPreferredSize(new java.awt.Dimension(258, 55));
         loginBTN.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 loginBTNMouseClicked(evt);
             }
         });
 
-        jLabel3.setFont(new java.awt.Font("Liberation Sans", 1, 36)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(72, 207, 203));
-        jLabel3.setText("LOGO");
+        logoLabel.setFont(new java.awt.Font("Liberation Sans", 1, 36)); // NOI18N
+        logoLabel.setForeground(new java.awt.Color(72, 207, 203));
+        logoLabel.setText("LOGO");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -81,26 +87,26 @@ public class Login extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(loginBTN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(passwordPF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2)
+                    .addComponent(userNameLabel)
                     .addComponent(usernameTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
+                    .addComponent(passwordLabel))
                 .addContainerGap(100, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel3)
+                .addComponent(logoLabel)
                 .addGap(170, 170, 170))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(79, Short.MAX_VALUE)
-                .addComponent(jLabel3)
+                .addContainerGap(54, Short.MAX_VALUE)
+                .addComponent(logoLabel)
                 .addGap(63, 63, 63)
-                .addComponent(jLabel2)
+                .addComponent(userNameLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(usernameTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(39, 39, 39)
-                .addComponent(jLabel1)
+                .addComponent(passwordLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(passwordPF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(56, 56, 56)
@@ -115,9 +121,15 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void loginBTNMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginBTNMouseClicked
-        String username = usernameTF.getText().trim();
+        /*String username = usernameTF.getText().trim();
         String password = new String(passwordPF.getPassword());
-        login(username, password);
+        login(username, password);*/
+        
+        //Test code
+        UserModel user = new UserModel("1", "Ben", "Ben123", "Benjamin", "0718375748", "Admin");
+        user.setEmail("pramodyabenjamin@gmail.com");
+        new Home(user).setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_loginBTNMouseClicked
 
     private void login(String username, String password) {
@@ -133,29 +145,8 @@ public class Login extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
+        setLookAndFeel();
+        FlatMacLightLaf.setup();
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -163,14 +154,31 @@ public class Login extends javax.swing.JFrame {
             }
         });
     }
+    
+    private static void setLookAndFeel() {
+        UIManager.put( "Button.arc", 20 );
+        UIManager.put( "Component.arc", 10 );
+        UIManager.put( "ProgressBar.arc", 20 );
+        UIManager.put( "TextComponent.arc", 10 );
+        UIManager.put( "TextComponent.accent", new Color(34, 151, 153));
+    }
+    
+    private void loadFonts() {
+        userNameLabel.setFont(CustomFont.formLabelFont);
+        passwordLabel.setFont(CustomFont.formLabelFont);
+        loginBTN.setFont(CustomFont.formLabelFont);
+        usernameTF.setFont(CustomFont.formTextFieldFont);
+        passwordPF.setFont(CustomFont.formTextFieldFont);
+        logoLabel.setFont(CustomFont.panelHeadingFont);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JButton loginBTN;
+    private javax.swing.JLabel logoLabel;
+    private javax.swing.JLabel passwordLabel;
     private javax.swing.JPasswordField passwordPF;
+    private javax.swing.JLabel userNameLabel;
     private javax.swing.JTextField usernameTF;
     // End of variables declaration//GEN-END:variables
 }

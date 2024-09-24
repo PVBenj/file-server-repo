@@ -4,6 +4,8 @@
  */
 package View.Home.HomePanels;
 
+import View.Resources.CustomFont;
+
 /**
  *
  * @author benjamin
@@ -15,6 +17,7 @@ public class ActivityPanel extends javax.swing.JPanel {
      */
     public ActivityPanel() {
         initComponents();
+        loadFonts();
     }
 
     /**
@@ -142,9 +145,9 @@ public class ActivityPanel extends javax.swing.JPanel {
         roundPanel3Layout.setVerticalGroup(
             roundPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(roundPanel3Layout.createSequentialGroup()
-                .addGap(35, 35, 35)
+                .addGap(25, 25, 25)
                 .addComponent(activityPanelHeading)
-                .addContainerGap(39, Short.MAX_VALUE))
+                .addContainerGap(49, Short.MAX_VALUE))
         );
 
         roundPanel2.add(roundPanel3, java.awt.BorderLayout.LINE_START);
@@ -236,7 +239,11 @@ public class ActivityPanel extends javax.swing.JPanel {
         add(jPanel5, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
-
+    private void loadFonts() {
+        activityPanelHeading.setFont(CustomFont.panelHeadingFont);
+    }
+   
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel activityPanelHeading;
     private javax.swing.JTable activityTabel;

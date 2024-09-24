@@ -4,24 +4,56 @@
  */
 package View.Home.HomePanels;
 
+import Controller.GroupController;
 import View.Home.CreateGroupWindow;
 import View.Home.UIMethods;
 import View.Resources.CustomFont;
 import java.awt.Color;
+import java.awt.Dimension;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.table.JTableHeader;
 
 /**
  *
  * @author benjamin
  */
-public class GroupsPanel extends javax.swing.JPanel implements UIMethods {
+public final class GroupsPanel extends javax.swing.JPanel implements UIMethods {
 
-    /**
-     * Creates new form GroupsPanel
-     */
+    
     public GroupsPanel() {
         initComponents();
+        loadFonts();
+        repaintTable();
+        groupsTable.setModel(GroupController.getGroupTable());
+    }
+    
+    @Override
+    public void changeColor(JPanel hover, Color myColor) {
+        hover.setBackground(myColor);
+    }
+
+    @Override
+    public void changeFontColor(JLabel text, Color myColor) {
+        text.setForeground(myColor);
+    }
+
+    @Override
+    public void loadFonts() {
+        
+        groupsPanelHeading.setFont(CustomFont.panelHeadingFont);
+        createLabel.setFont(CustomFont.formLabelFont);
+        removeLabel.setFont(CustomFont.formLabelFont);
+        groupsTable.setFont(CustomFont.tableRowFont);
+        groupsTable.getTableHeader().setFont(CustomFont.tableHeaderFont);
+    }
+    
+    private void repaintTable() {
+        JTableHeader header = groupsTable.getTableHeader();
+        header.setBackground(new Color(62, 62, 62));
+        header.setForeground(new Color(255, 255, 255));
+        header.setPreferredSize(
+                new Dimension(header.getWidth(), 40));
     }
 
     /**
@@ -65,7 +97,7 @@ public class GroupsPanel extends javax.swing.JPanel implements UIMethods {
         jPanel20 = new javax.swing.JPanel();
         roundPanel8 = new View.Resources.RoundPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        groupsTabel = new javax.swing.JTable();
+        groupsTable = new javax.swing.JTable();
 
         setLayout(new java.awt.BorderLayout());
 
@@ -168,9 +200,9 @@ public class GroupsPanel extends javax.swing.JPanel implements UIMethods {
         roundPanel3Layout.setVerticalGroup(
             roundPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(roundPanel3Layout.createSequentialGroup()
-                .addGap(35, 35, 35)
+                .addGap(25, 25, 25)
                 .addComponent(groupsPanelHeading)
-                .addContainerGap(39, Short.MAX_VALUE))
+                .addContainerGap(49, Short.MAX_VALUE))
         );
 
         roundPanel2.add(roundPanel3, java.awt.BorderLayout.LINE_START);
@@ -399,7 +431,7 @@ public class GroupsPanel extends javax.swing.JPanel implements UIMethods {
 
         roundPanel7.add(roundPanel8, java.awt.BorderLayout.PAGE_END);
 
-        groupsTabel.setModel(new javax.swing.table.DefaultTableModel(
+        groupsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -407,11 +439,12 @@ public class GroupsPanel extends javax.swing.JPanel implements UIMethods {
                 {null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Group ID", "Group Name", "Members", "Created by"
             }
         ));
-        groupsTabel.setSelectionBackground(new java.awt.Color(72, 207, 203));
-        jScrollPane1.setViewportView(groupsTabel);
+        groupsTable.setRowHeight(40);
+        groupsTable.setSelectionBackground(new java.awt.Color(72, 207, 203));
+        jScrollPane1.setViewportView(groupsTable);
 
         roundPanel7.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
@@ -459,7 +492,7 @@ public class GroupsPanel extends javax.swing.JPanel implements UIMethods {
     private View.Resources.RoundPanel createGroupBTN;
     private javax.swing.JLabel createLabel;
     private javax.swing.JLabel groupsPanelHeading;
-    private javax.swing.JTable groupsTabel;
+    private javax.swing.JTable groupsTable;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
@@ -491,28 +524,5 @@ public class GroupsPanel extends javax.swing.JPanel implements UIMethods {
     private View.Resources.RoundPanel roundPanel8;
     // End of variables declaration//GEN-END:variables
 
-    @Override
-    public void changeColor(JPanel hover, Color myColor) {
-        hover.setBackground(myColor);
-    }
-
-    @Override
-    public void changeFontColor(JLabel text, Color myColor) {
-        text.setForeground(myColor);
-    }
-
-    @Override
-    public void loadFonts() {
-        float headingFontSize = 22;
-        float buttonFontSize = 16;
-        
-        groupsPanelHeading.setFont(CustomFont
-                .createFont("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Fonts/Inter_18pt-Bold.ttf", headingFontSize));
-        
-        createLabel.setFont(CustomFont
-                .createFont("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Fonts/Inter_18pt-Bold.ttf", buttonFontSize));
-        
-        removeLabel.setFont(CustomFont
-                .createFont("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Fonts/Inter_18pt-Bold.ttf", buttonFontSize));
-    }
+    
 }

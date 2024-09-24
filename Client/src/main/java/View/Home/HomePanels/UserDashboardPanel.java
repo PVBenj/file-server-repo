@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package View.Home.HomePanels;
 
 import View.Home.UIMethods;
@@ -14,14 +10,40 @@ import javax.swing.JPanel;
  *
  * @author benjamin
  */
-public class DashboardPanel extends javax.swing.JPanel implements UIMethods {
+public final class UserDashboardPanel extends javax.swing.JPanel implements UIMethods {
 
     /**
      * Creates new form DashboardPanel
      */
-    public DashboardPanel() {
+    public UserDashboardPanel() {
         initComponents();
         loadFonts();
+    }
+    
+    
+    @Override
+    public void changeColor(JPanel hover, Color myColor) {
+        hover.setBackground(myColor);
+    }
+
+    @Override
+    public void loadFonts() {
+        
+        dashboardHeading.setFont(CustomFont.panelHeadingFont);
+        section1Heading.setFont(CustomFont.sectionHeadingFont);
+        section2Heading.setFont(CustomFont.sectionHeadingFont);
+        section3Heading.setFont(CustomFont.sectionHeadingFont);
+        recentActivityHeading.setFont(CustomFont.sectionHeadingFont);
+        recentUploadsHeading.setFont(CustomFont.sectionHeadingFont);
+        myFilesNoLabel.setFont(CustomFont.panelNumberLabel);
+        sharedFilesNoLabel.setFont(CustomFont.panelNumberLabel);
+        recentlyNoLabel.setFont(CustomFont.panelNumberLabel);
+        
+    }
+
+    @Override
+    public void changeFontColor(JLabel text, Color myColor) {
+        text.setForeground(myColor);
     }
 
     /**
@@ -42,16 +64,19 @@ public class DashboardPanel extends javax.swing.JPanel implements UIMethods {
         jPanel6 = new javax.swing.JPanel();
         section1Panel = new View.Resources.RoundPanel();
         section1Heading = new javax.swing.JLabel();
+        myFilesNoLabel = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
         jPanel8 = new javax.swing.JPanel();
         jPanel9 = new javax.swing.JPanel();
         section2Panel = new View.Resources.RoundPanel();
         section2Heading = new javax.swing.JLabel();
+        sharedFilesNoLabel = new javax.swing.JLabel();
         jPanel10 = new javax.swing.JPanel();
         jPanel11 = new javax.swing.JPanel();
         jPanel12 = new javax.swing.JPanel();
         section3Panel = new View.Resources.RoundPanel();
         section3Heading = new javax.swing.JLabel();
+        recentlyNoLabel = new javax.swing.JLabel();
         jPanel14 = new javax.swing.JPanel();
         jPanel13 = new javax.swing.JPanel();
         jPanel15 = new javax.swing.JPanel();
@@ -84,8 +109,9 @@ public class DashboardPanel extends javax.swing.JPanel implements UIMethods {
         setLayout(new java.awt.BorderLayout());
 
         jPanel1.setBackground(new java.awt.Color(240, 240, 240));
-        jPanel1.setPreferredSize(new java.awt.Dimension(879, 60));
+        jPanel1.setPreferredSize(new java.awt.Dimension(879, 80));
 
+        dashboardHeading.setFont(new java.awt.Font("Liberation Sans", 1, 35)); // NOI18N
         dashboardHeading.setText("Dashboard");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -95,14 +121,14 @@ public class DashboardPanel extends javax.swing.JPanel implements UIMethods {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(17, 17, 17)
                 .addComponent(dashboardHeading)
-                .addContainerGap(991, Short.MAX_VALUE))
+                .addContainerGap(884, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(20, 20, 20)
+                .addGap(15, 15, 15)
                 .addComponent(dashboardHeading)
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
 
         add(jPanel1, java.awt.BorderLayout.PAGE_START);
@@ -134,7 +160,7 @@ public class DashboardPanel extends javax.swing.JPanel implements UIMethods {
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 565, Short.MAX_VALUE)
+            .addGap(0, 545, Short.MAX_VALUE)
         );
 
         add(jPanel3, java.awt.BorderLayout.LINE_END);
@@ -150,7 +176,7 @@ public class DashboardPanel extends javax.swing.JPanel implements UIMethods {
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 565, Short.MAX_VALUE)
+            .addGap(0, 545, Short.MAX_VALUE)
         );
 
         add(jPanel4, java.awt.BorderLayout.LINE_START);
@@ -173,6 +199,9 @@ public class DashboardPanel extends javax.swing.JPanel implements UIMethods {
         section1Heading.setFont(new java.awt.Font("Liberation Sans", 1, 16)); // NOI18N
         section1Heading.setText("My Files");
 
+        myFilesNoLabel.setFont(new java.awt.Font("Liberation Sans", 1, 48)); // NOI18N
+        myFilesNoLabel.setText("00");
+
         javax.swing.GroupLayout section1PanelLayout = new javax.swing.GroupLayout(section1Panel);
         section1Panel.setLayout(section1PanelLayout);
         section1PanelLayout.setHorizontalGroup(
@@ -181,6 +210,11 @@ public class DashboardPanel extends javax.swing.JPanel implements UIMethods {
                 .addGap(22, 22, 22)
                 .addComponent(section1Heading)
                 .addContainerGap(216, Short.MAX_VALUE))
+            .addGroup(section1PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(section1PanelLayout.createSequentialGroup()
+                    .addGap(123, 123, 123)
+                    .addComponent(myFilesNoLabel)
+                    .addContainerGap(123, Short.MAX_VALUE)))
         );
         section1PanelLayout.setVerticalGroup(
             section1PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -188,6 +222,11 @@ public class DashboardPanel extends javax.swing.JPanel implements UIMethods {
                 .addGap(21, 21, 21)
                 .addComponent(section1Heading)
                 .addContainerGap(110, Short.MAX_VALUE))
+            .addGroup(section1PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(section1PanelLayout.createSequentialGroup()
+                    .addGap(47, 47, 47)
+                    .addComponent(myFilesNoLabel)
+                    .addContainerGap(47, Short.MAX_VALUE)))
         );
 
         jPanel6.add(section1Panel, java.awt.BorderLayout.LINE_START);
@@ -222,6 +261,9 @@ public class DashboardPanel extends javax.swing.JPanel implements UIMethods {
         section2Heading.setFont(new java.awt.Font("Liberation Sans", 1, 16)); // NOI18N
         section2Heading.setText("Shared with me");
 
+        sharedFilesNoLabel.setFont(new java.awt.Font("Liberation Sans", 1, 48)); // NOI18N
+        sharedFilesNoLabel.setText("00");
+
         javax.swing.GroupLayout section2PanelLayout = new javax.swing.GroupLayout(section2Panel);
         section2Panel.setLayout(section2PanelLayout);
         section2PanelLayout.setHorizontalGroup(
@@ -230,6 +272,11 @@ public class DashboardPanel extends javax.swing.JPanel implements UIMethods {
                 .addGap(21, 21, 21)
                 .addComponent(section2Heading)
                 .addContainerGap(161, Short.MAX_VALUE))
+            .addGroup(section2PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(section2PanelLayout.createSequentialGroup()
+                    .addGap(123, 123, 123)
+                    .addComponent(sharedFilesNoLabel)
+                    .addContainerGap(123, Short.MAX_VALUE)))
         );
         section2PanelLayout.setVerticalGroup(
             section2PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -237,6 +284,11 @@ public class DashboardPanel extends javax.swing.JPanel implements UIMethods {
                 .addGap(19, 19, 19)
                 .addComponent(section2Heading)
                 .addContainerGap(112, Short.MAX_VALUE))
+            .addGroup(section2PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(section2PanelLayout.createSequentialGroup()
+                    .addGap(47, 47, 47)
+                    .addComponent(sharedFilesNoLabel)
+                    .addContainerGap(47, Short.MAX_VALUE)))
         );
 
         jPanel9.add(section2Panel, java.awt.BorderLayout.LINE_START);
@@ -272,6 +324,9 @@ public class DashboardPanel extends javax.swing.JPanel implements UIMethods {
         section3Heading.setFont(new java.awt.Font("Liberation Sans", 1, 16)); // NOI18N
         section3Heading.setText("Recently Uploaded");
 
+        recentlyNoLabel.setFont(new java.awt.Font("Liberation Sans", 1, 48)); // NOI18N
+        recentlyNoLabel.setText("00");
+
         javax.swing.GroupLayout section3PanelLayout = new javax.swing.GroupLayout(section3Panel);
         section3Panel.setLayout(section3PanelLayout);
         section3PanelLayout.setHorizontalGroup(
@@ -280,6 +335,11 @@ public class DashboardPanel extends javax.swing.JPanel implements UIMethods {
                 .addGap(21, 21, 21)
                 .addComponent(section3Heading)
                 .addContainerGap(134, Short.MAX_VALUE))
+            .addGroup(section3PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(section3PanelLayout.createSequentialGroup()
+                    .addGap(123, 123, 123)
+                    .addComponent(recentlyNoLabel)
+                    .addContainerGap(123, Short.MAX_VALUE)))
         );
         section3PanelLayout.setVerticalGroup(
             section3PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -287,6 +347,11 @@ public class DashboardPanel extends javax.swing.JPanel implements UIMethods {
                 .addGap(19, 19, 19)
                 .addComponent(section3Heading)
                 .addContainerGap(112, Short.MAX_VALUE))
+            .addGroup(section3PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(section3PanelLayout.createSequentialGroup()
+                    .addGap(47, 47, 47)
+                    .addComponent(recentlyNoLabel)
+                    .addContainerGap(47, Short.MAX_VALUE)))
         );
 
         jPanel12.add(section3Panel, java.awt.BorderLayout.LINE_START);
@@ -376,7 +441,7 @@ public class DashboardPanel extends javax.swing.JPanel implements UIMethods {
         );
         jPanel19Layout.setVerticalGroup(
             jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 315, Short.MAX_VALUE)
+            .addGap(0, 295, Short.MAX_VALUE)
         );
 
         roundPanel3.add(jPanel19, java.awt.BorderLayout.LINE_START);
@@ -392,7 +457,7 @@ public class DashboardPanel extends javax.swing.JPanel implements UIMethods {
         );
         jPanel20Layout.setVerticalGroup(
             jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 315, Short.MAX_VALUE)
+            .addGap(0, 295, Short.MAX_VALUE)
         );
 
         roundPanel3.add(jPanel20, java.awt.BorderLayout.LINE_END);
@@ -426,6 +491,7 @@ public class DashboardPanel extends javax.swing.JPanel implements UIMethods {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        recentActivityTable.setRowHeight(40);
         recentActivityTable.setSelectionBackground(new java.awt.Color(72, 207, 203));
         jScrollPane1.setViewportView(recentActivityTable);
 
@@ -449,7 +515,7 @@ public class DashboardPanel extends javax.swing.JPanel implements UIMethods {
         );
         jPanel17Layout.setVerticalGroup(
             jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 385, Short.MAX_VALUE)
+            .addGap(0, 365, Short.MAX_VALUE)
         );
 
         jPanel16.add(jPanel17, java.awt.BorderLayout.LINE_START);
@@ -510,7 +576,7 @@ public class DashboardPanel extends javax.swing.JPanel implements UIMethods {
         );
         jPanel22Layout.setVerticalGroup(
             jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 315, Short.MAX_VALUE)
+            .addGap(0, 295, Short.MAX_VALUE)
         );
 
         roundPanel5.add(jPanel22, java.awt.BorderLayout.LINE_START);
@@ -526,7 +592,7 @@ public class DashboardPanel extends javax.swing.JPanel implements UIMethods {
         );
         jPanel23Layout.setVerticalGroup(
             jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 315, Short.MAX_VALUE)
+            .addGap(0, 295, Short.MAX_VALUE)
         );
 
         roundPanel5.add(jPanel23, java.awt.BorderLayout.LINE_END);
@@ -560,6 +626,7 @@ public class DashboardPanel extends javax.swing.JPanel implements UIMethods {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        recentUploadsTable.setRowHeight(40);
         recentUploadsTable.setSelectionBackground(new java.awt.Color(72, 207, 203));
         jScrollPane2.setViewportView(recentUploadsTable);
 
@@ -607,12 +674,14 @@ public class DashboardPanel extends javax.swing.JPanel implements UIMethods {
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel myFilesNoLabel;
     private javax.swing.JLabel recentActivityHeading;
     private View.Resources.RoundPanel recentActivitySection;
     private javax.swing.JTable recentActivityTable;
     private javax.swing.JLabel recentUploadsHeading;
     private View.Resources.RoundPanel recentUploadsSection;
     private javax.swing.JTable recentUploadsTable;
+    private javax.swing.JLabel recentlyNoLabel;
     private View.Resources.RoundPanel roundPanel1;
     private View.Resources.RoundPanel roundPanel2;
     private View.Resources.RoundPanel roundPanel3;
@@ -625,39 +694,7 @@ public class DashboardPanel extends javax.swing.JPanel implements UIMethods {
     private View.Resources.RoundPanel section2Panel;
     private javax.swing.JLabel section3Heading;
     private View.Resources.RoundPanel section3Panel;
+    private javax.swing.JLabel sharedFilesNoLabel;
     // End of variables declaration//GEN-END:variables
 
-    @Override
-    public void changeColor(JPanel hover, Color myColor) {
-        hover.setBackground(myColor);
-    }
-
-    @Override
-    public void loadFonts() {
-        float headingFontSize = 22;
-        float sectionHeadingFontSize = 18;
-        
-        dashboardHeading.setFont(CustomFont
-                .createFont("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Fonts/Inter_18pt-Bold.ttf", headingFontSize));
-        
-        section1Heading.setFont(CustomFont
-                .createFont("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Fonts/Inter_18pt-Bold.ttf", sectionHeadingFontSize));
-        
-        section2Heading.setFont(CustomFont
-                .createFont("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Fonts/Inter_18pt-Bold.ttf", sectionHeadingFontSize));
-        
-        section3Heading.setFont(CustomFont
-                .createFont("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Fonts/Inter_18pt-Bold.ttf", sectionHeadingFontSize));
-        
-        recentActivityHeading.setFont(CustomFont
-                .createFont("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Fonts/Inter_18pt-Bold.ttf", sectionHeadingFontSize));
-        
-        recentUploadsHeading.setFont(CustomFont
-                .createFont("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Fonts/Inter_18pt-Bold.ttf", sectionHeadingFontSize));
-    }
-
-    @Override
-    public void changeFontColor(JLabel text, Color myColor) {
-        text.setForeground(myColor);
-    }
 }

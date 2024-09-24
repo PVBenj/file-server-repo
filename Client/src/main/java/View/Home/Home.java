@@ -1,15 +1,18 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package View.Home;
 
-import Model.User;
+import Controller.FileController;
+import Controller.GroupController;
+import Controller.UserController;
+import Model.FileModel;
+import Model.GroupModel;
+import Model.UserModel;
+import View.Home.HomePanels.AccountDetailsPanel;
 import View.Home.HomePanels.ActivityPanel;
 import View.Home.HomePanels.AdminDashboardPanel;
 import View.Home.HomePanels.GroupsPanel;
 import View.Home.HomePanels.MyFilesPanel;
 import View.Home.HomePanels.SharedFiles;
+import View.Home.HomePanels.UserDashboardPanel;
 import View.Home.HomePanels.UsersPanel;
 import View.Resources.CustomFont;
 import java.awt.CardLayout;
@@ -25,17 +28,19 @@ import javax.swing.JPanel;
  *
  * @author benjamin
  */
-public class AdminHome extends javax.swing.JFrame implements UIMethods {
+public class Home extends javax.swing.JFrame implements UIMethods {
 
-    static User adminUser;
+    public static UserModel user;
     
-    public AdminHome(User user) {
+    
+    public Home(UserModel user) {
         initComponents();
         loadFonts();
         applyIcons();
+        Home.user = user;
+        adjustHomeOnRole();
         addPanelsToCard();
-        adminUser = user;
-        usernamePanel.setText(adminUser.getFirstName());
+        usernamePanel.setText(Home.user.getFirstName());
     }
 
     /**
@@ -385,8 +390,11 @@ public class AdminHome extends javax.swing.JFrame implements UIMethods {
         jPanel2.setLayout(new java.awt.BorderLayout());
 
         jPanel3.setBackground(new java.awt.Color(40, 40, 40));
-        jPanel3.setPreferredSize(new java.awt.Dimension(180, 80));
+        jPanel3.setPreferredSize(new java.awt.Dimension(200, 80));
         jPanel3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel3MouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 jPanel3MouseEntered(evt);
             }
@@ -471,8 +479,16 @@ public class AdminHome extends javax.swing.JFrame implements UIMethods {
     }//GEN-LAST:event_dashboardPanelMouseExited
 
     private void dashboardPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dashboardPanelMouseClicked
-        CardLayout cl = (CardLayout) homePanel.getLayout();
-        cl.show(homePanel, "AdminDashboard");
+        //If user is an admin user admin dashboard will get loaded
+        if(user.getRole().equals("Admin")) {
+            CardLayout cl = (CardLayout) homePanel.getLayout();
+            cl.show(homePanel, "AdminDashboard");
+        } else {
+            CardLayout cl = (CardLayout) homePanel.getLayout();
+            cl.show(homePanel, "UserDashboard");
+        }
+        
+        
     }//GEN-LAST:event_dashboardPanelMouseClicked
 
     private void myFilesPanelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_myFilesPanelMouseEntered
@@ -549,83 +565,13 @@ public class AdminHome extends javax.swing.JFrame implements UIMethods {
         changeColor(groupsPanel, new Color(62, 62, 62));
         changeColor(jPanel17, new Color(62, 62, 62));
     }//GEN-LAST:event_groupsPanelMouseExited
+
+    private void jPanel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel3MouseClicked
+        CardLayout cl = (CardLayout) homePanel.getLayout();
+        cl.show(homePanel, "AccountDetails");
+    }//GEN-LAST:event_jPanel3MouseClicked
     
-    /**
-     * @param args the command line arguments
-     */
-//    public static void main(String args[]) {
-//        /* Set the Nimbus look and feel */
-//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-//         */
-//        try {
-//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-//                if ("Nimbus".equals(info.getName())) {
-//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-//                    break;
-//                }
-//            }
-//        } catch (ClassNotFoundException ex) {
-//            java.util.logging.Logger.getLogger(AdminHome.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (InstantiationException ex) {
-//            java.util.logging.Logger.getLogger(AdminHome.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (IllegalAccessException ex) {
-//            java.util.logging.Logger.getLogger(AdminHome.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-//            java.util.logging.Logger.getLogger(AdminHome.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        }
-//        //</editor-fold>
-//        //</editor-fold>
-//        //</editor-fold>
-//        //</editor-fold>
-//
-//        /* Create and display the form */
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                new AdminHome().setVisible(true);
-//            }
-//        });
-//    }
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel activityLabel;
-    private javax.swing.JPanel activityPanel;
-    private javax.swing.JPanel backgroundPanel;
-    private javax.swing.JLabel dashboardLabel;
-    private javax.swing.JPanel dashboardPanel;
-    private javax.swing.JLabel groupsLabel;
-    private javax.swing.JPanel groupsPanel;
-    private javax.swing.JPanel homePanel;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel10;
-    private javax.swing.JPanel jPanel11;
-    private javax.swing.JPanel jPanel12;
-    private javax.swing.JPanel jPanel13;
-    private javax.swing.JPanel jPanel14;
-    private javax.swing.JPanel jPanel15;
-    private javax.swing.JPanel jPanel16;
-    private javax.swing.JPanel jPanel17;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
-    private javax.swing.JPanel jPanel7;
-    private javax.swing.JPanel jPanel8;
-    private javax.swing.JPanel jPanel9;
-    private javax.swing.JPanel menuPanel;
-    private javax.swing.JLabel myFilesLabel;
-    private javax.swing.JPanel myFilesPanel;
-    private javax.swing.JLabel profileIcon;
-    private javax.swing.JPanel profilePanel;
-    private javax.swing.JLabel sharedFilesLabel;
-    private javax.swing.JPanel sharedFilesPanel;
-    private javax.swing.JLabel usernamePanel;
-    private javax.swing.JLabel usersLabel;
-    private javax.swing.JPanel usersPanel;
-    // End of variables declaration//GEN-END:variables
-
+    
     @Override
     public void changeColor(JPanel hover, Color myColor) {
         hover.setBackground(myColor);
@@ -672,37 +618,80 @@ public class AdminHome extends javax.swing.JFrame implements UIMethods {
    }
     
     private void addPanelsToCard() {
-        homePanel.add(new AdminDashboardPanel(), "AdminDashboard");
+//        homePanel.add(new AdminDashboardPanel(), "AdminDashboard");
+//        homePanel.add(new UserDashboardPanel(), "UserDashboard");
         homePanel.add(new MyFilesPanel(), "MyFiles");
         homePanel.add(new SharedFiles(), "SharedFiles");
         homePanel.add(new ActivityPanel(), "ActivityPanel");
         homePanel.add(new UsersPanel(), "Users");
         homePanel.add(new GroupsPanel(), "Groups");
+        homePanel.add(new AccountDetailsPanel(), "AccountDetails");
     }
 
     @Override
     public final void loadFonts() {
-        float menuFontSize = 16;
-        float usernameFontSize = 18;
         
-        dashboardLabel.setFont(CustomFont
-                .createFont("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Fonts/Inter_18pt-Bold.ttf", menuFontSize));
+        dashboardLabel.setFont(CustomFont.sectionHeadingFont);
+        myFilesLabel.setFont(CustomFont.sectionHeadingFont);
+        sharedFilesLabel.setFont(CustomFont.sectionHeadingFont);
+        activityLabel.setFont(CustomFont.sectionHeadingFont);
+        usernamePanel.setFont(CustomFont.sectionHeadingFont);
+        groupsLabel.setFont(CustomFont.sectionHeadingFont);
+        usersLabel.setFont(CustomFont.sectionHeadingFont);
         
-        myFilesLabel.setFont(CustomFont
-                .createFont("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Fonts/Inter_18pt-Bold.ttf", menuFontSize));
-        
-        sharedFilesLabel.setFont(CustomFont
-                .createFont("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Fonts/Inter_18pt-Bold.ttf", menuFontSize));
-        
-        activityLabel.setFont(CustomFont
-                .createFont("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Fonts/Inter_18pt-Bold.ttf", menuFontSize));
-        
-        usernamePanel.setFont(CustomFont
-                .createFont("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Fonts/Inter_18pt-Bold.ttf", usernameFontSize));
     }
 
     @Override
     public void changeFontColor(JLabel text, Color myColor) {
         text.setForeground(myColor);
     }
+    
+    private void adjustHomeOnRole() {
+        if(!user.getRole().equals("Admin")) {
+            groupsPanel.removeAll();
+            usersPanel.removeAll();
+            homePanel.add(new UserDashboardPanel(), "UserDashboard");
+        }else {
+            homePanel.add(new AdminDashboardPanel(), "AdminDashboard");
+        }
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel activityLabel;
+    private javax.swing.JPanel activityPanel;
+    private javax.swing.JPanel backgroundPanel;
+    private javax.swing.JLabel dashboardLabel;
+    private javax.swing.JPanel dashboardPanel;
+    private javax.swing.JLabel groupsLabel;
+    private javax.swing.JPanel groupsPanel;
+    private javax.swing.JPanel homePanel;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel10;
+    private javax.swing.JPanel jPanel11;
+    private javax.swing.JPanel jPanel12;
+    private javax.swing.JPanel jPanel13;
+    private javax.swing.JPanel jPanel14;
+    private javax.swing.JPanel jPanel15;
+    private javax.swing.JPanel jPanel16;
+    private javax.swing.JPanel jPanel17;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
+    private javax.swing.JPanel menuPanel;
+    private javax.swing.JLabel myFilesLabel;
+    private javax.swing.JPanel myFilesPanel;
+    private javax.swing.JLabel profileIcon;
+    private javax.swing.JPanel profilePanel;
+    private javax.swing.JLabel sharedFilesLabel;
+    private javax.swing.JPanel sharedFilesPanel;
+    private javax.swing.JLabel usernamePanel;
+    private javax.swing.JLabel usersLabel;
+    private javax.swing.JPanel usersPanel;
+    // End of variables declaration//GEN-END:variables
+
 }

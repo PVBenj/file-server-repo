@@ -4,16 +4,35 @@ import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import Controller.RemoteUserInterface;
+import Controller.RemoteFileInterface;
+import Controller.RemoteGroupInterface;
 
 
 public class RemoteHandler {
-    static final String serverName = "FileServer";
-    
-    
-    //Method to get the stub for RMI
-    public static RemoteInterface getRemoteObj() {
+        
+    //Methods to get the stub for RMI
+    public static RemoteUserInterface getRemoteUser() {
         try{
-            return (RemoteInterface) Naming.lookup(serverName);
+            return (RemoteUserInterface) Naming.lookup("rmi://192.168.8.123:1500/UserHandle");
+        }catch (MalformedURLException | NotBoundException | RemoteException e) {
+            System.err.println(e.getMessage());
+        }
+        return null;
+    }
+    
+    public static RemoteFileInterface getRemoteFileObj() {
+        try{
+            return (RemoteFileInterface) Naming.lookup("rmi://192.168.8.123:1500/FileHandle");
+        }catch (MalformedURLException | NotBoundException | RemoteException e) {
+            System.err.println(e.getMessage());
+        }
+        return null;
+    }
+    
+    public static RemoteGroupInterface getRemoteGroup() {
+        try{
+            return (RemoteGroupInterface) Naming.lookup("rmi://192.168.8.123:1500/FileHandle");
         }catch (MalformedURLException | NotBoundException | RemoteException e) {
             System.err.println(e.getMessage());
         }

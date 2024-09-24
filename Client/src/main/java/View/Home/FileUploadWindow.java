@@ -1,11 +1,14 @@
 package View.Home;
 
-import ServerHandler.FileController;
+import Controller.FileController;
+import Model.FileModel;
 import View.Resources.CustomFont;
 import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import javax.imageio.ImageIO;
@@ -23,12 +26,13 @@ public class FileUploadWindow extends javax.swing.JFrame implements UIMethods {
     
     private String newFileId;
     private List<File> newFiles = new ArrayList<>();
+    private List<FileModel>fileObjs = new ArrayList<>();
+    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss"); 
     
     public FileUploadWindow() {
         initComponents();
         loadFonts();
         loadIcons();
-        fileIdField.setText(createGroupId().substring(0, 11));
     }
 
     /**
@@ -45,16 +49,12 @@ public class FileUploadWindow extends javax.swing.JFrame implements UIMethods {
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
-        roundPanel2 = new View.Resources.RoundPanel();
-        panelHeading = new javax.swing.JLabel();
-        fileIdLabel = new javax.swing.JLabel();
-        fileIdField = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
-        roundPanel1 = new View.Resources.RoundPanel();
         jPanel9 = new javax.swing.JPanel();
         roundPanel4 = new View.Resources.RoundPanel();
         roundPanel5 = new View.Resources.RoundPanel();
         roundPanel6 = new View.Resources.RoundPanel();
+        panelHeading = new javax.swing.JLabel();
         roundPanel7 = new View.Resources.RoundPanel();
         unsupportedMessageLabel = new javax.swing.JLabel();
         roundPanel8 = new View.Resources.RoundPanel();
@@ -86,7 +86,10 @@ public class FileUploadWindow extends javax.swing.JFrame implements UIMethods {
         uploadBTN = new View.Resources.RoundPanel();
         uploadLabel = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setMaximumSize(new java.awt.Dimension(523, 650));
+        setMinimumSize(new java.awt.Dimension(523, 650));
+        setPreferredSize(new java.awt.Dimension(523, 650));
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(240, 240, 240));
@@ -132,7 +135,7 @@ public class FileUploadWindow extends javax.swing.JFrame implements UIMethods {
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 616, Short.MAX_VALUE)
+            .addGap(0, 597, Short.MAX_VALUE)
         );
 
         getContentPane().add(jPanel3, java.awt.BorderLayout.LINE_END);
@@ -148,81 +151,22 @@ public class FileUploadWindow extends javax.swing.JFrame implements UIMethods {
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 616, Short.MAX_VALUE)
+            .addGap(0, 597, Short.MAX_VALUE)
         );
 
         getContentPane().add(jPanel4, java.awt.BorderLayout.LINE_START);
 
         jPanel5.setLayout(new java.awt.BorderLayout());
 
-        roundPanel2.setBackground(new java.awt.Color(255, 255, 255));
-        roundPanel2.setPreferredSize(new java.awt.Dimension(470, 100));
-        roundPanel2.setRoundBottomLeft(10);
-        roundPanel2.setRoundBottomRight(10);
-        roundPanel2.setRoundTopLeft(10);
-        roundPanel2.setRoundTopRight(10);
-
-        panelHeading.setFont(new java.awt.Font("Liberation Sans", 1, 20)); // NOI18N
-        panelHeading.setText("Upload File");
-
-        fileIdLabel.setFont(new java.awt.Font("Liberation Sans", 1, 16)); // NOI18N
-        fileIdLabel.setText("File ID:");
-
-        fileIdField.setFont(new java.awt.Font("Liberation Sans", 0, 16)); // NOI18N
-        fileIdField.setText("XXXXXX");
-
-        javax.swing.GroupLayout roundPanel2Layout = new javax.swing.GroupLayout(roundPanel2);
-        roundPanel2.setLayout(roundPanel2Layout);
-        roundPanel2Layout.setHorizontalGroup(
-            roundPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(roundPanel2Layout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addGroup(roundPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(roundPanel2Layout.createSequentialGroup()
-                        .addComponent(fileIdLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(fileIdField))
-                    .addComponent(panelHeading))
-                .addContainerGap(350, Short.MAX_VALUE))
-        );
-        roundPanel2Layout.setVerticalGroup(
-            roundPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(roundPanel2Layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(panelHeading)
-                .addGap(10, 10, 10)
-                .addGroup(roundPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(fileIdLabel)
-                    .addComponent(fileIdField))
-                .addContainerGap(27, Short.MAX_VALUE))
-        );
-
-        jPanel5.add(roundPanel2, java.awt.BorderLayout.PAGE_START);
-
         jPanel6.setBackground(new java.awt.Color(240, 240, 240));
         jPanel6.setLayout(new java.awt.BorderLayout());
 
-        roundPanel1.setBackground(new java.awt.Color(240, 240, 240));
-        roundPanel1.setPreferredSize(new java.awt.Dimension(499, 20));
-
-        javax.swing.GroupLayout roundPanel1Layout = new javax.swing.GroupLayout(roundPanel1);
-        roundPanel1.setLayout(roundPanel1Layout);
-        roundPanel1Layout.setHorizontalGroup(
-            roundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 493, Short.MAX_VALUE)
-        );
-        roundPanel1Layout.setVerticalGroup(
-            roundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 20, Short.MAX_VALUE)
-        );
-
-        jPanel6.add(roundPanel1, java.awt.BorderLayout.PAGE_START);
-
         jPanel9.setBackground(new java.awt.Color(240, 240, 240));
+        jPanel9.setPreferredSize(new java.awt.Dimension(499, 400));
         jPanel9.setLayout(new java.awt.BorderLayout());
 
         roundPanel4.setBackground(new java.awt.Color(255, 255, 255));
-        roundPanel4.setPreferredSize(new java.awt.Dimension(499, 350));
+        roundPanel4.setPreferredSize(new java.awt.Dimension(499, 450));
         roundPanel4.setRoundBottomLeft(10);
         roundPanel4.setRoundBottomRight(10);
         roundPanel4.setRoundTopLeft(10);
@@ -230,25 +174,34 @@ public class FileUploadWindow extends javax.swing.JFrame implements UIMethods {
         roundPanel4.setLayout(new java.awt.BorderLayout());
 
         roundPanel5.setBackground(new java.awt.Color(255, 255, 255));
-        roundPanel5.setPreferredSize(new java.awt.Dimension(499, 250));
+        roundPanel5.setPreferredSize(new java.awt.Dimension(499, 350));
         roundPanel5.setRoundTopLeft(10);
         roundPanel5.setRoundTopRight(10);
         roundPanel5.setLayout(new java.awt.BorderLayout());
 
         roundPanel6.setBackground(new java.awt.Color(255, 255, 255));
-        roundPanel6.setPreferredSize(new java.awt.Dimension(499, 20));
+        roundPanel6.setPreferredSize(new java.awt.Dimension(499, 60));
         roundPanel6.setRoundTopLeft(10);
         roundPanel6.setRoundTopRight(10);
+
+        panelHeading.setFont(new java.awt.Font("Liberation Sans", 1, 20)); // NOI18N
+        panelHeading.setText("Upload File");
 
         javax.swing.GroupLayout roundPanel6Layout = new javax.swing.GroupLayout(roundPanel6);
         roundPanel6.setLayout(roundPanel6Layout);
         roundPanel6Layout.setHorizontalGroup(
             roundPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 493, Short.MAX_VALUE)
+            .addGroup(roundPanel6Layout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addComponent(panelHeading, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(141, Short.MAX_VALUE))
         );
         roundPanel6Layout.setVerticalGroup(
             roundPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 20, Short.MAX_VALUE)
+            .addGroup(roundPanel6Layout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addComponent(panelHeading, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         roundPanel5.add(roundPanel6, java.awt.BorderLayout.PAGE_START);
@@ -292,7 +245,7 @@ public class FileUploadWindow extends javax.swing.JFrame implements UIMethods {
         );
         roundPanel8Layout.setVerticalGroup(
             roundPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 190, Short.MAX_VALUE)
+            .addGap(0, 250, Short.MAX_VALUE)
         );
 
         roundPanel5.add(roundPanel8, java.awt.BorderLayout.LINE_START);
@@ -308,7 +261,7 @@ public class FileUploadWindow extends javax.swing.JFrame implements UIMethods {
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 190, Short.MAX_VALUE)
+            .addGap(0, 250, Short.MAX_VALUE)
         );
 
         roundPanel5.add(jPanel8, java.awt.BorderLayout.LINE_END);
@@ -342,6 +295,7 @@ public class FileUploadWindow extends javax.swing.JFrame implements UIMethods {
         roundPanel4.add(roundPanel5, java.awt.BorderLayout.PAGE_START);
 
         roundPanel3.setBackground(new java.awt.Color(255, 255, 255));
+        roundPanel3.setPreferredSize(new java.awt.Dimension(499, 100));
         roundPanel3.setRoundBottomLeft(10);
         roundPanel3.setRoundBottomRight(10);
         roundPanel3.setLayout(new java.awt.BorderLayout());
@@ -440,7 +394,7 @@ public class FileUploadWindow extends javax.swing.JFrame implements UIMethods {
         roundPanel11Layout.setVerticalGroup(
             roundPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, roundPanel11Layout.createSequentialGroup()
-                .addContainerGap(21, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(fileNameLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -713,9 +667,11 @@ public class FileUploadWindow extends javax.swing.JFrame implements UIMethods {
         if(!newFiles.isEmpty()) {
             progressBar.setIndeterminate(true);
             
-            if(FileController.createNewFile(newFiles, AdminHome.adminUser.getUserId())) {
+            if(FileController.createNewFile(createFileObjs())) {
                 JOptionPane.showMessageDialog(null, "Files has been successfully uploaded!", "Completed!", JOptionPane.INFORMATION_MESSAGE);
+                progressBar.setMaximum(100);
             } else {
+                progressBar.setIndeterminate(true);
                 JOptionPane.showMessageDialog(null, "File upload failed!", "Failed!", JOptionPane.ERROR_MESSAGE);
             }
         } else {
@@ -723,42 +679,7 @@ public class FileUploadWindow extends javax.swing.JFrame implements UIMethods {
         }
         
     }//GEN-LAST:event_uploadBTNMouseClicked
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FileUploadWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FileUploadWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FileUploadWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FileUploadWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new FileUploadWindow().setVisible(true);
-            }
-        });
-    }
-
+  
     @Override
     public void changeColor(JPanel hover, Color myColor) {
         hover.setBackground(myColor);
@@ -771,27 +692,11 @@ public class FileUploadWindow extends javax.swing.JFrame implements UIMethods {
 
     @Override
     public final void loadFonts() {
-        float headingFontSize = 22;
-        float buttonFontSize = 16;
-        float formLabelSize = 16;
-        
-        panelHeading.setFont(CustomFont
-                .createFont("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Fonts/Inter_18pt-Bold.ttf", headingFontSize));
-        
-        fileIdLabel.setFont(CustomFont
-                .createFont("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Fonts/Inter_18pt-Bold.ttf", formLabelSize));
-        
-        fileIdField.setFont(CustomFont
-                .createFont("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Fonts/Inter_18pt-Regular.ttf", formLabelSize));
-        
-        chooseFileLabel.setFont(CustomFont
-                .createFont("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Fonts/Inter_18pt-Bold.ttf", 15));
-        
-        fileNameLabel.setFont(CustomFont
-                .createFont("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Fonts/Inter_18pt-Bold.ttf", 15));
-        
+        panelHeading.setFont(CustomFont.subPanelHeadingFont);
+        chooseFileLabel.setFont(CustomFont.formLabelFont);
+        fileNameLabel.setFont(CustomFont.formLabelFont);
         unsupportedMessageLabel.setFont(CustomFont
-                .createFont("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Fonts/Inter_18pt-Bold.ttf", 13));
+                .createFont("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Fonts/SFPRODISPLAYMEDIUM.OTF", 13));
     }
     
     private void loadIcons() {
@@ -810,16 +715,25 @@ public class FileUploadWindow extends javax.swing.JFrame implements UIMethods {
         
     }
     
-    private String createGroupId() {
+    private String createFileId() {
         return this.newFileId = "file-" + UUID.randomUUID().toString();
+    }
+    
+    private List<FileModel> createFileObjs() {
+        String createdDateTime = formatter.format(new Date());
+        for(File file : newFiles) {
+            String fileSize = Double.toString(file.length() / (1024.0 * 1024.0)) + " MB";
+            FileModel obj = new FileModel(createFileId(), file.getName(), createdDateTime, Home.user, fileSize);
+            obj.setRawFile(file);
+            fileObjs.add(obj);
+        }
+        return fileObjs;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private View.Resources.RoundPanel cancelBTN;
     private javax.swing.JLabel cancelLabel;
     private javax.swing.JLabel chooseFileLabel;
-    private javax.swing.JLabel fileIdField;
-    private javax.swing.JLabel fileIdLabel;
     private javax.swing.JLabel fileNameLabel;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
@@ -842,13 +756,11 @@ public class FileUploadWindow extends javax.swing.JFrame implements UIMethods {
     private javax.swing.JPanel jPanel9;
     private javax.swing.JLabel panelHeading;
     private javax.swing.JProgressBar progressBar;
-    private View.Resources.RoundPanel roundPanel1;
     private View.Resources.RoundPanel roundPanel10;
     private View.Resources.RoundPanel roundPanel11;
     private View.Resources.RoundPanel roundPanel12;
     private View.Resources.RoundPanel roundPanel14;
     private View.Resources.RoundPanel roundPanel15;
-    private View.Resources.RoundPanel roundPanel2;
     private View.Resources.RoundPanel roundPanel3;
     private View.Resources.RoundPanel roundPanel4;
     private View.Resources.RoundPanel roundPanel5;

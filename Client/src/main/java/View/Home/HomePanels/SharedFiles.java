@@ -134,6 +134,8 @@ public class SharedFiles extends javax.swing.JPanel implements UIMethods {
         jPanel1.setLayout(new java.awt.BorderLayout());
 
         roundPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        roundPanel2.setRoundBottomLeft(10);
+        roundPanel2.setRoundBottomRight(10);
         roundPanel2.setRoundTopLeft(10);
         roundPanel2.setRoundTopRight(10);
         roundPanel2.setLayout(new java.awt.BorderLayout());
@@ -160,9 +162,9 @@ public class SharedFiles extends javax.swing.JPanel implements UIMethods {
         roundPanel3Layout.setVerticalGroup(
             roundPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(roundPanel3Layout.createSequentialGroup()
-                .addGap(35, 35, 35)
+                .addGap(30, 30, 30)
                 .addComponent(sharedFilesPanelHeading)
-                .addContainerGap(39, Short.MAX_VALUE))
+                .addContainerGap(44, Short.MAX_VALUE))
         );
 
         roundPanel2.add(roundPanel3, java.awt.BorderLayout.LINE_START);
@@ -462,16 +464,9 @@ public class SharedFiles extends javax.swing.JPanel implements UIMethods {
 
     @Override
     public final void loadFonts() {
-        float headingFontSize = 22;
-        float sectionHeadingFontSize = 18;
         
-        sharedFilesPanelHeading.setFont(CustomFont
-                .createFont("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Fonts/Inter_18pt-Bold.ttf", headingFontSize));
-        
-        section1Heading.setFont(CustomFont
-                .createFont("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Fonts/Inter_18pt-Bold.ttf", sectionHeadingFontSize));
-        
-        section2Heading.setFont(CustomFont
-                .createFont("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Fonts/Inter_18pt-Bold.ttf", sectionHeadingFontSize));
+        sharedFilesPanelHeading.setFont(CustomFont.panelHeadingFont);
+        section1Heading.setFont(CustomFont.sectionHeadingFont);
+        section2Heading.setFont(CustomFont.sectionHeadingFont);
     }
 }

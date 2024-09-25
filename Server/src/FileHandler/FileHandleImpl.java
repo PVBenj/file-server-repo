@@ -1,6 +1,7 @@
 package FileHandler;
 
 import DatabaseControll.DBQueryExcecutor;
+import DatabaseControll.FileDBHandler;
 import Interfaces.FileInterface;
 import Models.FileModel;
 
@@ -16,9 +17,11 @@ import java.rmi.server.UnicastRemoteObject;
 import java.sql.ResultSet;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 public class FileHandleImpl extends UnicastRemoteObject implements FileInterface {
+    private final String basePath =  "/home/kali/Desktop/Project/file-server-repo/Server/src/FileHandler/FileStorage/";
     public FileHandleImpl() throws RemoteException {
         super();
     }
@@ -30,17 +33,14 @@ public class FileHandleImpl extends UnicastRemoteObject implements FileInterface
 
     @Override
     public boolean uploadFile(FileModel file) throws RemoteException {
-        String fileOwnerName = "";
+
         try{
 //            fetching username from ownerID to create file path
-            String qu = String.format("SELECT username FROM Login where userID = '%s'",file.getOwnerId());
-            ResultSet rs = DBQueryExcecutor.executeQuery(qu,"get");
-            while (rs.next()) {
-                fileOwnerName = rs.getString(1);
-            }
+            String fileOwnerName = FileDBHandler.getUsernamefromID(file.getOwnerId());
+
 
 //            Creating the file path to store files according to user
-            Path savePath = Paths.get("/home/kali/Desktop/Project/file-server-repo/Server/src/FileHandler/FileStorage/"+file.getOwnerId()+"_"+fileOwnerName);
+            Path savePath = Paths.get(this.basePath +file.getOwnerId()+"_"+fileOwnerName);
             System.out.println(savePath.toString());
 
 //            create Directory if the specified path not exist
@@ -55,8 +55,7 @@ public class FileHandleImpl extends UnicastRemoteObject implements FileInterface
             save.close();
 
 //            Adding file Details to Database
-            String qu2 = String.format("Insert into Files (OwnerID,filepath,filename,DateTime) values ('%s','%s','%s','%s')",file.getOwnerId(),savePath.toString(),file.getFileName(),file.getCreateDateTime());
-            DBQueryExcecutor.executeQuery(qu2,"update");;
+            FileDBHandler.addFile(file.getOwnerId(),file.getFilePath(),file.getFileName(),file.getCreateDateTime());
             return true;
 
         }catch (Exception e){
@@ -79,7 +78,8 @@ public class FileHandleImpl extends UnicastRemoteObject implements FileInterface
     public FileModel downloadFile(String ownerID, String fileName) throws RemoteException {
         try {
             byte[] fileData;
-            Path savedPath = Paths.get("/home/kali/Desktop/Project/file-server-repo/Server/src/FileHandler/FileStorage/" + ownerID + "/" + fileName);
+            String fileOwnername = FileDBHandler.getUsernamefromID(ownerID);
+            Path savedPath = Paths.get(this.basePath + ownerID+"_"+fileOwnername + "/" + fileName);
             File dfile = new File(savedPath.toString());
             FileInputStream In = new FileInputStream(dfile);
             fileData = new byte[(int) dfile.length()];
@@ -97,5 +97,15 @@ public class FileHandleImpl extends UnicastRemoteObject implements FileInterface
         }
 
         return null;
+    }
+
+    @Override
+    public List<FileModel> downloadFile(String OwnerID, List<String> filenames) throws RemoteException {
+        List<FileModel> files= new ArrayList<>();
+        for(String filename : filenames){
+            FileModel file = this.downloadFile(OwnerID,filename);
+            files.add(file);
+        }
+        return files;
     }
 }

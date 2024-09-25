@@ -1,6 +1,6 @@
 package ClientHandler;
-import DatabaseControll.DBQueryExcecutor;
-import Interfaces.RemoteInterface;
+import DatabaseControll.UserDBHandler;
+import Interfaces.UserInterface;
 import Models.User;
 
 import java.rmi.RemoteException;
@@ -12,7 +12,7 @@ import java.util.List;
 
 
 
-public class UserHandle extends UnicastRemoteObject implements RemoteInterface {
+public class UserHandle extends UnicastRemoteObject implements UserInterface {
 
     public UserHandle() throws RemoteException {
         super();
@@ -24,10 +24,8 @@ public class UserHandle extends UnicastRemoteObject implements RemoteInterface {
 
         User logonUser = null;
 
-        String qu = String.format("SELECT * FROM Login where username = '%s' and password = '%s'",username,password);
+        ResultSet rs = UserDBHandler.authenticateUser(username,password);
 
-
-        ResultSet rs = DBQueryExcecutor.executeQuery(qu,"get");
 
         try {
             while (rs.next()) {
@@ -56,9 +54,7 @@ public class UserHandle extends UnicastRemoteObject implements RemoteInterface {
 
     @Override
     public String register(User newUser) throws RemoteException {
-        String qu = String.format("Insert into Login (userID,groupID,username,password,mobile,firstname,role) values (%s,%s,'%s','%s','%s','%s','%s')",
-                newUser.getUserId(),newUser.getUserId(),newUser.getUsername(),newUser.getPassword(),newUser.getMobile(),newUser.getFirstName(),newUser.getRole());
-        DBQueryExcecutor.executeQuery(qu,"update");
+        UserDBHandler.addUser(newUser.getUserId(),newUser.getUserId(),newUser.getUsername(),newUser.getPassword(),newUser.getMobile(),newUser.getFirstName(),newUser.getRole());
         return "Data Success fully added";
     }
 
@@ -66,7 +62,7 @@ public class UserHandle extends UnicastRemoteObject implements RemoteInterface {
     public List<User> fetchAllUsers() throws RemoteException, SQLException {
 //        this methode fetch all users data from database and return the data set as a User Object List
         List<User> userList= new ArrayList<>();
-        ResultSet allUsersData = DBQueryExcecutor.executeQuery("SELECT * FROM Login","get");
+        ResultSet allUsersData = UserDBHandler.getAllUsers();
 
         while (allUsersData.next()){
 

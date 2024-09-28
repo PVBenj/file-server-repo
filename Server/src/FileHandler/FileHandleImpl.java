@@ -1,26 +1,23 @@
 package FileHandler;
 
-import DatabaseControll.DBQueryExcecutor;
-import DatabaseControll.FileDBHandler;
-import Interfaces.FileInterface;
+import DatabaseController.FileDBHandler;
+import RemoteInterfaces.RemoteFileInterface;
 import Models.FileModel;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.nio.file.Files;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.sql.ResultSet;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FileHandleImpl extends UnicastRemoteObject implements FileInterface {
+public class FileHandleImpl extends UnicastRemoteObject implements RemoteFileInterface {
     private final String basePath =  "/home/kali/Desktop/Project/file-server-repo/Server/src/FileHandler/FileStorage/";
     public FileHandleImpl() throws RemoteException {
         super();

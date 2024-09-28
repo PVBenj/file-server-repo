@@ -1,4 +1,4 @@
-package DatabaseControll;
+package DatabaseController;
 
 public class GroupDBHandler {
 }

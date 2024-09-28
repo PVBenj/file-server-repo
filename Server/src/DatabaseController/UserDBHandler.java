@@ -1,6 +1,7 @@
-package DatabaseControll;
+package DatabaseController;
 
 import java.sql.ResultSet;
+import java.util.Arrays;
 
 public class UserDBHandler {
 
@@ -20,5 +21,17 @@ public class UserDBHandler {
     public static ResultSet getAllUsers(){
         ResultSet rs = DBQueryExcecutor.executeQuery("SELECT * FROM Login","get");
         return rs;
+    }
+
+    //Fetch the groups of the a particular user
+    public static ResultSet getUserGroups(String userId) {
+        String query = String.format
+                ("SELECT g.* FROM groups_tb g JOIN usergroups_tb ug ON g.group_id = ug.group_id WHERE ug.user_id = '%s'", userId);
+        try(ResultSet rs = DBQueryExcecutor.executeQuery(query, "get")) {
+            return rs;
+        } catch (Exception e) {
+            System.err.printf("%s: %s%n", e.getMessage(), Arrays.toString(e.getStackTrace()));
+            return null;
+        }
     }
 }

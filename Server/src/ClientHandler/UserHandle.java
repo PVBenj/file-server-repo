@@ -1,6 +1,7 @@
 package ClientHandler;
-import DatabaseControll.UserDBHandler;
-import Interfaces.UserInterface;
+import DatabaseController.UserDBHandler;
+import RemoteInterfaces.RemoteUserInterface;
+import Models.Group;
 import Models.User;
 
 import java.rmi.RemoteException;
@@ -8,11 +9,12 @@ import java.rmi.server.UnicastRemoteObject;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
 
-public class UserHandle extends UnicastRemoteObject implements UserInterface {
+public class UserHandle extends UnicastRemoteObject implements RemoteUserInterface {
 
     public UserHandle() throws RemoteException {
         super();
@@ -20,30 +22,22 @@ public class UserHandle extends UnicastRemoteObject implements UserInterface {
 
     @Override
     public User login(String username, String password) {
-
-
-        User logonUser = null;
-
-        ResultSet rs = UserDBHandler.authenticateUser(username,password);
-
-
-        try {
-            while (rs.next()) {
-                logonUser = new User(rs.getString(1),rs.getString(3),
-                        rs.getString(4),rs.getString(6),rs.getString(5),
+        try(ResultSet rs = UserDBHandler.authenticateUser(username,password)) {
+            User logonUser = null;
+            while(rs.next()) {
+                logonUser = new User(rs.getString(1),rs.getString(2),
+                        rs.getString(3),rs.getString(4),rs.getString(5),
                         rs.getString(7));
-
+                logonUser.setEmail(rs.getString(6));
+                logonUser.setGroups(getUserGroups(logonUser.getUserId()));
+                return logonUser;
             }
-        }catch (Exception e){
-            e.printStackTrace();
-            return null;
+
+        } catch (Exception e) {
+            System.err.printf("%s: %s%n", e.getMessage(), Arrays.toString(e.getStackTrace()));
         }
 
-
-        return logonUser;
-
-
-
+        return null;
     }
 
     @Override
@@ -77,6 +71,27 @@ public class UserHandle extends UnicastRemoteObject implements UserInterface {
     @Override
     public String deleteUser(int UserID) throws RemoteException {
         return "";
+    }
+
+    //Helper method for login method
+    private List<Group> getUserGroups(String userId) {
+        List<Group> userGroups = new ArrayList<>();
+
+        try(ResultSet rs = UserDBHandler.getUserGroups(userId)) {
+            //Check if the result set is empty
+            if(rs != null) {
+                while(rs.next()) {
+                    userGroups.add(new Group(rs.getString(1), rs.getString(2), rs.getString(3)));
+                }
+                return userGroups;
+            }else {
+                System.err.println("User has no groups!");
+                return null;
+            }
+        } catch (Exception e) {
+            System.err.printf("%s: %s%n", e.getMessage(), Arrays.toString(e.getStackTrace()));
+        }
+        return userGroups;
     }
 
     //implement login methods defined in the ClientHandler.LoginInterface

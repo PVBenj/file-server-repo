@@ -11,6 +11,7 @@ public class User implements Serializable {
     private String password;
     private String firstName;
     private String mobile;
+    private String email;
     private String role;
     private List<Group> groups;
 
@@ -48,6 +49,14 @@ public class User implements Serializable {
         return role;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public void setUsername(String username) {
         this.username = username;
     }
@@ -74,6 +83,10 @@ public class User implements Serializable {
 
     public void addGroup(Group group) {
         this.groups.add(group);
+    }
+
+    public void setGroups(List<Group> groups) {
+        this.groups = groups;
     }
     
     

@@ -1,10 +1,5 @@
 package View.Home;
 
-import Controller.FileController;
-import Controller.GroupController;
-import Controller.UserController;
-import Model.FileModel;
-import Model.GroupModel;
 import Model.UserModel;
 import View.Home.HomePanels.AccountDetailsPanel;
 import View.Home.HomePanels.ActivityPanel;
@@ -648,8 +643,9 @@ public class Home extends javax.swing.JFrame implements UIMethods {
     
     private void adjustHomeOnRole() {
         if(!user.getRole().equals("Admin")) {
-            groupsPanel.removeAll();
-            usersPanel.removeAll();
+            jPanel13.remove(usersPanel);
+            groupsLabel.setText("My Groups");
+            //usersPanel.removeAll();
             homePanel.add(new UserDashboardPanel(), "UserDashboard");
         }else {
             homePanel.add(new AdminDashboardPanel(), "AdminDashboard");

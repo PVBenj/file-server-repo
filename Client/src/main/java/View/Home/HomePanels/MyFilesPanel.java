@@ -7,8 +7,18 @@ import View.Home.UIMethods;
 import View.Resources.CustomFont;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
+import javax.swing.JProgressBar;
+import javax.swing.SwingUtilities;
+import javax.swing.event.TableModelEvent;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
 /**
@@ -16,14 +26,154 @@ import javax.swing.table.JTableHeader;
  * @author benjamin
  */
 public class MyFilesPanel extends javax.swing.JPanel implements UIMethods {
-
     
     public MyFilesPanel() {
         initComponents();
         loadFonts();
-        repaintTable();
-        myFileTable.setModel(FileController.getUserFileTable(Home.user));
+        contructFileTable();
     }
+    
+    private void contructFileTable() {
+        //Stying the table
+        repaintTable();
+        
+        //Get data to the file table
+        myFileTable.setModel(FileController.getUserFileTable(Home.user));
+        
+        // Create the popup menu
+        popupMenu = new JPopupMenu();
+        downloadItem = new JMenuItem("Download");
+        shareItem = new JMenuItem("Share");
+        deleteItem = new JMenuItem("Delete");
+
+        // Add menu items to the popup menu
+        popupMenu.add(downloadItem);
+        popupMenu.add(shareItem);
+        popupMenu.add(deleteItem);
+        
+        // Add a TableModelListener to detect cell edits
+        myFileTable.getModel().addTableModelListener((TableModelEvent e) -> {
+            // Check if the event is an update
+            if (e.getType() == TableModelEvent.UPDATE) {
+                // Get the row and column of the changed cell
+                int row = e.getFirstRow();
+                int column = e.getColumn();
+                
+                // Get the new value
+                String newName = myFileTable.getModel().getValueAt(row, column).toString();
+                String fileId = myFileTable.getModel().getValueAt(row, 0).toString();
+                
+                // Update the database
+                FileController.updateFileName(fileId, newName);
+            }
+        } 
+        );
+        
+        // Add a mouse listener to detect right-clicks on the table
+        myFileTable.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                showPopup(e);
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                showPopup(e);
+            }
+
+            private void showPopup(MouseEvent e) {
+                if (e.isPopupTrigger() && myFileTable.getSelectedRow() != -1) {
+                    // Select the row where the right-click occurred
+                    int row = myFileTable.rowAtPoint(e.getPoint());
+                    myFileTable.setRowSelectionInterval(row, row);
+                    popupMenu.show(e.getComponent(), e.getX(), e.getY());
+                }
+            }
+        });
+        
+        // Add action listeners for the menu items
+        setActionToMenu();
+    }
+    
+    private void setActionToMenu() {
+        // Add action listeners for the menu items
+        downloadItem.addActionListener(e -> {
+            int selectedRow = myFileTable.getSelectedRow();
+            String fileId = (String) myFileTable.getValueAt(selectedRow, 0);
+            System.out.println("Downloading: " + fileId);
+            // Add download logic here
+        });
+
+        shareItem.addActionListener(e -> {
+            int selectedRow = myFileTable.getSelectedRow();
+            String fileId = (String) myFileTable.getValueAt(selectedRow, 0);
+            System.out.println("Sharing: " + fileId);
+            // Add share logic here
+        });
+
+        deleteItem.addActionListener(e -> {
+            int selectedRow = myFileTable.getSelectedRow();
+            String fileId = (String) myFileTable.getValueAt(selectedRow, 0);
+            System.out.println("Deleting: " + fileId);
+            
+            deleteFile(fileId);
+        });
+
+    }
+    
+    private void deleteFile(String fileId) {
+        int response = JOptionPane.showConfirmDialog(null, "Do want to remove "
+                        + myFileTable.getModel().getValueAt(myFileTable.getSelectedRow(), 0).toString() + "?", "Warning!", JOptionPane.OK_CANCEL_OPTION);
+        //Checks if user confirms the file removal
+        if(response == 0) {
+            //File delete indicator
+            setProgressIndicator();
+            if(FileController.deleteFile(fileId)) {
+                JOptionPane.showMessageDialog(null, "File deleted successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                DefaultTableModel model = (DefaultTableModel) myFileTable.getModel();
+                model.removeRow(myFileTable.getSelectedRow());
+            }else {
+                JOptionPane.showMessageDialog(null, "File delete unsuccessful!", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+                
+            
+        }
+    }
+    
+    private void setProgressIndicator() {
+        SwingUtilities.invokeLater(() -> {
+            // Create a JProgressBar
+            JProgressBar progressBar = new JProgressBar(0, 100);
+            progressBar.setStringPainted(true);  // Show progress percentage
+            progressBar.setIndeterminate(false); // Determinate progress bar
+
+            // Create an option pane with the progress bar
+            Object[] dialogContent = {"File deleting, please wait...", progressBar};
+            JOptionPane optionPane = new JOptionPane(dialogContent, JOptionPane.INFORMATION_MESSAGE, 
+                                                      JOptionPane.DEFAULT_OPTION, null, new Object[]{}, null);
+
+            // Create and show the dialog containing the option pane
+            JDialog dialog = optionPane.createDialog("Progress");
+            dialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE); // Prevent closing during operation
+            dialog.setModal(true);
+
+            // Start a background thread to simulate progress
+            new Thread(() -> {
+                for (int i = 0; i <= 100; i++) {
+                    try {
+                        Thread.sleep(100); // Simulate work being done
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    progressBar.setValue(i); // Update the progress bar
+                }
+                dialog.dispose(); // Close the dialog when done
+            }).start();
+
+            dialog.setVisible(true); // Show the progress dialog
+        });
+    }
+    
     
     @Override
     public void changeColor(JPanel hover, Color myColor) {
@@ -39,9 +189,9 @@ public class MyFilesPanel extends javax.swing.JPanel implements UIMethods {
     public final void loadFonts() {
         
         myFilesPanelHeading.setFont(CustomFont.panelHeadingFont);
-        uploadLabel.setFont(CustomFont.formLabelFont);
-        deleteLabel.setFont(CustomFont.formLabelFont);
-        shareLabel.setFont(CustomFont.formLabelFont);
+        uploadBTN.setFont(CustomFont.formLabelFont);
+        deleteBTN.setFont(CustomFont.formLabelFont);
+        shareBTN.setFont(CustomFont.formLabelFont);
         myFileTable.setFont(CustomFont.tableRowFont);
         myFileTable.getTableHeader().setFont(CustomFont.tableHeaderFont);
         
@@ -117,7 +267,7 @@ public class MyFilesPanel extends javax.swing.JPanel implements UIMethods {
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 621, Short.MAX_VALUE)
+            .addGap(0, 610, Short.MAX_VALUE)
         );
 
         add(jPanel1, java.awt.BorderLayout.LINE_START);
@@ -129,7 +279,7 @@ public class MyFilesPanel extends javax.swing.JPanel implements UIMethods {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1108, Short.MAX_VALUE)
+            .addGap(0, 1080, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -150,7 +300,7 @@ public class MyFilesPanel extends javax.swing.JPanel implements UIMethods {
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 621, Short.MAX_VALUE)
+            .addGap(0, 610, Short.MAX_VALUE)
         );
 
         add(jPanel3, java.awt.BorderLayout.LINE_END);
@@ -162,7 +312,7 @@ public class MyFilesPanel extends javax.swing.JPanel implements UIMethods {
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1108, Short.MAX_VALUE)
+            .addGap(0, 1080, Short.MAX_VALUE)
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -233,6 +383,7 @@ public class MyFilesPanel extends javax.swing.JPanel implements UIMethods {
         roundPanel4.add(roundPanel5, java.awt.BorderLayout.LINE_END);
 
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel5.setPreferredSize(new java.awt.Dimension(465, 100));
         jPanel5.setLayout(new java.awt.BorderLayout());
 
         jPanel6.setBackground(new java.awt.Color(255, 255, 255));
@@ -435,7 +586,7 @@ public class MyFilesPanel extends javax.swing.JPanel implements UIMethods {
         );
         jPanel19Layout.setVerticalGroup(
             jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 511, Short.MAX_VALUE)
+            .addGap(0, 500, Short.MAX_VALUE)
         );
 
         roundPanel7.add(jPanel19, java.awt.BorderLayout.LINE_START);
@@ -451,7 +602,7 @@ public class MyFilesPanel extends javax.swing.JPanel implements UIMethods {
         );
         jPanel20Layout.setVerticalGroup(
             jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 511, Short.MAX_VALUE)
+            .addGap(0, 500, Short.MAX_VALUE)
         );
 
         roundPanel7.add(jPanel20, java.awt.BorderLayout.LINE_END);
@@ -465,7 +616,7 @@ public class MyFilesPanel extends javax.swing.JPanel implements UIMethods {
         roundPanel8.setLayout(roundPanel8Layout);
         roundPanel8Layout.setHorizontalGroup(
             roundPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1078, Short.MAX_VALUE)
+            .addGap(0, 1050, Short.MAX_VALUE)
         );
         roundPanel8Layout.setVerticalGroup(
             roundPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -498,6 +649,14 @@ public class MyFilesPanel extends javax.swing.JPanel implements UIMethods {
         add(roundPanel1, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void deleteBTNMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteBTNMouseClicked
+        String selectedFileId = getSelectedFileId();
+        //Checks if table row is selected
+        if(!selectedFileId.isEmpty()) {
+                deleteFile(selectedFileId);
+        }
+    }//GEN-LAST:event_deleteBTNMouseClicked
+
     private void deleteBTNMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteBTNMouseEntered
         changeFontColor(deleteLabel, new Color(102,51,0));
         changeColor(deleteBTN, new Color(255,102,102));
@@ -508,9 +667,9 @@ public class MyFilesPanel extends javax.swing.JPanel implements UIMethods {
         changeColor(deleteBTN, new Color(190, 49, 68));
     }//GEN-LAST:event_deleteBTNMouseExited
 
-    private void deleteBTNMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteBTNMouseClicked
-        
-    }//GEN-LAST:event_deleteBTNMouseClicked
+    private void uploadBTNMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_uploadBTNMouseClicked
+        new FileUploadWindow().setVisible(true);
+    }//GEN-LAST:event_uploadBTNMouseClicked
 
     private void uploadBTNMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_uploadBTNMouseEntered
         changeColor(uploadBTN, new Color(72, 207, 203));
@@ -530,10 +689,16 @@ public class MyFilesPanel extends javax.swing.JPanel implements UIMethods {
         changeColor(shareBTN, new Color(64,165,120));
     }//GEN-LAST:event_shareBTNMouseExited
 
-    private void uploadBTNMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_uploadBTNMouseClicked
-        new FileUploadWindow().setVisible(true);
-    }//GEN-LAST:event_uploadBTNMouseClicked
-
+    private String getSelectedFileId() {
+        if(myFileTable.getSelectedRow() != -1) {
+            System.out.println("Selected file: " + myFileTable.getModel().getValueAt(myFileTable.getSelectedRow(), 0).toString());
+            return myFileTable.getModel().getValueAt(myFileTable.getSelectedRow(), 0).toString();
+            
+        }else {
+            JOptionPane.showMessageDialog(null, "Select a file to remove", "Warning", JOptionPane.WARNING_MESSAGE);
+            return null;
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private View.Resources.RoundPanel deleteBTN;
@@ -571,6 +736,9 @@ public class MyFilesPanel extends javax.swing.JPanel implements UIMethods {
     private View.Resources.RoundPanel uploadBTN;
     private javax.swing.JLabel uploadLabel;
     // End of variables declaration//GEN-END:variables
-
+    private JPopupMenu popupMenu;
+    private JMenuItem downloadItem;
+    private JMenuItem shareItem;
+    private JMenuItem deleteItem;
     
 }

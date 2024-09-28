@@ -1,5 +1,6 @@
 package View.Home;
 
+import Controller.GroupController;
 import Controller.UserController;
 import Model.UserModel;
 import View.Resources.CustomFont;
@@ -26,7 +27,7 @@ public final class CreateUserWindow extends javax.swing.JFrame implements UIMeth
         loadFonts();
         userIdField.setText(createUserId().substring(0, 11));
         roleCombo.setSelectedIndex(-1);
-        
+        setGroupComboBox();
     }
 
     /**
@@ -1060,7 +1061,7 @@ public final class CreateUserWindow extends javax.swing.JFrame implements UIMeth
         //Checks if the form validation returns a true
         if(formValidate()) {
             if(checkUsernameAvailability()) {
-                UserController.createUser(createUserObj(), groupCombo.getSelectedItem().toString());
+                UserController.createUser(createUserObj(), getSelectedGroupId());
             }
         }
     }//GEN-LAST:event_createBTNMouseClicked
@@ -1081,44 +1082,6 @@ public final class CreateUserWindow extends javax.swing.JFrame implements UIMeth
             this.dispose();
         }
     }//GEN-LAST:event_cancelBTNMouseClicked
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CreateUserWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CreateUserWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CreateUserWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CreateUserWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new CreateUserWindow().setVisible(true);
-            }
-        });
-    }
     
         @Override
     public void changeColor(JPanel hover, Color myColor) {
@@ -1164,13 +1127,6 @@ public final class CreateUserWindow extends javax.swing.JFrame implements UIMeth
         String firstName = firstNameTF.getText();
         String mobile = mobileTF.getText();
         String role = roleCombo.getSelectedItem().toString();
-        String groupId;
-        if(groupCombo.getSelectedIndex() != -1) {
-            groupId = groupCombo.getSelectedItem().toString();
-        } else {
-            groupId = null;
-        }
-        
         UserModel user = new UserModel(userId, username, password, firstName, mobile, role);
         //user.addGroup(groupId);
         
@@ -1219,10 +1175,18 @@ public final class CreateUserWindow extends javax.swing.JFrame implements UIMeth
         return false;
     }
     
-    private void tableToHashSet(DefaultTableModel table) {
-        for(int i = 0; i < table.getRowCount(); i++) {
-            userNames.add(table.getValueAt(i, 1).toString());
+    private void setGroupComboBox() {
+        DefaultTableModel model = GroupController.getGroupTable();
+        for(int i = 0; i < model.getRowCount(); i++) {
+            groupCombo.addItem(model.getValueAt(i, 0) + " - " + model.getValueAt(i, 1).toString());
         }
+        groupCombo.setSelectedIndex(-1);
+    }
+    
+    private String getSelectedGroupId() {
+        String selectString = groupCombo.getSelectedItem().toString();
+        
+        return selectString.substring(0, selectString.indexOf(" - ")).trim();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

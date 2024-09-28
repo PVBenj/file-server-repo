@@ -7,7 +7,9 @@ import View.Resources.CustomFont;
 import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
 /**
@@ -454,7 +456,19 @@ public class UsersPanel extends javax.swing.JPanel implements UIMethods {
     }// </editor-fold>//GEN-END:initComponents
 
     private void removeUserBTNMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_removeUserBTNMouseClicked
-
+        String selectedUserId = getSelectedUserId();
+        //Checks if table row is selected
+        if(!selectedUserId.isEmpty()) {
+            int response = JOptionPane.showConfirmDialog(null, "Do want to remove " 
+                    + userTable.getModel().getValueAt(userTable.getSelectedRow(), 1).toString() + "?", "Warning!", JOptionPane.OK_CANCEL_OPTION);
+            //Checks if user confirms the user removal
+            if(response == 0) {
+                if(UserController.removeUser(selectedUserId)) {
+                    DefaultTableModel model = (DefaultTableModel) userTable.getModel();
+                    model.removeRow(userTable.getSelectedRow());
+                }
+            }
+         }
     }//GEN-LAST:event_removeUserBTNMouseClicked
 
     private void removeUserBTNMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_removeUserBTNMouseEntered
@@ -481,6 +495,16 @@ public class UsersPanel extends javax.swing.JPanel implements UIMethods {
         new CreateUserWindow().setVisible(true);
     }//GEN-LAST:event_createUserBTNMouseClicked
 
+    private String getSelectedUserId() {
+        if(userTable.getSelectedRow() != -1) {
+            System.out.println("Selected user: " + userTable.getModel().getValueAt(userTable.getSelectedRow(), 0).toString());
+            return userTable.getModel().getValueAt(userTable.getSelectedRow(), 0).toString();
+            
+        }else {
+            JOptionPane.showMessageDialog(null, "Select a user to remove", "Warning", JOptionPane.WARNING_MESSAGE);
+            return null;
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel createLabel;

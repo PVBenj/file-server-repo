@@ -1,6 +1,7 @@
 package View.Home;
 
 import Controller.GroupController;
+import Controller.UserController;
 import Model.GroupModel;
 import View.Resources.CustomFont;
 import java.awt.Color;
@@ -10,7 +11,7 @@ import java.util.UUID;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import static View.Home.Home.user;
+import javax.swing.table.DefaultTableModel;
 
 public final class CreateGroupWindow extends javax.swing.JFrame implements UIMethods {
     private String newGroupId;
@@ -23,6 +24,7 @@ public final class CreateGroupWindow extends javax.swing.JFrame implements UIMet
         groupIdField.setText(createGroupId().substring(0, 11));
         userListCombo.setSelectedIndex(-1);
         this.addedUsers = new ArrayList<>();
+        setGroupComboBox();
     }
 
     /**
@@ -385,7 +387,6 @@ public final class CreateGroupWindow extends javax.swing.JFrame implements UIMet
         jPanel29.setPreferredSize(new java.awt.Dimension(300, 60));
 
         userListCombo.setFont(new java.awt.Font("Liberation Sans", 0, 16)); // NOI18N
-        userListCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Benjamin", "Ashan", "Sahan", "Savinda", "Lasindu" }));
         userListCombo.setPreferredSize(new java.awt.Dimension(76, 40));
 
         javax.swing.GroupLayout jPanel29Layout = new javax.swing.GroupLayout(jPanel29);
@@ -835,42 +836,6 @@ public final class CreateGroupWindow extends javax.swing.JFrame implements UIMet
         
     }//GEN-LAST:event_removeUserBTNMouseClicked
 
-    /**
-     * @param hover
-     * @param myColor
-     */
-//    public static void main(String args[]) {
-//        /* Set the Nimbus look and feel */
-//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-//         */
-//        try {
-//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-//                if ("Nimbus".equals(info.getName())) {
-//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-//                    break;
-//                }
-//            }
-//        } catch (ClassNotFoundException ex) {
-//            java.util.logging.Logger.getLogger(CreateGroupWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (InstantiationException ex) {
-//            java.util.logging.Logger.getLogger(CreateGroupWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (IllegalAccessException ex) {
-//            java.util.logging.Logger.getLogger(CreateGroupWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-//            java.util.logging.Logger.getLogger(CreateGroupWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        }
-//        //</editor-fold>
-//        //</editor-fold>
-//
-//        /* Create and display the form */
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                new CreateGroupWindow().setVisible(true);
-//            }
-//        });
-//    }
     
     @Override
     public void changeColor(JPanel hover, Color myColor) {
@@ -914,6 +879,14 @@ public final class CreateGroupWindow extends javax.swing.JFrame implements UIMet
     
     private GroupModel createGroupObj() {
         return new GroupModel(newGroupId ,groupNameTF.getText(), Home.user);
+    }
+    
+    private void setGroupComboBox() {
+        DefaultTableModel model = UserController.getUserTable();
+        for(int i = 0; i < model.getRowCount(); i++) {
+            userListCombo.addItem(model.getValueAt(i, 1).toString());
+        }
+        userListCombo.setSelectedIndex(-1);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

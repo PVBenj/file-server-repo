@@ -1,14 +1,13 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package View.Home.HomePanels;
 
+import Controller.FileController;
+import View.Home.Home;
 import View.Home.UIMethods;
 import View.Resources.CustomFont;
 import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -16,12 +15,39 @@ import javax.swing.JPanel;
  */
 public class SharedFiles extends javax.swing.JPanel implements UIMethods {
 
-    /**
-     * Creates new form SharedFiles
-     */
+    DefaultTableModel sharedWithYouModel;
+    DefaultTableModel sharedByYouModel;
+    
     public SharedFiles() {
         initComponents();
         loadFonts();
+        sharedWithYouModel = FileController.getSharedWithYouFiles(Home.user.getUserId());
+        sharedByYouModel = FileController.getSharedByMeFiles(Home.user.getUserId());
+        loadTables();
+    }
+    
+    private void loadTables() {
+        sharedWithYouTable.setModel(sharedWithYouModel);
+        sharedByYouTable.setModel(sharedByYouModel);
+    }
+    
+    
+    @Override
+    public void changeColor(JPanel hover, Color myColor) {
+        hover.setBackground(myColor);
+    }
+
+    @Override
+    public void changeFontColor(JLabel text, Color myColor) {
+        text.setForeground(myColor);
+    }
+
+    @Override
+    public final void loadFonts() {
+        
+        sharedFilesPanelHeading.setFont(CustomFont.panelHeadingFont);
+        section1Heading.setFont(CustomFont.sectionHeadingFont);
+        section2Heading.setFont(CustomFont.sectionHeadingFont);
     }
 
     /**
@@ -284,13 +310,13 @@ public class SharedFiles extends javax.swing.JPanel implements UIMethods {
 
         sharedWithYouTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "File Id", "File Name", "Created", "Owner", "Size"
             }
         ));
         sharedWithYouTable.setSelectionBackground(new java.awt.Color(72, 207, 203));
@@ -394,13 +420,13 @@ public class SharedFiles extends javax.swing.JPanel implements UIMethods {
 
         sharedByYouTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "File Id", "File Name", "Created", "Shared with", "Size"
             }
         ));
         sharedByYouTable.setSelectionBackground(new java.awt.Color(72, 207, 203));
@@ -452,21 +478,4 @@ public class SharedFiles extends javax.swing.JPanel implements UIMethods {
     private javax.swing.JTable sharedWithYouTable;
     // End of variables declaration//GEN-END:variables
 
-    @Override
-    public void changeColor(JPanel hover, Color myColor) {
-        hover.setBackground(myColor);
-    }
-
-    @Override
-    public void changeFontColor(JLabel text, Color myColor) {
-        text.setForeground(myColor);
-    }
-
-    @Override
-    public final void loadFonts() {
-        
-        sharedFilesPanelHeading.setFont(CustomFont.panelHeadingFont);
-        section1Heading.setFont(CustomFont.sectionHeadingFont);
-        section2Heading.setFont(CustomFont.sectionHeadingFont);
-    }
 }

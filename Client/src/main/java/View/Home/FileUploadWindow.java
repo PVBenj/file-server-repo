@@ -25,14 +25,17 @@ import javax.swing.JPanel;
 public class FileUploadWindow extends javax.swing.JFrame implements UIMethods {
     
     private String newFileId;
-    private List<File> newFiles = new ArrayList<>();
-    private List<FileModel>fileObjs = new ArrayList<>();
-    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss"); 
+    private List<File> newFiles;
+    private List<FileModel>fileObjs;
+    SimpleDateFormat formatter;
     
     public FileUploadWindow() {
         initComponents();
         loadFonts();
         loadIcons();
+        formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss"); 
+        newFiles = new ArrayList<>();
+        fileObjs = new ArrayList<>();
     }
 
     /**
@@ -671,7 +674,7 @@ public class FileUploadWindow extends javax.swing.JFrame implements UIMethods {
                 JOptionPane.showMessageDialog(null, "Files has been successfully uploaded!", "Completed!", JOptionPane.INFORMATION_MESSAGE);
                 progressBar.setMaximum(100);
             } else {
-                progressBar.setIndeterminate(true);
+                progressBar.setIndeterminate(false);
                 JOptionPane.showMessageDialog(null, "File upload failed!", "Failed!", JOptionPane.ERROR_MESSAGE);
             }
         } else {

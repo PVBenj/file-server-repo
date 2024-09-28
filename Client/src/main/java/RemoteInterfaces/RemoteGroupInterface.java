@@ -1,4 +1,4 @@
-package Controller;
+package RemoteInterfaces;
 
 import Model.GroupModel;
 import java.rmi.Remote;

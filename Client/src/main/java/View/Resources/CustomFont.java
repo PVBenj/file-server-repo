@@ -13,8 +13,8 @@ public class CustomFont {
     public static Font sectionHeadingFont = createFont("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Fonts/SFPRODISPLAYBOLD.OTF", 18);
     public static Font formLabelFont = createFont("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Fonts/SFPRODISPLAYBOLD.OTF", 18);
     public static Font formTextFieldFont = createFont("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Fonts/SFPRODISPLAYREGULAR.OTF", 18);
-    public static Font tableHeaderFont = createFont("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Fonts/SFPRODISPLAYBOLD.OTF", 18);
-    public static Font tableRowFont = createFont("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Fonts/SFPRODISPLAYREGULAR.OTF", 18);
+    public static Font tableHeaderFont = createFont("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Fonts/SFPRODISPLAYBOLD.OTF", 16);
+    public static Font tableRowFont = createFont("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Fonts/SFPRODISPLAYREGULAR.OTF", 16);
     public static Font subPanelHeadingFont = createFont("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Fonts/SFPRODISPLAYBOLD.OTF", 30);
     
     public static Font createFont(String fontFilePath, float size) {

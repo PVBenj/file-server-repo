@@ -1,4 +1,4 @@
-package Controller;
+package RemoteInterfaces;
 
 import Model.UserModel;
 import java.rmi.Remote;

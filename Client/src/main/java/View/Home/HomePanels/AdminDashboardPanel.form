@@ -762,6 +762,7 @@
                                     <Column editable="true" title="Title 4" type="java.lang.Object"/>
                                   </Table>
                                 </Property>
+                                <Property name="enabled" type="boolean" value="false"/>
                                 <Property name="rowHeight" type="int" value="40"/>
                                 <Property name="selectionBackground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                                   <Color blue="cb" green="cf" red="48" type="rgb"/>
@@ -1021,6 +1022,7 @@
                                             <Column editable="true" title="Title 4" type="java.lang.Object"/>
                                           </Table>
                                         </Property>
+                                        <Property name="enabled" type="boolean" value="false"/>
                                         <Property name="rowHeight" type="int" value="40"/>
                                         <Property name="selectionBackground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                                           <Color blue="cb" green="cf" red="48" type="rgb"/>

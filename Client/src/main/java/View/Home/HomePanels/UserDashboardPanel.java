@@ -1,10 +1,16 @@
 package View.Home.HomePanels;
 
+import Controller.FileController;
+import View.Home.Home;
 import View.Home.UIMethods;
 import View.Resources.CustomFont;
 import java.awt.Color;
+import java.awt.Dimension;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 
 /**
  *
@@ -12,12 +18,26 @@ import javax.swing.JPanel;
  */
 public final class UserDashboardPanel extends javax.swing.JPanel implements UIMethods {
 
-    /**
-     * Creates new form DashboardPanel
-     */
+    private DefaultTableModel fileModel;
+    
     public UserDashboardPanel() {
         initComponents();
         loadFonts();
+        repaintTable(recentActivityTable);
+        repaintTable(recentUploadsTable);
+        fileModel = FileController.fetchRecentFiles(Home.user);
+        recentlyNoLabel.setText("04");
+        recentUploadsTable.setModel(fileModel);
+    }
+    
+    private void repaintTable(JTable table) {
+        JTableHeader header = table.getTableHeader();
+        header.setBackground(new Color(62, 62, 62));
+        header.setForeground(new Color(255, 255, 255));
+        header.setPreferredSize(
+                new Dimension(header.getWidth(), 40));
+        table.setFont(CustomFont.tableRowFont);
+        table.getTableHeader().setFont(CustomFont.tableHeaderFont);
     }
     
     

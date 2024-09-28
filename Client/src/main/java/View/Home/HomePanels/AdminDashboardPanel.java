@@ -3,12 +3,14 @@ package View.Home.HomePanels;
 import Controller.FileController;
 import Controller.GroupController;
 import Controller.UserController;
-import View.Home.Home;
 import View.Home.UIMethods;
 import View.Resources.CustomFont;
 import java.awt.Color;
+import java.awt.Dimension;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTable;
+import javax.swing.table.JTableHeader;
 
 /**
  *
@@ -22,9 +24,22 @@ public final class AdminDashboardPanel extends javax.swing.JPanel implements UIM
     public AdminDashboardPanel() {
         initComponents();
         loadFonts();
-        userNoLabel.setText(String.valueOf(UserController.getAllUsers()));
-        groupNoLabel.setText(String.valueOf(GroupController.fetchAllGroups()));
-        recentNoLabel.setText(String.valueOf(FileController.fetchRecentFiles(Home.user).size()));
+//        userNoLabel.setText(String.valueOf(UserController.getAllUsers()));
+//        groupNoLabel.setText(String.valueOf(GroupController.fetchAllGroups()));
+//        recentNoLabel.setText(String.valueOf(FileController.fetchRecentFiles(Home.user).size()));
+        userGroupsTabel.setModel(GroupController.getGroupTable());
+        repaintTable(userGroupsTabel);
+        repaintTable(recentActivityTable);
+    }
+    
+    private void repaintTable(JTable table) {
+        JTableHeader header = table.getTableHeader();
+        header.setBackground(new Color(62, 62, 62));
+        header.setForeground(new Color(255, 255, 255));
+        header.setPreferredSize(
+                new Dimension(header.getWidth(), 40));
+        table.setFont(CustomFont.tableRowFont);
+        table.getTableHeader().setFont(CustomFont.tableHeaderFont);
     }
     
     
@@ -493,6 +508,7 @@ public final class AdminDashboardPanel extends javax.swing.JPanel implements UIM
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        recentActivityTable.setEnabled(false);
         recentActivityTable.setRowHeight(40);
         recentActivityTable.setSelectionBackground(new java.awt.Color(72, 207, 203));
         jScrollPane1.setViewportView(recentActivityTable);
@@ -628,6 +644,7 @@ public final class AdminDashboardPanel extends javax.swing.JPanel implements UIM
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        userGroupsTabel.setEnabled(false);
         userGroupsTabel.setRowHeight(40);
         userGroupsTabel.setSelectionBackground(new java.awt.Color(72, 207, 203));
         jScrollPane2.setViewportView(userGroupsTabel);

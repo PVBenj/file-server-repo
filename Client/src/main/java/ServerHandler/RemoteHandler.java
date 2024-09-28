@@ -4,9 +4,9 @@ import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import Controller.RemoteUserInterface;
-import Controller.RemoteFileInterface;
-import Controller.RemoteGroupInterface;
+import RemoteInterfaces.RemoteUserInterface;
+import RemoteInterfaces.RemoteFileInterface;
+import RemoteInterfaces.RemoteGroupInterface;
 
 
 public class RemoteHandler {

@@ -1,17 +1,16 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package View.Home.HomePanels;
 
 import Controller.GroupController;
 import View.Home.CreateGroupWindow;
+import View.Home.Home;
 import View.Home.UIMethods;
 import View.Resources.CustomFont;
 import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
 /**
@@ -460,7 +459,19 @@ public final class GroupsPanel extends javax.swing.JPanel implements UIMethods {
     }// </editor-fold>//GEN-END:initComponents
 
     private void removeGroupBTNMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_removeGroupBTNMouseClicked
-
+        String selectedGroupId = getSelectedGroupId();
+        //Checks if table row is selected
+        if(!selectedGroupId.isEmpty()) {
+            int response = JOptionPane.showConfirmDialog(null, "Do want to remove " 
+                    + groupsTable.getModel().getValueAt(groupsTable.getSelectedRow(), 1).toString() + "?", "Warning!", JOptionPane.OK_CANCEL_OPTION);
+            //Checks if user confirms the group removal
+            if(response == 0) {
+                if(GroupController.removeGroup(selectedGroupId)) {
+                    DefaultTableModel model = (DefaultTableModel) groupsTable.getModel();
+                    model.removeRow(groupsTable.getSelectedRow());
+                }
+            }
+         }
     }//GEN-LAST:event_removeGroupBTNMouseClicked
 
     private void removeGroupBTNMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_removeGroupBTNMouseEntered
@@ -487,6 +498,24 @@ public final class GroupsPanel extends javax.swing.JPanel implements UIMethods {
         new CreateGroupWindow().setVisible(true);
     }//GEN-LAST:event_createGroupBTNMouseClicked
 
+    private String getSelectedGroupId() {
+        if(groupsTable.getSelectedRow() != -1) {
+            System.out.println("Selected user: " + groupsTable.getModel().getValueAt(groupsTable.getSelectedRow(), 0).toString());
+            return groupsTable.getModel().getValueAt(groupsTable.getSelectedRow(), 0).toString();
+            
+        }else {
+            JOptionPane.showMessageDialog(null, "Select a group to remove", "Warning", JOptionPane.WARNING_MESSAGE);
+            return null;
+        }
+    }
+    
+    private void loadGroupsTable() {
+        if(Home.user.getRole().equals("Admin")) {
+            groupsTable.setModel(GroupController.getGroupTable());
+        } else {
+            groupsTable.setModel(GroupController.getGroupTableByOwner(Home.user.getUserId()));
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private View.Resources.RoundPanel createGroupBTN;

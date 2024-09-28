@@ -8,7 +8,6 @@ import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import java.awt.Color;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
-import Controller.RemoteUserInterface;
 
 /**
  *
@@ -76,7 +75,7 @@ public class Login extends javax.swing.JFrame {
 
         logoLabel.setFont(new java.awt.Font("Liberation Sans", 1, 36)); // NOI18N
         logoLabel.setForeground(new java.awt.Color(72, 207, 203));
-        logoLabel.setText("LOGO");
+        logoLabel.setText("FileVM");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -90,9 +89,9 @@ public class Login extends javax.swing.JFrame {
                     .addComponent(userNameLabel)
                     .addComponent(usernameTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(passwordLabel))
-                .addContainerGap(100, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(165, Short.MAX_VALUE)
                 .addComponent(logoLabel)
                 .addGap(170, 170, 170))
         );
@@ -126,7 +125,7 @@ public class Login extends javax.swing.JFrame {
         login(username, password);*/
         
         //Test code
-        UserModel user = new UserModel("1", "Ben", "Ben123", "Benjamin", "0718375748", "Admin");
+        UserModel user = new UserModel("1", "John", "Ben123", "Benjamin", "0718375748", "Admin");
         user.setEmail("pramodyabenjamin@gmail.com");
         new Home(user).setVisible(true);
         this.dispose();

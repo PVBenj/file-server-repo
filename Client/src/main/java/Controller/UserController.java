@@ -26,7 +26,13 @@ public class UserController {
         );
          
         String[] columnNames = {"User ID", "Username", "First Name", "Email", "Mobile", "Role"};
-        DefaultTableModel userTableModel = new DefaultTableModel(columnNames, 0);
+        DefaultTableModel userTableModel = new DefaultTableModel(columnNames, 0) {
+           @Override
+            public boolean isCellEditable(int row, int column) {
+                // All cells are uneditable
+                return false;
+            }
+        };
         
         // Add rows from List<User>
         for (UserModel user : users) {
@@ -39,8 +45,19 @@ public class UserController {
     }
      
     //Method to create a user
-    public static void createUser(UserModel user, String groupName) {
-        
+    public static void createUser(UserModel user, String groupId) {
+         try {
+             //Checks if the backend user creation is success
+             if(RemoteHandler.getRemoteUser().createUser(user))
+                 //Check if groupId passed is not empty
+                 if(!groupId.isEmpty()) {
+                     //update newly created user in usergroups_tb
+                 }
+            JOptionPane.showMessageDialog(null, "User created successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+         } catch (RemoteException ex) {
+             Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+             JOptionPane.showMessageDialog(null, "User creation unsuccessful!", "Error", JOptionPane.ERROR_MESSAGE);
+         }
     }
     
     
@@ -60,6 +77,13 @@ public class UserController {
              Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
          }
          return null;
+    }
+    
+    //Method to remove user
+    public static boolean removeUser(String userId) {
+        
+        JOptionPane.showMessageDialog(null, "User removed successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+        return true;
     }
 
 }

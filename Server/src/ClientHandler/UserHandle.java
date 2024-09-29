@@ -22,7 +22,9 @@ public class UserHandle extends UnicastRemoteObject implements RemoteUserInterfa
 
     @Override
     public User login(String username, String password) {
-        try(ResultSet rs = UserDBHandler.authenticateUser(username,password)) {
+        try {
+            ResultSet rs = UserDBHandler.authenticateUser(username,password);
+            System.out.println(rs);
             User logonUser = null;
             while(rs.next()) {
                 logonUser = new User(rs.getString(1),rs.getString(2),
@@ -48,7 +50,7 @@ public class UserHandle extends UnicastRemoteObject implements RemoteUserInterfa
 
     @Override
     public String register(User newUser) throws RemoteException {
-        UserDBHandler.addUser(newUser.getUserId(),newUser.getUserId(),newUser.getUsername(),newUser.getPassword(),newUser.getMobile(),newUser.getFirstName(),newUser.getRole());
+        UserDBHandler.addUser(newUser);
         return "Data Success fully added";
     }
 

@@ -1,12 +1,14 @@
 package View.Home.HomePanels;
 
 import Controller.UserController;
+import Model.GroupModel;
 import Model.PasswordHash;
 import Model.UserModel;
 import View.Home.Home;
 import View.Home.UIMethods;
 import View.Resources.CustomFont;
 import java.awt.Color;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
@@ -124,7 +126,7 @@ public final class AccountDetailsPanel extends javax.swing.JPanel implements UIM
         jPanel48 = new javax.swing.JPanel();
         roundPanel18 = new View.Resources.RoundPanel();
         groupsLabel = new javax.swing.JLabel();
-        groupsTF = new javax.swing.JTextField();
+        userGroupNamesLabel = new javax.swing.JLabel();
         roundPanel19 = new View.Resources.RoundPanel();
         jPanel57 = new javax.swing.JPanel();
         jPanel58 = new javax.swing.JPanel();
@@ -159,7 +161,7 @@ public final class AccountDetailsPanel extends javax.swing.JPanel implements UIM
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 976, Short.MAX_VALUE)
+            .addGap(0, 1085, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -191,7 +193,7 @@ public final class AccountDetailsPanel extends javax.swing.JPanel implements UIM
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 976, Short.MAX_VALUE)
+            .addGap(0, 1085, Short.MAX_VALUE)
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -230,7 +232,7 @@ public final class AccountDetailsPanel extends javax.swing.JPanel implements UIM
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(userIdField))
                     .addComponent(panelHeading))
-                .addContainerGap(780, Short.MAX_VALUE))
+                .addContainerGap(889, Short.MAX_VALUE))
         );
         roundPanel2Layout.setVerticalGroup(
             roundPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -256,7 +258,7 @@ public final class AccountDetailsPanel extends javax.swing.JPanel implements UIM
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 946, Short.MAX_VALUE)
+            .addGap(0, 1055, Short.MAX_VALUE)
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -322,7 +324,7 @@ public final class AccountDetailsPanel extends javax.swing.JPanel implements UIM
         roundPanel14.setLayout(roundPanel14Layout);
         roundPanel14Layout.setHorizontalGroup(
             roundPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 1025, Short.MAX_VALUE)
         );
         roundPanel14Layout.setVerticalGroup(
             roundPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -345,7 +347,7 @@ public final class AccountDetailsPanel extends javax.swing.JPanel implements UIM
         roundPanel15.setLayout(roundPanel15Layout);
         roundPanel15Layout.setHorizontalGroup(
             roundPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 916, Short.MAX_VALUE)
+            .addGap(0, 1025, Short.MAX_VALUE)
         );
         roundPanel15Layout.setVerticalGroup(
             roundPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -477,7 +479,7 @@ public final class AccountDetailsPanel extends javax.swing.JPanel implements UIM
             .addGroup(roundPanel5Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(sectionHeadingLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 731, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 840, Short.MAX_VALUE)
                 .addComponent(editFieldsBTN)
                 .addGap(17, 17, 17))
         );
@@ -790,7 +792,7 @@ public final class AccountDetailsPanel extends javax.swing.JPanel implements UIM
         jPanel33.setLayout(jPanel33Layout);
         jPanel33Layout.setHorizontalGroup(
             jPanel33Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 946, Short.MAX_VALUE)
+            .addGap(0, 1055, Short.MAX_VALUE)
         );
         jPanel33Layout.setVerticalGroup(
             jPanel33Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -803,7 +805,7 @@ public final class AccountDetailsPanel extends javax.swing.JPanel implements UIM
         jPanel34.setLayout(new java.awt.BorderLayout());
 
         roundPanel10.setBackground(new java.awt.Color(255, 255, 255));
-        roundPanel10.setPreferredSize(new java.awt.Dimension(1023, 200));
+        roundPanel10.setPreferredSize(new java.awt.Dimension(1023, 205));
         roundPanel10.setRoundBottomLeft(10);
         roundPanel10.setRoundBottomRight(10);
         roundPanel10.setRoundTopLeft(10);
@@ -825,7 +827,7 @@ public final class AccountDetailsPanel extends javax.swing.JPanel implements UIM
             .addGroup(roundPanel11Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(sectionHeadingLabel1)
-                .addContainerGap(794, Short.MAX_VALUE))
+                .addContainerGap(903, Short.MAX_VALUE))
         );
         roundPanel11Layout.setVerticalGroup(
             roundPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -919,37 +921,37 @@ public final class AccountDetailsPanel extends javax.swing.JPanel implements UIM
         );
         jPanel48Layout.setVerticalGroup(
             jPanel48Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 80, Short.MAX_VALUE)
+            .addGap(0, 85, Short.MAX_VALUE)
         );
 
         roundPanel17.add(jPanel48, java.awt.BorderLayout.LINE_START);
 
         roundPanel18.setBackground(new java.awt.Color(255, 255, 255));
+        roundPanel18.setPreferredSize(new java.awt.Dimension(800, 80));
 
         groupsLabel.setBackground(new java.awt.Color(255, 255, 255));
         groupsLabel.setFont(new java.awt.Font("Liberation Sans", 1, 16)); // NOI18N
-        groupsLabel.setText("Group");
+        groupsLabel.setText("Groups:");
 
-        groupsTF.setFont(new java.awt.Font("Liberation Sans", 0, 16)); // NOI18N
-        groupsTF.setPreferredSize(new java.awt.Dimension(85, 40));
+        userGroupNamesLabel.setPreferredSize(new java.awt.Dimension(85, 40));
 
         javax.swing.GroupLayout roundPanel18Layout = new javax.swing.GroupLayout(roundPanel18);
         roundPanel18.setLayout(roundPanel18Layout);
         roundPanel18Layout.setHorizontalGroup(
             roundPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(roundPanel18Layout.createSequentialGroup()
-                .addComponent(groupsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(21, 21, 21)
-                .addComponent(groupsTF, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 48, Short.MAX_VALUE))
+                .addGroup(roundPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(groupsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(userGroupNamesLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 426, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 14, Short.MAX_VALUE))
         );
         roundPanel18Layout.setVerticalGroup(
             roundPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(roundPanel18Layout.createSequentialGroup()
-                .addGroup(roundPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(groupsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(groupsTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 20, Short.MAX_VALUE))
+                .addComponent(groupsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(userGroupNamesLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(7, Short.MAX_VALUE))
         );
 
         roundPanel17.add(roundPanel18, java.awt.BorderLayout.CENTER);
@@ -1156,7 +1158,7 @@ public final class AccountDetailsPanel extends javax.swing.JPanel implements UIM
         mobileTF.setFont(CustomFont.formTextFieldFont);
         roleCombo.setFont(CustomFont.formTextFieldFont);
         emailTF.setFont(CustomFont.formTextFieldFont);
-        groupsTF.setFont(CustomFont.formTextFieldFont);
+        userGroupNamesLabel.setFont(CustomFont.formTextFieldFont);
     }
     
     private void setAccountFields() {
@@ -1177,8 +1179,23 @@ public final class AccountDetailsPanel extends javax.swing.JPanel implements UIM
         mobileTF.setText(Home.user.getMobile());
         roleCombo.setSelectedItem(Home.user.getRole());
         emailTF.setText(Home.user.getEmail());
-        //set groups names.
+        userGroupNamesLabel.setText(getGroupNames());
         
+    }
+    
+    private String getGroupNames() {
+        List<GroupModel> groups = Home.user.getGroups();
+        String groupNames = null;
+        
+        for(GroupModel group : groups) {
+            if(groupNames == null) {
+                groupNames = group.getGroupName() + ", ";
+            } else {
+                groupNames += group.getGroupName() + ", ";
+            }
+            
+        }
+        return groupNames;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1188,7 +1205,6 @@ public final class AccountDetailsPanel extends javax.swing.JPanel implements UIM
     private javax.swing.JLabel firstNameLabel;
     private javax.swing.JTextField firstNameTF;
     private javax.swing.JLabel groupsLabel;
-    private javax.swing.JTextField groupsTF;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
@@ -1273,6 +1289,7 @@ public final class AccountDetailsPanel extends javax.swing.JPanel implements UIM
     private javax.swing.JLabel sectionHeadingLabel1;
     private View.Resources.RoundPanel updateBTN;
     private javax.swing.JLabel updateLabel;
+    private javax.swing.JLabel userGroupNamesLabel;
     private javax.swing.JLabel userIdField;
     private javax.swing.JLabel userIdLabel;
     private javax.swing.JLabel usernameLabel;

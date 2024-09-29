@@ -1,23 +1,29 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package View.Home.HomePanels;
 
+import Controller.ActivityLoggerController;
+import View.Home.Home;
+import View.Home.UIMethods;
 import View.Resources.CustomFont;
+import java.awt.Color;
+import java.awt.Dimension;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 
 /**
  *
  * @author benjamin
  */
-public class ActivityPanel extends javax.swing.JPanel {
+public final class ActivityPanel extends javax.swing.JPanel implements UIMethods {
 
-    /**
-     * Creates new form ActivityPanel
-     */
+    private DefaultTableModel activityTableModel;
+    
     public ActivityPanel() {
         initComponents();
         loadFonts();
+        activityTableModel = getTableModel();
+        constructActivityTable(activityTableModel);
     }
 
     /**
@@ -44,7 +50,7 @@ public class ActivityPanel extends javax.swing.JPanel {
         jPanel20 = new javax.swing.JPanel();
         roundPanel8 = new View.Resources.RoundPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        activityTabel = new javax.swing.JTable();
+        activityTable = new javax.swing.JTable();
 
         setLayout(new java.awt.BorderLayout());
 
@@ -214,7 +220,7 @@ public class ActivityPanel extends javax.swing.JPanel {
 
         roundPanel7.add(roundPanel8, java.awt.BorderLayout.PAGE_END);
 
-        activityTabel.setModel(new javax.swing.table.DefaultTableModel(
+        activityTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -225,8 +231,9 @@ public class ActivityPanel extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        activityTabel.setSelectionBackground(new java.awt.Color(72, 207, 203));
-        jScrollPane1.setViewportView(activityTabel);
+        activityTable.setRowHeight(40);
+        activityTable.setSelectionBackground(new java.awt.Color(72, 207, 203));
+        jScrollPane1.setViewportView(activityTable);
 
         roundPanel7.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
@@ -239,14 +246,49 @@ public class ActivityPanel extends javax.swing.JPanel {
         add(jPanel5, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void loadFonts() {
+    private DefaultTableModel getTableModel() {
+        if(Home.user.getRole().equals("Admin")) {
+            return ActivityLoggerController.getAdminActivities();
+        }else {
+            return ActivityLoggerController.getUserActivities();
+        }
+    }
+    
+    private void constructActivityTable(DefaultTableModel model) {
+        //Repaint table
+        JTableHeader header = activityTable.getTableHeader();
+        header.setBackground(new Color(62, 62, 62));
+        header.setForeground(new Color(255, 255, 255));
+        header.setPreferredSize(
+                new Dimension(header.getWidth(), 40));
+        
+        //Change table fonts
+        activityTable.setFont(CustomFont.tableRowFont);
+        activityTable.getTableHeader().setFont(CustomFont.tableHeaderFont);
+        
+        //Set tablemodel
+        activityTable.setModel(model);
+    }
+    
+    @Override
+    public void loadFonts() {
         activityPanelHeading.setFont(CustomFont.panelHeadingFont);
+    }
+    
+    @Override
+    public void changeColor(JPanel hover, Color myColor) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void changeFontColor(JLabel text, Color myColor) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
    
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel activityPanelHeading;
-    private javax.swing.JTable activityTabel;
+    private javax.swing.JTable activityTable;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel19;
     private javax.swing.JPanel jPanel2;
@@ -262,4 +304,6 @@ public class ActivityPanel extends javax.swing.JPanel {
     private View.Resources.RoundPanel roundPanel7;
     private View.Resources.RoundPanel roundPanel8;
     // End of variables declaration//GEN-END:variables
+
+    
 }

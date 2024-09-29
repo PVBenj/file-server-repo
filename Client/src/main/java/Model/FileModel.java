@@ -2,6 +2,7 @@ package Model;
 
 import java.io.File;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class FileModel implements Serializable {
@@ -20,6 +21,8 @@ public class FileModel implements Serializable {
         this.createDateTime = createDateTime;
         this.owner = owner;
         this.fileSize = fileSize;
+        sharedWithUsers = new ArrayList<>();
+        sharedWithGroups = new ArrayList<>();
     }
 
     public String getFileId() {
@@ -43,19 +46,19 @@ public class FileModel implements Serializable {
     }
     
     public List<UserModel> getSharedWithUsers() {
-        return sharedWithUsers;
+        return this.sharedWithUsers;
     }
 
-    public void setSharedWithUsers(List<UserModel> sharedWithUsers) {
-        this.sharedWithUsers = sharedWithUsers;
+    public void shareWithUser(UserModel user) {
+        this.sharedWithUsers.add(user);
     }
 
     public List<GroupModel> getSharedWithGroups() {
-        return sharedWithGroups;
+        return this.sharedWithGroups;
     }
 
-    public void setSharedWithGroups(List<GroupModel> sharedWithGroups) {
-        this.sharedWithGroups = sharedWithGroups;
+    public void shareWithGroup(GroupModel group) {
+        this.sharedWithGroups.add(group);
     }
 
     public UserModel getOwner() {
@@ -72,6 +75,20 @@ public class FileModel implements Serializable {
 
     public void setRawFile(File rawFile) {
         this.rawFile = rawFile;
+    }
+    
+    public String sharedUsersToString() {
+        String sharedUsers = null;
+        
+        for(UserModel user : this.sharedWithUsers) {
+            if(sharedUsers != null) {
+                sharedUsers += user.getUsername() + ", ";
+            } else {
+                sharedUsers = user.getUsername() + ", ";
+            }
+        }
+        
+        return sharedUsers;
     }
   
 }

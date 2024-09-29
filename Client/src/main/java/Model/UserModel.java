@@ -1,6 +1,8 @@
 package Model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserModel implements Serializable {
     private final String userId;
@@ -10,6 +12,7 @@ public class UserModel implements Serializable {
     private String mobile;
     private String email;
     private String role;
+    private List<GroupModel> groups;
 
     public UserModel(String userId, String username, String password, String firstName, String mobile, String role) {
         this.userId = userId;
@@ -18,6 +21,7 @@ public class UserModel implements Serializable {
         this.firstName = firstName;
         this.mobile = mobile;
         this.role = role;
+        groups = new ArrayList<>();
     }
 
     public String getUserId() {
@@ -70,5 +74,17 @@ public class UserModel implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+    
+    public void addToGroup(GroupModel group) {
+        this.groups.add(group);
+    }
+    
+    public void setGroups(List<GroupModel> groups) {
+        this.groups = groups;
+    }
+    
+    public List<GroupModel> getGroups() {
+        return this.groups;
     }
 }

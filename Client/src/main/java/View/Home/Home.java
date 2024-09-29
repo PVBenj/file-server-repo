@@ -84,9 +84,9 @@ public class Home extends javax.swing.JFrame implements UIMethods {
         homePanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(1330, 800));
-        setMinimumSize(new java.awt.Dimension(1330, 800));
-        setPreferredSize(new java.awt.Dimension(1330, 800));
+        setMaximumSize(new java.awt.Dimension(1920, 1080));
+        setMinimumSize(new java.awt.Dimension(1920, 1080));
+        setPreferredSize(new java.awt.Dimension(1920, 1080));
 
         backgroundPanel.setLayout(new java.awt.BorderLayout());
 

@@ -32,7 +32,7 @@ public class RemoteHandler {
     
     public static RemoteGroupInterface getRemoteGroup() {
         try{
-            return (RemoteGroupInterface) Naming.lookup("rmi://192.168.8.123:1500/FileHandle");
+            return (RemoteGroupInterface) Naming.lookup("rmi://192.168.8.123:1500/GroupHandl");
         }catch (MalformedURLException | NotBoundException | RemoteException e) {
             System.err.println(e.getMessage());
         }

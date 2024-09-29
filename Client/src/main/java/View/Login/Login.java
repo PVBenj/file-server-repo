@@ -1,11 +1,15 @@
 package View.Login;
 
+import Controller.ActivityLoggerController;
 import Controller.LoginController;
+import Model.GroupModel;
 import Model.UserModel;
 import View.Home.Home;
 import View.Resources.CustomFont;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import java.awt.Color;
+import java.util.Date;
+import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
@@ -124,9 +128,16 @@ public class Login extends javax.swing.JFrame {
         String password = new String(passwordPF.getPassword());
         login(username, password);*/
         
-        //Test code
-        UserModel user = new UserModel("1", "John", "Ben123", "Benjamin", "0718375748", "Admin");
+        //Test data
+        UserModel user = new UserModel("1", "johnwick", "Ben123", "Benjamin", "0718375748", "Generic");
         user.setEmail("pramodyabenjamin@gmail.com");
+        user.setGroups(
+                List.of(
+                        new GroupModel("group1", "Admin group", new UserModel("1", "John", "Ben123", "Benjamin", "0718375748", "Admin")),
+                        new GroupModel("group2", "Editor group", new UserModel("1", "John", "Ben123", "Benjamin", "0718375748", "Admin")),
+                        new GroupModel("group3", "HR group", new UserModel("1", "John", "Ben123", "Benjamin", "0718375748", "Admin")) 
+                )
+        );
         new Home(user).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_loginBTNMouseClicked
@@ -138,6 +149,7 @@ public class Login extends javax.swing.JFrame {
             
         } else {
             JOptionPane.showMessageDialog(null, "Please enter both username & password!", "Warning", JOptionPane.WARNING_MESSAGE);
+            ActivityLoggerController.createActivity(null, null, "Loggin attempt failed", new Date().toString());
         }
     }
     /**

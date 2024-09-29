@@ -296,7 +296,7 @@
                                   <Group type="102" alignment="0" attributes="0">
                                       <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
                                       <Component id="unsupportedMessageLabel" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace pref="304" max="32767" attributes="0"/>
+                                      <EmptySpace pref="243" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                             </DimensionLayout>
@@ -319,7 +319,7 @@
                                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                                   <Color blue="32" green="32" red="32" type="rgb"/>
                                 </Property>
-                                <Property name="text" type="java.lang.String" value="Unsupported formats: EXE"/>
+                                <Property name="text" type="java.lang.String" value="Unsupported formats: .exe, .sh, .bat"/>
                               </Properties>
                             </Component>
                           </SubComponents>

@@ -3,6 +3,7 @@ package View.Home;
 import Controller.GroupController;
 import Controller.UserController;
 import Model.GroupModel;
+import View.Home.HomePanels.GroupsPanel;
 import View.Resources.CustomFont;
 import java.awt.Color;
 import java.util.ArrayList;
@@ -781,8 +782,13 @@ public final class CreateGroupWindow extends javax.swing.JFrame implements UIMet
     private void createBTNMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_createBTNMouseClicked
         //check if the form validate returns true
         if(formValidate()) {
-            //passing the added users hashset and the new group to the group controller
-            GroupController.createGroup(createGroupObj(), this.addedUsers);
+            //passing the added users and the new group to the group controller
+            if(GroupController.createGroup(createGroupObj(), this.addedUsers)) {
+                JOptionPane.showMessageDialog(null, "Group created successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                new GroupsPanel().constructGroupTable();
+            }else {
+                JOptionPane.showMessageDialog(null, "Group creating unsuccessful!", "Error", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }//GEN-LAST:event_createBTNMouseClicked
 

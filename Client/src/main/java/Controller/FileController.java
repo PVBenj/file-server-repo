@@ -7,6 +7,8 @@ import java.rmi.RemoteException;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -21,13 +23,31 @@ public class FileController {
     
     private static DefaultTableModel fileTableModel;
     
-    public static DefaultTableModel getUserFileTable(UserModel user) {
+    public static List<FileModel> getMyFiles(String userId) {
+        
+        /* try {
+            return RemoteHandler.getRemoteFileObj().fetchAllFiles(userId);
+        } catch (RemoteException ex) {
+            System.err.println(Arrays.toString(ex.getStackTrace()));
+        } */
+        
+        return new ArrayList<>();
+    }
+    
+    public static DefaultTableModel getUserFileTable(String userId) {
        //Test data
        List<FileModel> files = List.of(
             new FileModel("file1", "test1.txt", new Date().toString(), new UserModel("0001", "johnwick", "John123", "John", "0718274567", "Admin"), "file size in MB"),
             new FileModel("file2", "test2.txt", new Date().toString(), new UserModel("0001", "johnwick", "John123", "John", "0718274567", "Admin"), "file size in MB"),
             new FileModel("file3", "test3.txt", new Date().toString(), new UserModel("0001", "johnwick", "John123", "John", "0718274567", "Admin"), "file size in MB")
         );
+       
+       /* List<FileModel> files = new ArrayList<>();
+       try{
+           files = RemoteHandler.getRemoteFileObj().fetchAllFiles(userId);
+       }catch (RemoteException ex) {
+           System.err.println(Arrays.toString(ex.getStackTrace()));
+       } */
          
         //Construct file table model
         constructFileTableModel();
@@ -42,15 +62,17 @@ public class FileController {
     }
     
     public static boolean createNewFile(List<FileModel> fileObjs) {
-        try {
+        /* try {
            return RemoteHandler.getRemoteFileObj().uploadFile(fileObjs); 
         }catch (RemoteException e) {
             System.err.println("Error Details: " + e.getMessage());
-        }
-        return false;
+            return false;
+        } */
+        
+        return true;
     }
     
-    public static DefaultTableModel fetchRecentFiles(UserModel user) {
+    public static DefaultTableModel getRecentFiles(UserModel user) {
         //Construct file table model
         constructFileTableModel();
         /* try {
@@ -93,26 +115,78 @@ public class FileController {
         return fileTableModel;
     }
     
-    public static void updateFileName(String fileId, String newName) {
+    public static boolean updateFileName(String fileId, String newName) {
+        /* try {
+            return RemoteHandler.getRemoteFileObj().updateFileName(fileId, newName);
+        }catch (RemoteException ex) {
+            System.err.println(Arrays.toString(ex.getStackTrace()));
+            return false;
+        } */
         
-        System.out.format("New filename update success: %s - %s", fileId, newName);
+        return true;
     }
     
     public static boolean deleteFile(String fileId) {
+        /* try {
+            return RemoteHandler.getRemoteFileObj().deleteFile(fileId);
+        } catch (RemoteException ex) {  
+            System.err.println(Arrays.toString(ex.getStackTrace()));
+            return false;
+        } */
         
         return true;
     }
     
     public static DefaultTableModel getSharedByMeFiles(String userId) {
+        //Test data
+       List<FileModel> files = List.of(
+            new FileModel("file1", "test1.txt", new Date().toString(), new UserModel("0001", "johnwick", "John123", "John", "0718274567", "Admin"), "file size in MB"),
+            new FileModel("file2", "test2.txt", new Date().toString(), new UserModel("0001", "johnwick", "John123", "John", "0718274567", "Admin"), "file size in MB"),
+            new FileModel("file3", "test3.txt", new Date().toString(), new UserModel("0001", "johnwick", "John123", "John", "0718274567", "Admin"), "file size in MB")
+        );
+         
+        //Construct file table model
+        constructFileTableModel();
         
+        // Add rows from List<User>
+        for (FileModel file : files) {
+            Object[] row = { file.getFileId(), file.getFileName(), file.getOwner().getFirstName(), file.getCreateDateTime(), "file size in MB" };
+            fileTableModel.addRow(row);
+        }
         
         return fileTableModel;
     }
     
     public static DefaultTableModel getSharedWithYouFiles(String userId) {
+        //Test data
+       List<FileModel> files = List.of(
+            new FileModel("file1", "test1.txt", new Date().toString(), new UserModel("0001", "johnwick", "John123", "John", "0718274567", "Admin"), "file size in MB"),
+            new FileModel("file2", "test2.txt", new Date().toString(), new UserModel("0001", "johnwick", "John123", "John", "0718274567", "Admin"), "file size in MB"),
+            new FileModel("file3", "test3.txt", new Date().toString(), new UserModel("0001", "johnwick", "John123", "John", "0718274567", "Admin"), "file size in MB")
+        );
+         
+        //Construct file table model
+        constructFileTableModel();
         
+        // Add rows from List<User>
+        for (FileModel file : files) {
+            Object[] row = { file.getFileId(), file.getFileName(), file.getOwner().getFirstName(), file.getCreateDateTime(), "file size in MB" };
+            fileTableModel.addRow(row);
+        }
         
         return fileTableModel;
+    }
+    
+    public static boolean shareFileWithUser(String fileId, List<String> users) {
+        
+        /* try {
+            return RemoteHandler.getRemoteFileObj().shareFileWithUser(fileId, users);
+        } catch (RemoteException ex) {
+            System.err.println(Arrays.toString(ex.getStackTrace()));
+            return false;
+        } */
+        
+        return true;
     }
     
     //Contruct file table model

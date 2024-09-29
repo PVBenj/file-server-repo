@@ -5,9 +5,12 @@ import View.Home.Home;
 import View.Home.UIMethods;
 import View.Resources.CustomFont;
 import java.awt.Color;
+import java.awt.Dimension;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 
 /**
  *
@@ -23,12 +26,19 @@ public class SharedFiles extends javax.swing.JPanel implements UIMethods {
         loadFonts();
         sharedWithYouModel = FileController.getSharedWithYouFiles(Home.user.getUserId());
         sharedByYouModel = FileController.getSharedByMeFiles(Home.user.getUserId());
-        loadTables();
+        constructTable(sharedWithYouTable, sharedWithYouModel);
+        constructTable(sharedByYouTable, sharedByYouModel);
     }
     
-    private void loadTables() {
-        sharedWithYouTable.setModel(sharedWithYouModel);
-        sharedByYouTable.setModel(sharedByYouModel);
+    private void constructTable(JTable table, DefaultTableModel model) {
+        JTableHeader header = table.getTableHeader();
+        header.setBackground(new Color(62, 62, 62));
+        header.setForeground(new Color(255, 255, 255));
+        header.setPreferredSize(
+                new Dimension(header.getWidth(), 40));
+        table.setFont(CustomFont.tableRowFont);
+        table.getTableHeader().setFont(CustomFont.tableHeaderFont);
+        table.setModel(model);
     }
     
     
@@ -99,7 +109,7 @@ public class SharedFiles extends javax.swing.JPanel implements UIMethods {
         jPanel10.setLayout(jPanel10Layout);
         jPanel10Layout.setHorizontalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1134, Short.MAX_VALUE)
+            .addGap(0, 1600, Short.MAX_VALUE)
         );
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -115,7 +125,7 @@ public class SharedFiles extends javax.swing.JPanel implements UIMethods {
         jPanel11.setLayout(jPanel11Layout);
         jPanel11Layout.setHorizontalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1134, Short.MAX_VALUE)
+            .addGap(0, 1600, Short.MAX_VALUE)
         );
         jPanel11Layout.setVerticalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -135,7 +145,7 @@ public class SharedFiles extends javax.swing.JPanel implements UIMethods {
         );
         jPanel12Layout.setVerticalGroup(
             jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 614, Short.MAX_VALUE)
+            .addGap(0, 870, Short.MAX_VALUE)
         );
 
         add(jPanel12, java.awt.BorderLayout.LINE_START);
@@ -151,7 +161,7 @@ public class SharedFiles extends javax.swing.JPanel implements UIMethods {
         );
         jPanel13Layout.setVerticalGroup(
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 614, Short.MAX_VALUE)
+            .addGap(0, 870, Short.MAX_VALUE)
         );
 
         add(jPanel13, java.awt.BorderLayout.LINE_END);
@@ -206,7 +216,7 @@ public class SharedFiles extends javax.swing.JPanel implements UIMethods {
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1104, Short.MAX_VALUE)
+            .addGap(0, 1570, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -219,7 +229,7 @@ public class SharedFiles extends javax.swing.JPanel implements UIMethods {
         jPanel4.setLayout(new java.awt.BorderLayout());
 
         roundPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        roundPanel1.setPreferredSize(new java.awt.Dimension(530, 501));
+        roundPanel1.setPreferredSize(new java.awt.Dimension(810, 501));
         roundPanel1.setRoundBottomLeft(10);
         roundPanel1.setRoundBottomRight(10);
         roundPanel1.setRoundTopLeft(10);
@@ -241,7 +251,7 @@ public class SharedFiles extends javax.swing.JPanel implements UIMethods {
             .addGroup(roundPanel5Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(section1Heading)
-                .addContainerGap(433, Short.MAX_VALUE))
+                .addContainerGap(713, Short.MAX_VALUE))
         );
         roundPanel5Layout.setVerticalGroup(
             roundPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -269,7 +279,7 @@ public class SharedFiles extends javax.swing.JPanel implements UIMethods {
         );
         jPanel19Layout.setVerticalGroup(
             jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 434, Short.MAX_VALUE)
+            .addGap(0, 690, Short.MAX_VALUE)
         );
 
         roundPanel9.add(jPanel19, java.awt.BorderLayout.LINE_START);
@@ -285,7 +295,7 @@ public class SharedFiles extends javax.swing.JPanel implements UIMethods {
         );
         jPanel20Layout.setVerticalGroup(
             jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 434, Short.MAX_VALUE)
+            .addGap(0, 690, Short.MAX_VALUE)
         );
 
         roundPanel9.add(jPanel20, java.awt.BorderLayout.LINE_END);
@@ -299,7 +309,7 @@ public class SharedFiles extends javax.swing.JPanel implements UIMethods {
         roundPanel10.setLayout(roundPanel10Layout);
         roundPanel10Layout.setHorizontalGroup(
             roundPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 530, Short.MAX_VALUE)
+            .addGap(0, 810, Short.MAX_VALUE)
         );
         roundPanel10Layout.setVerticalGroup(
             roundPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -319,6 +329,7 @@ public class SharedFiles extends javax.swing.JPanel implements UIMethods {
                 "File Id", "File Name", "Created", "Owner", "Size"
             }
         ));
+        sharedWithYouTable.setRowHeight(40);
         sharedWithYouTable.setSelectionBackground(new java.awt.Color(72, 207, 203));
         jScrollPane1.setViewportView(sharedWithYouTable);
 
@@ -329,7 +340,7 @@ public class SharedFiles extends javax.swing.JPanel implements UIMethods {
         jPanel4.add(roundPanel1, java.awt.BorderLayout.LINE_START);
 
         roundPanel4.setBackground(new java.awt.Color(255, 255, 255));
-        roundPanel4.setPreferredSize(new java.awt.Dimension(530, 501));
+        roundPanel4.setPreferredSize(new java.awt.Dimension(810, 501));
         roundPanel4.setRoundBottomLeft(10);
         roundPanel4.setRoundBottomRight(10);
         roundPanel4.setRoundTopLeft(10);
@@ -351,7 +362,7 @@ public class SharedFiles extends javax.swing.JPanel implements UIMethods {
             .addGroup(roundPanel6Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(section2Heading)
-                .addContainerGap(448, Short.MAX_VALUE))
+                .addContainerGap(728, Short.MAX_VALUE))
         );
         roundPanel6Layout.setVerticalGroup(
             roundPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -379,7 +390,7 @@ public class SharedFiles extends javax.swing.JPanel implements UIMethods {
         );
         jPanel21Layout.setVerticalGroup(
             jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 434, Short.MAX_VALUE)
+            .addGap(0, 690, Short.MAX_VALUE)
         );
 
         roundPanel11.add(jPanel21, java.awt.BorderLayout.LINE_START);
@@ -395,7 +406,7 @@ public class SharedFiles extends javax.swing.JPanel implements UIMethods {
         );
         jPanel22Layout.setVerticalGroup(
             jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 434, Short.MAX_VALUE)
+            .addGap(0, 690, Short.MAX_VALUE)
         );
 
         roundPanel11.add(jPanel22, java.awt.BorderLayout.LINE_END);
@@ -409,7 +420,7 @@ public class SharedFiles extends javax.swing.JPanel implements UIMethods {
         roundPanel12.setLayout(roundPanel12Layout);
         roundPanel12Layout.setHorizontalGroup(
             roundPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 530, Short.MAX_VALUE)
+            .addGap(0, 810, Short.MAX_VALUE)
         );
         roundPanel12Layout.setVerticalGroup(
             roundPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -429,6 +440,7 @@ public class SharedFiles extends javax.swing.JPanel implements UIMethods {
                 "File Id", "File Name", "Created", "Shared with", "Size"
             }
         ));
+        sharedByYouTable.setRowHeight(40);
         sharedByYouTable.setSelectionBackground(new java.awt.Color(72, 207, 203));
         jScrollPane2.setViewportView(sharedByYouTable);
 

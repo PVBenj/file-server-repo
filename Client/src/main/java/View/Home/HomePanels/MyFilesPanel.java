@@ -1,14 +1,24 @@
 package View.Home.HomePanels;
 
 import Controller.FileController;
+import Controller.GroupController;
+import Controller.UserController;
+import Model.FileModel;
 import View.Home.FileUploadWindow;
 import View.Home.Home;
 import View.Home.UIMethods;
 import View.Resources.CustomFont;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import javax.swing.BorderFactory;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
@@ -16,7 +26,10 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JProgressBar;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
+import javax.swing.border.TitledBorder;
 import javax.swing.event.TableModelEvent;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
@@ -27,18 +40,24 @@ import javax.swing.table.JTableHeader;
  */
 public class MyFilesPanel extends javax.swing.JPanel implements UIMethods {
     
+    private List<String> selectedUsers;
+    private List<FileModel> myFiles;
+    
     public MyFilesPanel() {
         initComponents();
+        selectedUsers = new ArrayList<>();
+        myFiles = new ArrayList<>();
         loadFonts();
         contructFileTable();
+        createShareUserOption();
     }
     
-    private void contructFileTable() {
-        //Stying the table
+    public void contructFileTable() {
+        //Styling the table
         repaintTable();
         
         //Get data to the file table
-        myFileTable.setModel(FileController.getUserFileTable(Home.user));
+        myFileTable.setModel(FileController.getUserFileTable(Home.user.getUserId()));
         
         // Create the popup menu
         popupMenu = new JPopupMenu();
@@ -108,7 +127,22 @@ public class MyFilesPanel extends javax.swing.JPanel implements UIMethods {
             int selectedRow = myFileTable.getSelectedRow();
             String fileId = (String) myFileTable.getValueAt(selectedRow, 0);
             System.out.println("Sharing: " + fileId);
-            // Add share logic here
+            selectedUsersArea.setText(getAlreadySharedWithUsers(fileId));
+            
+            int result = JOptionPane.showConfirmDialog(null, addUserPanel, "Share file " + fileId + " with users", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+            
+            if (result == JOptionPane.OK_OPTION) {
+                    if (!selectedUsers.isEmpty()) {
+                        //Check if file share has been done from the backend
+                        if(FileController.shareFileWithUser(fileId, selectedUsers)) {
+                            JOptionPane.showMessageDialog(null, "File share successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                        } else {
+                            JOptionPane.showMessageDialog(null, "File share unsuccessful!", "Error", JOptionPane.ERROR_MESSAGE);
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(null, "No users selected.");
+                    }
+                }
         });
 
         deleteItem.addActionListener(e -> {
@@ -119,6 +153,17 @@ public class MyFilesPanel extends javax.swing.JPanel implements UIMethods {
             deleteFile(fileId);
         });
 
+    }
+    
+    private String getAlreadySharedWithUsers(String selectedFileId) {
+        for(FileModel file : myFiles) {
+            if(file.getFileId().equals(selectedFileId)) {
+               return file.sharedUsersToString(); 
+            }else {
+                return "This file is not shared";
+            }
+        }
+        return null;
     }
     
     private void deleteFile(String fileId) {
@@ -161,9 +206,9 @@ public class MyFilesPanel extends javax.swing.JPanel implements UIMethods {
             new Thread(() -> {
                 for (int i = 0; i <= 100; i++) {
                     try {
-                        Thread.sleep(100); // Simulate work being done
+                        Thread.sleep(50); // Simulate work being done
                     } catch (InterruptedException e) {
-                        e.printStackTrace();
+                        System.err.println(Arrays.toString(e.getStackTrace()));;
                     }
                     progressBar.setValue(i); // Update the progress bar
                 }
@@ -172,6 +217,37 @@ public class MyFilesPanel extends javax.swing.JPanel implements UIMethods {
 
             dialog.setVisible(true); // Show the progress dialog
         });
+    }
+    
+    private void createShareUserOption() {
+        // Convert list to array for JComboBox
+        String[] usernameArray = UserController.getUsernames().toArray(new String[0]);
+
+        // Create components for the dialog
+        userDropdown = new JComboBox<>(usernameArray);
+        selectedUsersArea = new JTextArea(5, 20);
+        selectedUsersArea.setEditable(false); // Display area for selected users
+        TitledBorder titledBorder = BorderFactory.createTitledBorder("Selected Users");
+        titledBorder.setTitleFont(CustomFont.joptionPaneFont); 
+        selectedUsersArea.setBorder(titledBorder);
+
+        // Add action listener to JComboBox to handle selection
+        userDropdown.addActionListener((ActionEvent e) -> {
+            String selectedUser = (String) userDropdown.getSelectedItem();
+            if (!selectedUsers.contains(selectedUser)) {
+                selectedUsers.add(selectedUser);
+                // Update the text area with selected usernames
+                selectedUsersArea.setText(String.join(", ", selectedUsers));
+            } else {
+                JOptionPane.showMessageDialog(null, "User already selected.");
+            }
+        });
+
+        // Create a panel to hold the dropdown and selected users display
+        addUserPanel = new JPanel(new BorderLayout());
+        addUserPanel.add(userDropdown, BorderLayout.NORTH);
+        addUserPanel.add(new JScrollPane(selectedUsersArea), BorderLayout.CENTER);
+        addUserPanel.setPreferredSize(new Dimension(500, 200));
     }
     
     
@@ -203,6 +279,17 @@ public class MyFilesPanel extends javax.swing.JPanel implements UIMethods {
         header.setForeground(new Color(255, 255, 255));
         header.setPreferredSize(
                 new Dimension(header.getWidth(), 40));
+    }
+    
+    private String getSelectedFileId() {
+        if(myFileTable.getSelectedRow() != -1) {
+            System.out.println("Selected file: " + myFileTable.getModel().getValueAt(myFileTable.getSelectedRow(), 0).toString());
+            return myFileTable.getModel().getValueAt(myFileTable.getSelectedRow(), 0).toString();
+            
+        }else {
+            JOptionPane.showMessageDialog(null, "Select a file to remove", "Warning", JOptionPane.WARNING_MESSAGE);
+            return null;
+        }
     }
     
     
@@ -654,6 +741,8 @@ public class MyFilesPanel extends javax.swing.JPanel implements UIMethods {
         //Checks if table row is selected
         if(!selectedFileId.isEmpty()) {
                 deleteFile(selectedFileId);
+        } else {
+            JOptionPane.showMessageDialog(null, "Select a file to remove", "Warning", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_deleteBTNMouseClicked
 
@@ -689,16 +778,6 @@ public class MyFilesPanel extends javax.swing.JPanel implements UIMethods {
         changeColor(shareBTN, new Color(64,165,120));
     }//GEN-LAST:event_shareBTNMouseExited
 
-    private String getSelectedFileId() {
-        if(myFileTable.getSelectedRow() != -1) {
-            System.out.println("Selected file: " + myFileTable.getModel().getValueAt(myFileTable.getSelectedRow(), 0).toString());
-            return myFileTable.getModel().getValueAt(myFileTable.getSelectedRow(), 0).toString();
-            
-        }else {
-            JOptionPane.showMessageDialog(null, "Select a file to remove", "Warning", JOptionPane.WARNING_MESSAGE);
-            return null;
-        }
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private View.Resources.RoundPanel deleteBTN;
@@ -740,5 +819,8 @@ public class MyFilesPanel extends javax.swing.JPanel implements UIMethods {
     private JMenuItem downloadItem;
     private JMenuItem shareItem;
     private JMenuItem deleteItem;
+    private JComboBox<String> userDropdown;
+    private JTextArea selectedUsersArea;
+    private JPanel addUserPanel;
     
 }

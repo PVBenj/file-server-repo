@@ -3,7 +3,7 @@ package Controller;
 import Model.UserModel;
 import ServerHandler.RemoteHandler;
 import java.rmi.RemoteException;
-import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -69,21 +69,25 @@ public class UserController {
         JOptionPane.showMessageDialog(null, "Account updated successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
     }
     
-    //Method to get all users
-    public static List<UserModel> getAllUsers() {
-         try {
-             return RemoteHandler.getRemoteUser().fetchAllUsers();
-         } catch (RemoteException | SQLException ex) {
-             Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
-         }
-         return null;
-    }
-    
     //Method to remove user
     public static boolean removeUser(String userId) {
         
         JOptionPane.showMessageDialog(null, "User removed successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
         return true;
+    }
+    
+    //Method to get usernames
+    public static List<String> getUsernames() {
+        
+        //Test data
+        List<String> userNames = List.of(
+                "benjamin",
+                "john",
+                "denver"
+        );
+        
+        return userNames;
+        
     }
 
 }

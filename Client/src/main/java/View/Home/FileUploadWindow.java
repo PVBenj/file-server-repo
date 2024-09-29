@@ -1,7 +1,9 @@
 package View.Home;
 
+import Controller.ActivityLoggerController;
 import Controller.FileController;
 import Model.FileModel;
+import View.Home.HomePanels.MyFilesPanel;
 import View.Resources.CustomFont;
 import java.awt.Color;
 import java.io.File;
@@ -216,7 +218,7 @@ public class FileUploadWindow extends javax.swing.JFrame implements UIMethods {
 
         unsupportedMessageLabel.setFont(new java.awt.Font("Liberation Sans", 1, 13)); // NOI18N
         unsupportedMessageLabel.setForeground(new java.awt.Color(50, 50, 50));
-        unsupportedMessageLabel.setText("Unsupported formats: EXE");
+        unsupportedMessageLabel.setText("Unsupported formats: .exe, .sh, .bat");
 
         javax.swing.GroupLayout roundPanel7Layout = new javax.swing.GroupLayout(roundPanel7);
         roundPanel7.setLayout(roundPanel7Layout);
@@ -225,7 +227,7 @@ public class FileUploadWindow extends javax.swing.JFrame implements UIMethods {
             .addGroup(roundPanel7Layout.createSequentialGroup()
                 .addGap(25, 25, 25)
                 .addComponent(unsupportedMessageLabel)
-                .addContainerGap(304, Short.MAX_VALUE))
+                .addContainerGap(243, Short.MAX_VALUE))
         );
         roundPanel7Layout.setVerticalGroup(
             roundPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -646,11 +648,17 @@ public class FileUploadWindow extends javax.swing.JFrame implements UIMethods {
         
         fileChooser.setDialogTitle("Select a file");
         
-        int userSelection = fileChooser.showOpenDialog(null);
+        int userResponse = fileChooser.showOpenDialog(null);
         
-        if (userSelection == JFileChooser.APPROVE_OPTION) {
-            newFiles.add(fileChooser.getSelectedFile());
-            
+        if (userResponse == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = fileChooser.getSelectedFile();
+            //check if the selected file is an EXE file
+            if(!selectedFile.getName().endsWith(".exe") && !selectedFile.getName().endsWith(".sh") && !selectedFile.getName().endsWith(".bat")) {
+                newFiles.add(selectedFile);
+            } else {
+                JOptionPane.showMessageDialog(null, "Unsupported file extension detected!", "Failed!", JOptionPane.ERROR_MESSAGE);
+                ActivityLoggerController.createActivity(Home.user.getUserId(), Home.user.getUsername(), "Unsupported file upload attempt", new Date().toString());
+            }
             String fileNames = null;
             
             for(int i = 0; i < newFiles.size(); i++) {
@@ -672,6 +680,7 @@ public class FileUploadWindow extends javax.swing.JFrame implements UIMethods {
             
             if(FileController.createNewFile(createFileObjs())) {
                 JOptionPane.showMessageDialog(null, "Files has been successfully uploaded!", "Completed!", JOptionPane.INFORMATION_MESSAGE);
+                new MyFilesPanel().contructFileTable();
                 progressBar.setMaximum(100);
             } else {
                 progressBar.setIndeterminate(false);

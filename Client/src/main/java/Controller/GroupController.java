@@ -17,12 +17,31 @@ public class GroupController {
     
     //Get all usergroups for admin view
     public static List<GroupModel> getUserGroupsAdmin() {
-        try {
+        /* try {
             return RemoteHandler.getRemoteGroup().fetchAllGroups();
         } catch (RemoteException ex) {
             System.err.println(Arrays.toString(ex.getStackTrace()));
+        } */
+        
+        //Test data
+        List<GroupModel> groups = List.of(
+            new GroupModel("group1", "Admin Group", new UserModel("0001", "johnwick", "John123", "John", "0718274567", "Admin")),
+            new GroupModel("group2", "Admin Group", new UserModel("0001", "johnwick", "John123", "John", "0718274567", "Admin")),
+            new GroupModel("group3", "Admin Group", new UserModel("0001", "johnwick", "John123", "John", "0718274567", "Admin"))
+        ); 
+        
+        for(GroupModel group : groups) {
+            group.setUsers(
+                    List.of(
+                        new UserModel("0001", "johnwick", "John123", "John", "0718274567", "Admin"),
+                        new UserModel("0002", "bobdylan", "Bob123", "Bob", "0718274567", "Admin"),
+                        new UserModel("0003", "slystallone", "Sly123", "Silvester", "0718274567", "Admin")
+                    )
+            );
         }
-        return null;
+        
+        
+        return groups;
     }
     
     //Get all usergroups by userId
@@ -135,9 +154,9 @@ public class GroupController {
         return true;
     }
     
-    public static boolean addUsertoGroup(String userId, List<String> selectedUsers) {
+    public static boolean addUsertoGroup(String userId, List<String> selectedUserIds) {
         /* try {
-            return RemoteHandler.getRemoteGroup().addUsers(userId, selectedUsers);
+            return RemoteHandler.getRemoteGroup().addUsers(userId, selectedUserIds);
         } catch (RemoteException ex) {
             System.err.println(Arrays.toString(ex.getStackTrace()));
             return false;

@@ -89,6 +89,15 @@ public class UserController {
         return userNames;
         
     }
+    
+    //Test
+    public static List<UserModel> getAllUsers() {
+        return List.of(
+            new UserModel("0001", "johnwick", "John123", "John", "0718274567", "Admin"),
+            new UserModel("0002", "bobdylan", "Bob123", "Bob", "0718274567", "Admin"),
+            new UserModel("0003", "slystallone", "Sly123", "Silvester", "0718274567", "Admin")
+        );
+    }
 
 }
     

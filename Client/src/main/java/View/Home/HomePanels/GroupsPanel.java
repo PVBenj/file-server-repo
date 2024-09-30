@@ -4,6 +4,7 @@ import Controller.ActivityLoggerController;
 import Controller.GroupController;
 import Controller.UserController;
 import Model.GroupModel;
+import Model.UserModel;
 import View.Home.CreateGroupWindow;
 import View.Home.Home;
 import View.Home.UIMethods;
@@ -36,17 +37,23 @@ import javax.swing.table.JTableHeader;
  */
 public final class GroupsPanel extends javax.swing.JPanel implements UIMethods {
     
-    private List<String> selectedUsers;
-    private List<GroupModel> userGroups;
-    private List<String> removedUsers;
+    private List<GroupModel> groups;
+    private List<UserModel> users;
+    private List<String> selectedUsernames;
+    DefaultTableModel tableModel;
     
     public GroupsPanel() {
+        
+        if(Home.user.getRole().equals("Admin")) {
+            this.groups = GroupController.getUserGroupsAdmin();
+        } else {
+            this.groups = GroupController.getUserGroups(Home.user.getUserId());
+        }
+        this.users = UserController.getAllUsers();
+        this.selectedUsernames = new ArrayList<>();
         initComponents();
-        constructGroupTable();
+        contructGroupsTable();
         createAddUserOption();
-        selectedUsers = new ArrayList<>();
-        getUserGroups(); 
-        loadFonts();
     }
     
     @Override
@@ -61,7 +68,6 @@ public final class GroupsPanel extends javax.swing.JPanel implements UIMethods {
 
     @Override
     public void loadFonts() {
-        
         groupsPanelHeading.setFont(CustomFont.panelHeadingFont);
         createLabel.setFont(CustomFont.formLabelFont);
         removeLabel.setFont(CustomFont.formLabelFont);
@@ -69,27 +75,50 @@ public final class GroupsPanel extends javax.swing.JPanel implements UIMethods {
         groupsTable.getTableHeader().setFont(CustomFont.tableHeaderFont);
         userDropdown.setFont(CustomFont.joptionPaneFont);
         selectedUsersArea.setFont(CustomFont.formTextFieldFont);
-        
+    }
+    
+    //Construct the whole table
+    private void contructGroupsTable() {
+        styleTable();
+        loadDataToTable();
+        createPopupMenu();
         
     }
     
-    public void constructGroupTable() {
-        //Load the group table according to the user role
-        if(Home.user.getRole().equals("Admin")) {
-            groupsTable.setModel(GroupController.getGroupTable());
-        }else {
-            groupsTable.setModel(GroupController.getGroupTableByOwner(Home.user.getUserId()));
+    //Style the table
+    private void styleTable() {
+        JTableHeader header = groupsTable.getTableHeader();
+        header.setBackground(new Color(62, 62, 62));
+        header.setForeground(new Color(255, 255, 255));
+        header.setPreferredSize(
+                new Dimension(header.getWidth(), 40));
+    }
+    
+    //Load data to the table
+    private void loadDataToTable() {
+        //Table model creation
+        String[] columnNames = {"Group ID", "Group Name", "Members", "Created By"};
+        tableModel = new DefaultTableModel(columnNames, 0);
+        
+        // Add rows from List<Groups> groups
+        for (GroupModel group : groups) {
+            Object[] row = { group.getGroupId(), group.getGroupName(), group.groupMembersToString(), group.getGroupOwner().getFirstName() };
+            tableModel.addRow(row);
         }
         
-        //Restyling the table
-        repaintTable();
+        //Setting the table model
+        groupsTable.setModel(tableModel);
         
+    }
+    
+    //Create right click context menu for the table
+    private void createPopupMenu() {
         // Create the popup menu
         popupMenu = new JPopupMenu();
         addUsers = new JMenuItem("Add Users");
-        deleteGroup = new JMenuItem("Delete");
         removeUsers = new JMenuItem("Remove Users");
-
+        deleteGroup = new JMenuItem("Delete");
+        
         // Add menu items to the popup menu
         popupMenu.add(addUsers);
         popupMenu.add(deleteGroup);
@@ -116,105 +145,14 @@ public final class GroupsPanel extends javax.swing.JPanel implements UIMethods {
                 }
             }
         });
-        
-        // Add action listeners for the menu items
-        setActionToMenu();
-    }
-    
-    private void setActionToMenu() {
-        // Add action listeners for the menu items
-        addUsers.addActionListener(e -> {
-            int selectedRow = groupsTable.getSelectedRow();
-            String groupId = (String) groupsTable.getValueAt(selectedRow, 0);
-            
-            //Checks if the users has required permissions
-            if(userAuthentication()) {
-                int result = JOptionPane.showConfirmDialog(null, addUserPanel, "Add Users to Group " + groupId, JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
-            
-                String currentUsers = groupsTable.getValueAt(selectedRow, 2).toString(); //Current usernames in the group
-                if (result == JOptionPane.OK_OPTION) {
-                    if (!selectedUsers.isEmpty()) {
-                        //Checks if the current value in the members column is empty
-                        if(!currentUsers.isEmpty()) {
-                            groupsTable.setValueAt(currentUsers + ", " + selectedUsersArea.getText(), selectedRow, 2);
-                        }else {
-                            groupsTable.setValueAt(selectedUsersArea.getText(), selectedRow, 2);
-                        }
-                        if(GroupController.addUsertoGroup(groupId, selectedUsers)) {
-                            JOptionPane.showMessageDialog(null, "User add successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
-                        } else {
-                            JOptionPane.showMessageDialog(null, "User add unsuccessful!", "Error", JOptionPane.ERROR_MESSAGE);
-                        }
-                    } else {
-                        JOptionPane.showMessageDialog(null, "No users selected.");
-                    }
-                }
-            }else {
-                JOptionPane.showMessageDialog(null, "You don't have required permissions to add users this group!", "Warning", JOptionPane.WARNING_MESSAGE);
-                    //Create an activity log
-                ActivityLoggerController
-                        .createActivity(Home.user.getUserId(), Home.user.getUsername(), "Unauthenticated user add attempt on the group " + groupId, new Date().toString());
-            }
-        });
-
-        deleteGroup.addActionListener(e -> {
-            int selectedRow = groupsTable.getSelectedRow();
-            String groupId = (String) groupsTable.getValueAt(selectedRow, 0);
-            
-            String selectedGroupId = getSelectedGroupId();
-            //Checks if table row is selected
-            if(!selectedGroupId.isEmpty()) {
-                //user Authentication
-                if(userAuthentication()) {
-                    deleteGroup(selectedGroupId);
-                }else {
-                    JOptionPane.showMessageDialog(null, "You don't have required permissions to delete this group!", "Warning", JOptionPane.WARNING_MESSAGE);
-                    //Create an activity log
-                    ActivityLoggerController
-                            .createActivity(Home.user.getUserId(), Home.user.getUsername(), "Unauthenticated group deletion attempt on " + groupId, new Date().toString());
-                }
-             }
-            
-        });
-        
-        /* removeUsers.addActionListener(e -> {
-            int selectedRow = groupsTable.getSelectedRow();
-            String groupId = (String) groupsTable.getValueAt(selectedRow, 0);
-                       
-            //Checks if the users has required permissions
-            if(userAuthentication()) {
-                int result = JOptionPane.showConfirmDialog(null, addUserPanel, "Remove Users from the Group " + groupId, JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
-            
-                String currentUsers = groupsTable.getValueAt(selectedRow, 2).toString(); //Current usernames in the group
-                if (result == JOptionPane.OK_OPTION) {
-                    if (!removedUsers.isEmpty()) {
-                        //Checks if the current value in the members column is empty
-                        if(!currentUsers.isEmpty()) {
-                            GroupController.removeUserFromGroup(groupId, removedUsers); //Invoke the user removal method
-                            getUserGroups();
-                        }else {
-                            JOptionPane.showMessageDialog(null, "Group has no group members!", "Warning", JOptionPane.WARNING_MESSAGE);
-                        }
-                    } else {
-                        JOptionPane.showMessageDialog(null, "No users selected.");
-                    }
-                }
-            }else {
-                JOptionPane.showMessageDialog(null, "You don't have required permissions to remove users from this group!", "Warning", JOptionPane.WARNING_MESSAGE);
-                    //Create an activity log
-                ActivityLoggerController
-                        .createActivity(Home.user.getUserId(), Home.user.getUsername(), "Unauthenticated user removal attempt on the group " + groupId, new Date().toString());
-            }
-        }); */
-
+        //Setting action listeners for the above created menu items
+        setActionListners();
     }
     
     private void createAddUserOption() {
-        // Convert list to array for JComboBox
-        String[] usernameArray = UserController.getUsernames().toArray(new String[0]);
 
         // Create components for the dialog
-        userDropdown = new JComboBox<>(usernameArray);
+        userDropdown = new JComboBox<>(getUsernameArray());
         selectedUsersArea = new JTextArea(5, 20);
         selectedUsersArea.setEditable(false); // Display area for selected users
         TitledBorder titledBorder = BorderFactory.createTitledBorder("Selected Users");
@@ -224,117 +162,23 @@ public final class GroupsPanel extends javax.swing.JPanel implements UIMethods {
         // Add action listener to JComboBox to handle selection
         userDropdown.addActionListener((ActionEvent e) -> {
             String selectedUser = (String) userDropdown.getSelectedItem();
-            if (!selectedUsers.contains(selectedUser)) {
-                selectedUsers.add(selectedUser);
+            if (!selectedUsernames.contains(selectedUser)) {
+                selectedUsernames.add(selectedUser);
                 // Update the text area with selected usernames
-                selectedUsersArea.setText(String.join(", ", selectedUsers));
+                selectedUsersArea.setText(String.join(", ", selectedUsernames));
             } else {
                 JOptionPane.showMessageDialog(null, "User already selected.");
             }
         });
 
         // Create a panel to hold the dropdown and selected users display
-        addUserPanel = new JPanel(new BorderLayout());
-        addUserPanel.add(userDropdown, BorderLayout.NORTH);
-        addUserPanel.add(new JScrollPane(selectedUsersArea), BorderLayout.CENTER);
-        addUserPanel.setPreferredSize(new Dimension(500, 200));
+        userPanel = new JPanel(new BorderLayout());
+        userPanel.add(userDropdown, BorderLayout.NORTH);
+        userPanel.add(new JScrollPane(selectedUsersArea), BorderLayout.CENTER);
+        userPanel.setPreferredSize(new Dimension(500, 200));
     }
     
-    /* private void createRemoveUserOption(String selectedGroupId) {
-        // Convert list to array for JComboBox
-        String[] usersInGroup = null;
-        
-        for(GroupModel group : userGroups) {
-            if(selectedGroupId.equals(group.getGroupId())) {
-                usersInGroup = group.getGroupMembers().toArray(new String [0]);
-            }
-        }
-        
 
-        // Create components for the dialog
-        userDropdown = new JComboBox<>(usersInGroup);
-        selectedUsersArea = new JTextArea(5, 20);
-        selectedUsersArea.setEditable(false); // Display area for selected users
-        TitledBorder titledBorder = BorderFactory.createTitledBorder("Selected for removal");
-        titledBorder.setTitleFont(CustomFont.joptionPaneFont); 
-        selectedUsersArea.setBorder(titledBorder);
-
-        // Add action listener to JComboBox to handle selection
-        userDropdown.addActionListener((ActionEvent e) -> {
-            String selectedUser = (String) userDropdown.getSelectedItem();
-            if (!removedUsers.contains(selectedUser)) {
-                selectedUsers.add(selectedUser);
-                // Update the text area with selected usernames
-                selectedUsersArea.setText(String.join(", ", selectedUsers));
-            } else {
-                JOptionPane.showMessageDialog(null, "User already selected for removal.");
-            }
-        });
-
-        // Create a panel to hold the dropdown and selected users display
-        addUserPanel = new JPanel(new BorderLayout());
-        addUserPanel.add(userDropdown, BorderLayout.NORTH);
-        addUserPanel.add(new JScrollPane(selectedUsersArea), BorderLayout.CENTER);
-        addUserPanel.setPreferredSize(new Dimension(500, 200));
-    } */
-    
-    
-    
-    private void repaintTable() {
-        JTableHeader header = groupsTable.getTableHeader();
-        header.setBackground(new Color(62, 62, 62));
-        header.setForeground(new Color(255, 255, 255));
-        header.setPreferredSize(
-                new Dimension(header.getWidth(), 40));
-    }
-    
-    private void getUserGroups() {
-        if(Home.user.getRole().equals("Admin")) {
-            userGroups = GroupController.getUserGroupsAdmin();
-        }else {
-            userGroups = GroupController.getUserGroups(Home.user.getUserId());
-        }
-    }
-    
-    private boolean userAuthentication() {
-        
-        //Checks if the user is an admin
-        if(Home.user.getRole().equals("Admin")) {
-            return true;
-        } else return Home.user.getUsername().equals(getSelectedGroupOwnerId());
-        
-    }
-    
-    private String getSelectedGroupId() {
-        if(groupsTable.getSelectedRow() != -1) {
-            System.out.println("Selected Group: " + groupsTable.getModel().getValueAt(groupsTable.getSelectedRow(), 0).toString());
-            return groupsTable.getModel().getValueAt(groupsTable.getSelectedRow(), 0).toString();
-            
-        }else {
-            JOptionPane.showMessageDialog(null, "Select a group to remove", "Warning", JOptionPane.WARNING_MESSAGE);
-            return null;
-        }
-    }
-    
-    private String getSelectedGroupOwnerId() {
-        System.out.println("Selected groupOwnerID: " + groupsTable.getModel().getValueAt(groupsTable.getSelectedRow(), 3).toString());
-        return groupsTable.getModel().getValueAt(groupsTable.getSelectedRow(), 3).toString();
-    }
-    
-    private void deleteGroup(String selectedGroupId) {
-        int response = JOptionPane.showConfirmDialog(null, "Do want to remove " 
-                    + groupsTable.getModel().getValueAt(groupsTable.getSelectedRow(), 1).toString() + "?", "Warning!", JOptionPane.OK_CANCEL_OPTION);
-            //Checks if user confirms the group removal
-            if(response == 0) {
-                if(GroupController.removeGroup(selectedGroupId)) {
-                    DefaultTableModel model = (DefaultTableModel) groupsTable.getModel();
-                    model.removeRow(groupsTable.getSelectedRow());
-                    JOptionPane.showMessageDialog(null, "Group removed successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
-                }else {
-                    JOptionPane.showMessageDialog(null, "Group removal unsuccessful!", "Error", JOptionPane.ERROR_MESSAGE);
-                }
-            }
-    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -740,21 +584,17 @@ public final class GroupsPanel extends javax.swing.JPanel implements UIMethods {
     }// </editor-fold>//GEN-END:initComponents
 
     private void removeGroupBTNMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_removeGroupBTNMouseClicked
-        String selectedGroupId = getSelectedGroupId();
+        String selectedGroupId = groupsTable
+                .getValueAt(groupsTable.getSelectedRow(), groupsTable.getSelectedRow())
+                .toString();
+        
         //Checks if table row is selected
         if(!selectedGroupId.isEmpty()) {
-            //user Authentication
-            if(userAuthentication()) {
-                deleteGroup(selectedGroupId);
-            }else {
-                JOptionPane.showMessageDialog(null, "You don't have required permissions to delete this group!", "Warning", JOptionPane.WARNING_MESSAGE);
-                //Create an activity log
-                ActivityLoggerController
-                        .createActivity(Home.user.getUserId(), Home.user.getUsername(), "Unauthenticated group deletion attempt", new Date().toString());
-            }
-            
-            
-         }
+            deleteGroup(selectedGroupId);
+            tableModel.removeRow(groupsTable.getSelectedRow());
+         }else {
+            JOptionPane.showMessageDialog(null, "Please select a group to delete", "Warning", JOptionPane.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_removeGroupBTNMouseClicked
 
     private void removeGroupBTNMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_removeGroupBTNMouseEntered
@@ -786,7 +626,7 @@ public final class GroupsPanel extends javax.swing.JPanel implements UIMethods {
     private View.Resources.RoundPanel createGroupBTN;
     private javax.swing.JLabel createLabel;
     private javax.swing.JLabel groupsPanelHeading;
-    private javax.swing.JTable groupsTable;
+    public static javax.swing.JTable groupsTable;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
@@ -823,5 +663,124 @@ public final class GroupsPanel extends javax.swing.JPanel implements UIMethods {
     private JMenuItem deleteGroup;
     private JComboBox<String> userDropdown;
     private JTextArea selectedUsersArea;
-    private JPanel addUserPanel;
+    private JPanel userPanel;
+    
+    //Setting action listeners for the menu items
+    //Upon clicking on them relevant functions should get invoked
+    private void setActionListners() {
+        //Add users option
+        addUsers.addActionListener((ActionEvent e) -> {
+            int selectedRow = groupsTable.getSelectedRow();
+            String groupId = (String) groupsTable.getValueAt(selectedRow, 0);
+            
+            int response = JOptionPane.showConfirmDialog(null, userPanel, "Add Users to Group " + groupId, JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+            //Current usernames in the group
+            String currentUsers = groupsTable.getValueAt(selectedRow, 2).toString(); 
+            //Checks the user response
+            if(response == JOptionPane.OK_OPTION) {
+                if (!selectedUsernames.isEmpty()) {
+                    //Checks if the current value in the members column is empty
+                    if(!currentUsers.isEmpty()) {
+                        groupsTable.setValueAt(currentUsers + ", " + selectedUsersArea.getText(), selectedRow, 2);
+                    }else {
+                        groupsTable.setValueAt(selectedUsersArea.getText(), selectedRow, 2);
+                    }
+                    if(GroupController.addUsertoGroup(groupId, getSelectedUserIds(selectedUsernames))) {
+                        JOptionPane.showMessageDialog(null, "User add successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "User add unsuccessful!", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "No users selected.");
+                }
+            }
+            //Clearing selected usernames list
+            selectedUsernames.clear();
+        });
+        
+        //Remove users option
+        removeUsers.addActionListener(e -> {
+            int selectedRow = groupsTable.getSelectedRow();
+            String groupId = (String) groupsTable.getValueAt(selectedRow, 0);
+            userDropdown = new JComboBox(getGroupMemberNamesArray());
+            
+            int response = JOptionPane.showConfirmDialog(null, userPanel, "Remove users from the " + groupId, JOptionPane.OK_CANCEL_OPTION, 
+                    JOptionPane.PLAIN_MESSAGE);
+            String currentUsers = groupsTable.getValueAt(selectedRow, 2).toString(); 
+            //Checks the user response
+            if(response == JOptionPane.OK_OPTION) {
+                if (!selectedUsernames.isEmpty()) {
+                    //Checks if the current value in the members column is empty
+                    if(!currentUsers.isEmpty()) {
+                        groupsTable.setValueAt(currentUsers + ", " + selectedUsersArea.getText(), selectedRow, 2);
+                    }else {
+                        JOptionPane.showMessageDialog(null, "No users to remove!", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                    if(GroupController.removeUserFromGroup(groupId, getSelectedUserIds(selectedUsernames))) {
+                        JOptionPane.showMessageDialog(null, "User removal successful! \nClick on the Groups menu to see the changes", "Success", 
+                                JOptionPane.INFORMATION_MESSAGE);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "User removal unsuccessful!", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "No users selected.");
+                }
+            }
+            //Clearing selected usernames list
+            selectedUsernames.clear();
+        });
+        
+        //Delete group action
+        deleteGroup.addActionListener(e -> {
+            int selectedRow = groupsTable.getSelectedRow();
+            String groupId = (String) groupsTable.getValueAt(selectedRow, 0);
+            //Checks if table row is selected
+            if(!groupId.isEmpty()) {
+                deleteGroup(groupId);
+                tableModel.removeRow(groupsTable.getSelectedRow());
+             }
+        });
+    }
+    
+    //Gets a username arrays from the users list
+    private String[] getUsernameArray() {
+        // Convert list to array for JComboBox
+        List<String> userNames = new ArrayList<>();
+        for(UserModel user : users) {
+            userNames.add(user.getUsername());
+        }
+        
+        return userNames.toArray(new String[0]);
+    }
+    
+    private String[] getGroupMemberNamesArray() {
+        //Convert list to array for JComboBox
+        List<String> groupMembers = new ArrayList<>();
+        for(GroupModel group : groups) {
+            for(UserModel user : group.getGroupMembers()) {
+                groupMembers.add(user.getUsername());
+            }
+        }
+        
+        return groupMembers.toArray(new String[0]);
+    }
+    
+    //Gets the respective userId by the username
+    private List<String> getSelectedUserIds(List<String> usernames) {
+        List<String> userIds = new ArrayList<>();
+        
+        for(UserModel user : users) {
+            for(String username : usernames) {
+                if(user.getUsername().equals(username)) {
+                    userIds.add(user.getUserId());
+                }
+            }
+        }
+        
+        return userIds;
+    }
+    
+    private boolean deleteGroup(String groupId) {
+        return GroupController.removeGroup(groupId);
+    }
 }

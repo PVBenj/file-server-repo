@@ -1,5 +1,8 @@
 package View.Home;
 
+import Controller.GroupController;
+import Controller.UserController;
+import Model.GroupModel;
 import Model.UserModel;
 import View.Home.HomePanels.AccountDetailsPanel;
 import View.Home.HomePanels.ActivityPanel;
@@ -14,6 +17,7 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -27,12 +31,11 @@ public class Home extends javax.swing.JFrame implements UIMethods {
 
     public static UserModel user;
     
-    
     public Home(UserModel user) {
+        Home.user = user;
         initComponents();
         loadFonts();
         applyIcons();
-        Home.user = user;
         adjustHomeOnRole();
         addPanelsToCard();
         usernamePanel.setText(Home.user.getFirstName());
@@ -84,9 +87,9 @@ public class Home extends javax.swing.JFrame implements UIMethods {
         homePanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(1920, 1080));
-        setMinimumSize(new java.awt.Dimension(1920, 1080));
-        setPreferredSize(new java.awt.Dimension(1920, 1080));
+        setMaximumSize(new java.awt.Dimension(1600, 900));
+        setMinimumSize(new java.awt.Dimension(1600, 900));
+        setPreferredSize(new java.awt.Dimension(1600, 900));
 
         backgroundPanel.setLayout(new java.awt.BorderLayout());
 

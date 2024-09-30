@@ -5,6 +5,7 @@ import Controller.UserController;
 import Model.GroupModel;
 import View.Home.HomePanels.GroupsPanel;
 import View.Resources.CustomFont;
+import com.mysql.cj.result.Row;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +18,7 @@ import javax.swing.table.DefaultTableModel;
 public final class CreateGroupWindow extends javax.swing.JFrame implements UIMethods {
     private String newGroupId;
     private List<String> addedUsers;
+    private static GroupModel newGroup;
     private JLabel userList = new JLabel();
     
     public CreateGroupWindow() {
@@ -783,9 +785,9 @@ public final class CreateGroupWindow extends javax.swing.JFrame implements UIMet
         //check if the form validate returns true
         if(formValidate()) {
             //passing the added users and the new group to the group controller
-            if(GroupController.createGroup(createGroupObj(), this.addedUsers)) {
+            if(GroupController.createGroup(newGroup, this.addedUsers)) {
                 JOptionPane.showMessageDialog(null, "Group created successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
-                new GroupsPanel().constructGroupTable();
+                updateGroupsTable();
             }else {
                 JOptionPane.showMessageDialog(null, "Group creating unsuccessful!", "Error", JOptionPane.ERROR_MESSAGE);
             }
@@ -883,8 +885,8 @@ public final class CreateGroupWindow extends javax.swing.JFrame implements UIMet
         }
     }
     
-    private GroupModel createGroupObj() {
-        return new GroupModel(newGroupId ,groupNameTF.getText(), Home.user);
+    private void createGroupObj() {
+        newGroup = new GroupModel(newGroupId ,groupNameTF.getText(), Home.user);
     }
     
     private void setGroupComboBox() {
@@ -893,6 +895,12 @@ public final class CreateGroupWindow extends javax.swing.JFrame implements UIMet
             userListCombo.addItem(model.getValueAt(i, 1).toString());
         }
         userListCombo.setSelectedIndex(-1);
+    }
+    
+    private static void updateGroupsTable() {
+        DefaultTableModel tableModel = (DefaultTableModel) GroupsPanel.groupsTable.getModel();
+        Object[] row = { newGroup.getGroupId(), newGroup.getGroupName(), newGroup.groupMembersToString(), newGroup.getGroupOwner().getFirstName() };
+        tableModel.addRow(row);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

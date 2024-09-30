@@ -129,7 +129,7 @@ public class Login extends javax.swing.JFrame {
         login(username, password);*/
         
         //Test data
-        UserModel user = new UserModel("1", "johnwick", "Ben123", "Benjamin", "0718375748", "Generic");
+        UserModel user = new UserModel("1", "johnwick", "Ben123", "Benjamin", "0718375748", "Admin");
         user.setEmail("pramodyabenjamin@gmail.com");
         user.setGroups(
                 List.of(

@@ -169,6 +169,7 @@ public class Login extends javax.swing.JFrame {
         });
     }
     
+    
     private static void setLookAndFeel() {
         UIManager.put( "Button.arc", 20 );
         UIManager.put( "Component.arc", 10 );
@@ -184,6 +185,10 @@ public class Login extends javax.swing.JFrame {
         usernameTF.setFont(CustomFont.formTextFieldFont);
         passwordPF.setFont(CustomFont.formTextFieldFont);
         logoLabel.setFont(CustomFont.panelHeadingFont);
+    }
+    
+    private void test() {
+        //Test method
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

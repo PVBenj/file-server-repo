@@ -710,18 +710,18 @@ public class FileUploadWindow extends javax.swing.JFrame implements UIMethods {
         chooseFileLabel.setFont(CustomFont.formLabelFont);
         fileNameLabel.setFont(CustomFont.formLabelFont);
         unsupportedMessageLabel.setFont(CustomFont
-                .createFont("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Fonts/SFPRODISPLAYMEDIUM.OTF", 13));
+                .createFont("/Fonts/SFPRODISPLAYMEDIUM.OTF", 13));
     }
     
     private void loadIcons() {
         try{
             chooseFileLabel.setIcon(
-                    new ImageIcon(ImageIO.read(
-                            new File("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Icons/upload-icon.png"))));
+            new ImageIcon(ImageIO.read(
+                getClass().getResource("/Icons/upload-icon.png"))));
             
             fileNameLabel.setIcon(
-                    new ImageIcon(ImageIO.read(
-                            new File("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Icons/file-icon.png"))));
+            new ImageIcon(ImageIO.read(
+                getClass().getResource("/Icons/file-icon.png"))));
             
         }catch (IOException e) {
             System.err.println(e.getMessage());

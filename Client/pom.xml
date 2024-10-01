@@ -34,6 +34,7 @@
                 <directory>src/main/java/View/Resources</directory>
                 <includes>
                     <include>**/*.png</include> <!-- Include all PNG files -->
+                    <include>**/*.OTF</include> <!-- Includes font files -->
                 </includes>
             </resource>
         </resources>

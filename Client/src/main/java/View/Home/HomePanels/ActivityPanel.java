@@ -1,11 +1,14 @@
 package View.Home.HomePanels;
 
 import Controller.ActivityLoggerController;
+import Model.ActivityLogger;
+import Model.GroupModel;
 import View.Home.Home;
 import View.Home.UIMethods;
 import View.Resources.CustomFont;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.util.List;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
@@ -18,12 +21,19 @@ import javax.swing.table.JTableHeader;
 public final class ActivityPanel extends javax.swing.JPanel implements UIMethods {
 
     private DefaultTableModel activityTableModel;
+    private List<ActivityLogger> activities;
     
     public ActivityPanel() {
+        
+        if(Home.user.getRole().equals("Admin")) {
+            activities = ActivityLoggerController.getAdminActivities();
+        } else {
+            activities = ActivityLoggerController.getUserActivities(Home.user.getUserId());
+        }
+        
         initComponents();
         loadFonts();
-        activityTableModel = getTableModel();
-        constructActivityTable(activityTableModel);
+        constructActivityTable();
     }
 
     /**
@@ -246,28 +256,36 @@ public final class ActivityPanel extends javax.swing.JPanel implements UIMethods
         add(jPanel5, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
-    private DefaultTableModel getTableModel() {
-        if(Home.user.getRole().equals("Admin")) {
-            return ActivityLoggerController.getAdminActivities();
-        }else {
-            return ActivityLoggerController.getUserActivities();
-        }
-    }
-    
-    private void constructActivityTable(DefaultTableModel model) {
-        //Repaint table
+    //Style the table
+    private void styleTable() {
         JTableHeader header = activityTable.getTableHeader();
         header.setBackground(new Color(62, 62, 62));
         header.setForeground(new Color(255, 255, 255));
         header.setPreferredSize(
                 new Dimension(header.getWidth(), 40));
-        
-        //Change table fonts
         activityTable.setFont(CustomFont.tableRowFont);
         activityTable.getTableHeader().setFont(CustomFont.tableHeaderFont);
+    }
+    
+    private void constructActivityTable() {
+        styleTable();
+        loadDataToActivityTable();
+    }
+    
+    //Load data to the activityTable
+    private void loadDataToActivityTable() {
+        //Table model creation
+        String[] columnNames = {"Username", "Details", "On"};
+        activityTableModel = new DefaultTableModel(columnNames, 0);
         
-        //Set tablemodel
-        activityTable.setModel(model);
+        // Add rows from List<Groups> groups
+        for (ActivityLogger activity : activities) {
+            Object[] row = { activity.getUserName(), activity.getDetails(), activity.getDateAndTime() };
+            activityTableModel.addRow(row);
+        }
+        
+        //Setting the table model
+        activityTable.setModel(activityTableModel);
     }
     
     @Override

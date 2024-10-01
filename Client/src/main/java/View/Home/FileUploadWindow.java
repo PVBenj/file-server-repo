@@ -2,6 +2,7 @@ package View.Home;
 
 import Controller.ActivityLoggerController;
 import Controller.FileController;
+import Model.ActivityLogger;
 import Model.FileModel;
 import View.Home.HomePanels.MyFilesPanel;
 import View.Resources.CustomFont;
@@ -657,7 +658,8 @@ public class FileUploadWindow extends javax.swing.JFrame implements UIMethods {
                 newFiles.add(selectedFile);
             } else {
                 JOptionPane.showMessageDialog(null, "Unsupported file extension detected!", "Failed!", JOptionPane.ERROR_MESSAGE);
-                ActivityLoggerController.createActivity(Home.user.getUserId(), Home.user.getUsername(), "Unsupported file upload attempt", new Date().toString());
+                ActivityLoggerController.logActivity(
+                        new ActivityLogger(Home.user.getUsername(), null, "Unsupported file upload attempt", new Date().toString()));
             }
             String fileNames = null;
             

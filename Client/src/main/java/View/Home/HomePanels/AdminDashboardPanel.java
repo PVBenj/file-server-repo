@@ -4,11 +4,16 @@ import Controller.ActivityLoggerController;
 import Controller.FileController;
 import Controller.GroupController;
 import Controller.UserController;
+import Model.ActivityLogger;
+import Model.FileModel;
+import Model.GroupModel;
+import Model.UserModel;
 import View.Home.Home;
 import View.Home.UIMethods;
 import View.Resources.CustomFont;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.util.List;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
@@ -21,29 +26,34 @@ import javax.swing.table.JTableHeader;
  */
 public final class AdminDashboardPanel extends javax.swing.JPanel implements UIMethods {
     
+    private List<UserModel> users;
+    private List<GroupModel> groups;
+    private List<ActivityLogger> activities;
+    private List<FileModel> recentFiles;
     private DefaultTableModel userGroupsModel;
     private DefaultTableModel recentActivityModel;
     
     public AdminDashboardPanel() {
         initComponents();
         loadFonts();
-        /*
-        userNoLabel.setText(String.valueOf(UserController.getUserTable().getRowCount()));
-        groupNoLabel.setText(String.valueOf(GroupController.getGroupTable().getRowCount()));
-        recentNoLabel.setText(String.valueOf(FileController.getRecentFiles(Home.user.getUserId())));
-        */
-        
-        
-        userGroupsModel = GroupController.getGroupTable();
-        recentActivityModel = ActivityLoggerController.getAdminActivities();
-        
-        
-        userGroupsTabel.setModel(GroupController.getGroupTable());
-        constructTable(userGroupsTabel, userGroupsModel);
-        constructTable(recentActivityTable, recentActivityModel);
+        users = UserController.getAllUsers();
+        groups = GroupController.getAllUserGroups();
+        activities = ActivityLoggerController.getAdminActivities();
+        recentFiles = FileController.getRecentFiles(Home.user.getUserId());
+        constructTables();
+        setSectionCountLabels();
     }
     
-    private void constructTable(JTable table, DefaultTableModel model) {
+    private void constructTables() {
+        styleTable(userGroupsTable);
+        styleTable(recentActivityTable);
+        loadDataToUserGroupsTable();
+        loadDataToActvityTable();
+    }
+    
+    
+    //Style the tables
+    private void styleTable(JTable table) {
         JTableHeader header = table.getTableHeader();
         header.setBackground(new Color(62, 62, 62));
         header.setForeground(new Color(255, 255, 255));
@@ -51,7 +61,44 @@ public final class AdminDashboardPanel extends javax.swing.JPanel implements UIM
                 new Dimension(header.getWidth(), 40));
         table.setFont(CustomFont.tableRowFont);
         table.getTableHeader().setFont(CustomFont.tableHeaderFont);
-        table.setModel(model);
+    }
+    
+    //Load data to the userGroupsTable
+    private void loadDataToUserGroupsTable() {
+        //Table model creation
+        String[] columnNames = {"Group ID", "Group Name", "Members", "Created By"};
+        userGroupsModel = new DefaultTableModel(columnNames, 0);
+        
+        // Add rows from List<Groups> groups
+        for (GroupModel group : groups) {
+            Object[] row = { group.getGroupId(), group.getGroupName(), group.groupMembersToString(), group.getGroupOwner().getFirstName() };
+            userGroupsModel.addRow(row);
+        }
+        
+        //Setting the table model
+        userGroupsTable.setModel(userGroupsModel);
+        
+    }
+    
+    //Load data to recentActivityTable
+    private void loadDataToActvityTable() {
+        String[] columnNames = {"Username", "Detail", "On"};
+        recentActivityModel = new DefaultTableModel(columnNames, 0);
+        
+        // Add rows from List<ActivityLogger> activities
+        for (ActivityLogger activity : activities) {
+            Object[] row = { activity.getUserName(), activity.getDetails(), activity.getDateAndTime() };
+            recentActivityModel.addRow(row);
+        }
+        
+        //Setting the table model
+        recentActivityTable.setModel(recentActivityModel);
+    }
+    
+    private void setSectionCountLabels() {
+        userNoLabel.setText(String.valueOf(users.size()));
+        groupNoLabel.setText(String.valueOf(groups.size()));
+        recentNoLabel.setText(String.valueOf(recentFiles.size()));
     }
     
     
@@ -130,7 +177,7 @@ public final class AdminDashboardPanel extends javax.swing.JPanel implements UIM
         jPanel23 = new javax.swing.JPanel();
         roundPanel6 = new View.Resources.RoundPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        userGroupsTabel = new javax.swing.JTable();
+        userGroupsTable = new javax.swing.JTable();
 
         setBackground(new java.awt.Color(245, 245, 245));
         setMaximumSize(new java.awt.Dimension(1080, 640));
@@ -625,7 +672,7 @@ public final class AdminDashboardPanel extends javax.swing.JPanel implements UIM
 
         roundPanel5.add(roundPanel6, java.awt.BorderLayout.PAGE_END);
 
-        userGroupsTabel.setModel(new javax.swing.table.DefaultTableModel(
+        userGroupsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -636,10 +683,10 @@ public final class AdminDashboardPanel extends javax.swing.JPanel implements UIM
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        userGroupsTabel.setEnabled(false);
-        userGroupsTabel.setRowHeight(40);
-        userGroupsTabel.setSelectionBackground(new java.awt.Color(72, 207, 203));
-        jScrollPane2.setViewportView(userGroupsTabel);
+        userGroupsTable.setEnabled(false);
+        userGroupsTable.setRowHeight(40);
+        userGroupsTable.setSelectionBackground(new java.awt.Color(72, 207, 203));
+        jScrollPane2.setViewportView(userGroupsTable);
 
         roundPanel5.add(jScrollPane2, java.awt.BorderLayout.CENTER);
 
@@ -700,7 +747,7 @@ public final class AdminDashboardPanel extends javax.swing.JPanel implements UIM
     private View.Resources.RoundPanel section2Panel;
     private javax.swing.JLabel section3Heading;
     private View.Resources.RoundPanel section3Panel;
-    private javax.swing.JTable userGroupsTabel;
+    private javax.swing.JTable userGroupsTable;
     private javax.swing.JLabel userNoLabel;
     // End of variables declaration//GEN-END:variables
 

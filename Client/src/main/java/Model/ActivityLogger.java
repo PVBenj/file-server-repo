@@ -4,13 +4,15 @@ package Model;
 public class ActivityLogger {
     
     private String userName;
+    private String affectedUserId;
     private String details;
     private String dateAndTime;
 
-    public ActivityLogger(String userId, String userName, String details, String dateAndTime) {
+    public ActivityLogger(String userName, String affectedUserId, String details, String dateAndTime) {
         this.userName = userName;
         this.details = details;
         this.dateAndTime = dateAndTime;
+        this.affectedUserId = affectedUserId;
     }
 
     public String getUserName() {

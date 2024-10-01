@@ -1,11 +1,15 @@
 package View.Home.HomePanels;
 
+import Controller.ActivityLoggerController;
 import Controller.FileController;
+import Model.ActivityLogger;
+import Model.FileModel;
 import View.Home.Home;
 import View.Home.UIMethods;
 import View.Resources.CustomFont;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.util.List;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
@@ -18,19 +22,26 @@ import javax.swing.table.JTableHeader;
  */
 public final class UserDashboardPanel extends javax.swing.JPanel implements UIMethods {
 
-    private DefaultTableModel fileModel;
+    private DefaultTableModel recentFileModel;
+    private DefaultTableModel recentActivityModel;
+    private List<FileModel> recentFiles;
+    private List<ActivityLogger> recentActivities;
     
     public UserDashboardPanel() {
+        recentFiles = FileController.getRecentFiles(Home.user.getUserId());
+        recentActivities = ActivityLoggerController.getUserActivities(Home.user.getUserId());
         initComponents();
         loadFonts();
-        repaintTable(recentActivityTable);
-        repaintTable(recentUploadsTable);
-        fileModel = FileController.getRecentFiles(Home.user);
-        recentlyNoLabel.setText("04");
-        recentUploadsTable.setModel(fileModel);
     }
     
-    private void repaintTable(JTable table) {
+    private void constructTables() {
+        styleTable(recentUploadsTable);
+        styleTable(recentActivityTable);
+        loadDataToRecentActivityTable();
+        loadDataToRecentUploadsTable();
+    }
+    
+    private void styleTable(JTable table) {
         JTableHeader header = table.getTableHeader();
         header.setBackground(new Color(62, 62, 62));
         header.setForeground(new Color(255, 255, 255));
@@ -39,6 +50,38 @@ public final class UserDashboardPanel extends javax.swing.JPanel implements UIMe
         table.setFont(CustomFont.tableRowFont);
         table.getTableHeader().setFont(CustomFont.tableHeaderFont);
     }
+    
+    //Load data to recentActivityTable
+    private void loadDataToRecentActivityTable() {
+        String[] columnNames = {"Username", "Detail", "On"};
+        recentActivityModel = new DefaultTableModel(columnNames, 0);
+        
+        // Add rows from List<ActivityLogger> activities
+        for (ActivityLogger activity : recentActivities) {
+            Object[] row = { activity.getUserName(), activity.getDetails(), activity.getDateAndTime() };
+            recentActivityModel.addRow(row);
+        }
+        
+        //Setting the table model
+        recentActivityTable.setModel(recentActivityModel);
+    }
+    
+    //Load data to loadDataToRecentUploadsTable
+    private void loadDataToRecentUploadsTable() {
+        String[] columnNames = {"File Name", "Shared With", "Created"};
+        recentFileModel = new DefaultTableModel(columnNames, 0);
+        
+        // Add rows from List<ActivityLogger> activities
+        for (FileModel file : recentFiles) {
+            Object[] row = { file.getFileName(), file.sharedUsersToString(), file.getCreateDateTime() };
+            recentFileModel.addRow(row);
+        }
+        
+        //Setting the table model
+        recentUploadsTable.setModel(recentFileModel);
+    }
+    
+    
     
     
     @Override

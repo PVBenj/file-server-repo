@@ -45,7 +45,7 @@ public final class GroupsPanel extends javax.swing.JPanel implements UIMethods {
     public GroupsPanel() {
         
         if(Home.user.getRole().equals("Admin")) {
-            this.groups = GroupController.getUserGroupsAdmin();
+            this.groups = GroupController.getAllUserGroups();
         } else {
             this.groups = GroupController.getUserGroups(Home.user.getUserId());
         }
@@ -618,7 +618,7 @@ public final class GroupsPanel extends javax.swing.JPanel implements UIMethods {
     }//GEN-LAST:event_createGroupBTNMouseExited
 
     private void createGroupBTNMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_createGroupBTNMouseClicked
-        new CreateGroupWindow().setVisible(true);
+        new CreateGroupWindow(users).setVisible(true);
     }//GEN-LAST:event_createGroupBTNMouseClicked
 
 

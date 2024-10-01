@@ -15,8 +15,10 @@ import javax.swing.table.DefaultTableModel;
  */
 public class GroupController {
     
+    private List<GroupModel> groups;
+    
     //Get all usergroups for admin view
-    public static List<GroupModel> getUserGroupsAdmin() {
+    public static List<GroupModel> getAllUserGroups() {
         /* try {
             return RemoteHandler.getRemoteGroup().fetchAllGroups();
         } catch (RemoteException ex) {
@@ -124,7 +126,7 @@ public class GroupController {
     
     
     //Method to create a group
-    public static boolean createGroup(GroupModel group, List<String> users) {
+    public static boolean createGroup(GroupModel group) {
         /* try {
             return RemoteHandler.getRemoteGroup().createGroup(group);
         } catch (RemoteException ex) {

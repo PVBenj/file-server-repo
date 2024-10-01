@@ -1,5 +1,6 @@
 package Controller;
 
+import Model.ActivityLogger;
 import Model.PasswordHash;
 import Model.UserModel;
 import ServerHandler.RemoteHandler;
@@ -21,7 +22,9 @@ public class LoginController {
                 new Home(user);
             }else {
                 JOptionPane.showMessageDialog(null, "Incorrect credentials!", "Error", JOptionPane.ERROR_MESSAGE);
-                ActivityLoggerController.createActivity(null, username, "Incorrect credentials entered", new Date().toString());
+                ActivityLoggerController.logActivity(
+                        new ActivityLogger(username, null, "Login attempt with incorrect credentials", new Date().toString())
+                );
             }
             
         }catch (Exception e) {

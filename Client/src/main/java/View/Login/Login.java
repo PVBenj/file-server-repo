@@ -2,6 +2,7 @@ package View.Login;
 
 import Controller.ActivityLoggerController;
 import Controller.LoginController;
+import Model.ActivityLogger;
 import Model.GroupModel;
 import Model.UserModel;
 import View.Home.Home;
@@ -149,7 +150,9 @@ public class Login extends javax.swing.JFrame {
             
         } else {
             JOptionPane.showMessageDialog(null, "Please enter both username & password!", "Warning", JOptionPane.WARNING_MESSAGE);
-            ActivityLoggerController.createActivity(null, null, "Loggin attempt failed", new Date().toString());
+            ActivityLoggerController.logActivity(
+                    new ActivityLogger(null, null, "Failed login attempt", new Date().toString())
+            );
         }
     }
     /**

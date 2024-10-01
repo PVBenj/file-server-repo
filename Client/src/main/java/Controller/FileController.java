@@ -21,7 +21,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class FileController {
     
-    private static DefaultTableModel fileTableModel;
+    private static List<FileModel> files;
     
     public static List<FileModel> getMyFiles(String userId) {
         
@@ -31,34 +31,13 @@ public class FileController {
             System.err.println(Arrays.toString(ex.getStackTrace()));
         } */
         
-        return new ArrayList<>();
-    }
-    
-    public static DefaultTableModel getUserFileTable(String userId) {
-       //Test data
-       List<FileModel> files = List.of(
+        //Test data
+        return List.of(
             new FileModel("file1", "test1.txt", new Date().toString(), new UserModel("0001", "johnwick", "John123", "John", "0718274567", "Admin"), "file size in MB"),
             new FileModel("file2", "test2.txt", new Date().toString(), new UserModel("0001", "johnwick", "John123", "John", "0718274567", "Admin"), "file size in MB"),
             new FileModel("file3", "test3.txt", new Date().toString(), new UserModel("0001", "johnwick", "John123", "John", "0718274567", "Admin"), "file size in MB")
         );
        
-       /* List<FileModel> files = new ArrayList<>();
-       try{
-           files = RemoteHandler.getRemoteFileObj().fetchAllFiles(userId);
-       }catch (RemoteException ex) {
-           System.err.println(Arrays.toString(ex.getStackTrace()));
-       } */
-         
-        //Construct file table model
-        constructFileTableModel();
-        
-        // Add rows from List<User>
-        for (FileModel file : files) {
-            Object[] row = { file.getFileId(), file.getFileName(), file.getOwner().getFirstName(), file.getCreateDateTime(), "file size in MB" };
-            fileTableModel.addRow(row);
-        }
-        
-        return fileTableModel;
     }
     
     public static boolean createNewFile(List<FileModel> fileObjs) {
@@ -72,9 +51,10 @@ public class FileController {
         return true;
     }
     
-    public static DefaultTableModel getRecentFiles(UserModel user) {
-        //Construct file table model
-        constructFileTableModel();
+    public static List<FileModel> getRecentFiles(String userId) {
+        
+        //files = getMyFiles(String userId);
+        
         /* try {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
             List<FileModel> allFiles = RemoteHandler.getRemoteFileObj().fetchAllFiles(user);
@@ -97,22 +77,11 @@ public class FileController {
         return null; */
         
         //Test data
-       List<FileModel> files = List.of(
+        return List.of(
             new FileModel("file1", "test1.txt", new Date().toString(), new UserModel("0001", "johnwick", "John123", "John", "0718274567", "Admin"), "file size in MB"),
             new FileModel("file2", "test2.txt", new Date().toString(), new UserModel("0001", "johnwick", "John123", "John", "0718274567", "Admin"), "file size in MB"),
             new FileModel("file3", "test3.txt", new Date().toString(), new UserModel("0001", "johnwick", "John123", "John", "0718274567", "Admin"), "file size in MB")
         );
-         
-        //Construct file table model
-        constructFileTableModel();
-        
-        // Add rows from List<User>
-        for (FileModel file : files) {
-            Object[] row = { file.getFileId(), file.getFileName(), file.getOwner().getFirstName(), file.getCreateDateTime(), "file size in MB" };
-            fileTableModel.addRow(row);
-        }
-        
-        return fileTableModel;
     }
     
     public static boolean updateFileName(String fileId, String newName) {
@@ -137,44 +106,24 @@ public class FileController {
         return true;
     }
     
-    public static DefaultTableModel getSharedByMeFiles(String userId) {
+    public static List<FileModel> getSharedByMeFiles(String userId) {
         //Test data
-       List<FileModel> files = List.of(
+        return List.of(
             new FileModel("file1", "test1.txt", new Date().toString(), new UserModel("0001", "johnwick", "John123", "John", "0718274567", "Admin"), "file size in MB"),
             new FileModel("file2", "test2.txt", new Date().toString(), new UserModel("0001", "johnwick", "John123", "John", "0718274567", "Admin"), "file size in MB"),
             new FileModel("file3", "test3.txt", new Date().toString(), new UserModel("0001", "johnwick", "John123", "John", "0718274567", "Admin"), "file size in MB")
         );
          
-        //Construct file table model
-        constructFileTableModel();
-        
-        // Add rows from List<User>
-        for (FileModel file : files) {
-            Object[] row = { file.getFileId(), file.getFileName(), file.getOwner().getFirstName(), file.getCreateDateTime(), "file size in MB" };
-            fileTableModel.addRow(row);
-        }
-        
-        return fileTableModel;
     }
     
-    public static DefaultTableModel getSharedWithYouFiles(String userId) {
+    public static List<FileModel> getSharedWithYouFiles(String userId) {
         //Test data
-       List<FileModel> files = List.of(
+        return List.of(
             new FileModel("file1", "test1.txt", new Date().toString(), new UserModel("0001", "johnwick", "John123", "John", "0718274567", "Admin"), "file size in MB"),
             new FileModel("file2", "test2.txt", new Date().toString(), new UserModel("0001", "johnwick", "John123", "John", "0718274567", "Admin"), "file size in MB"),
             new FileModel("file3", "test3.txt", new Date().toString(), new UserModel("0001", "johnwick", "John123", "John", "0718274567", "Admin"), "file size in MB")
         );
          
-        //Construct file table model
-        constructFileTableModel();
-        
-        // Add rows from List<User>
-        for (FileModel file : files) {
-            Object[] row = { file.getFileId(), file.getFileName(), file.getOwner().getFirstName(), file.getCreateDateTime(), "file size in MB" };
-            fileTableModel.addRow(row);
-        }
-        
-        return fileTableModel;
     }
     
     public static boolean shareFileWithUser(String fileId, List<String> users) {
@@ -189,15 +138,4 @@ public class FileController {
         return true;
     }
     
-    //Contruct file table model
-    private static void constructFileTableModel() {
-        String[] columnNames = {"File Id", "File Name", "Owner", "Created", "Size"};
-        fileTableModel = new DefaultTableModel(columnNames, 0) {
-           @Override
-            public boolean isCellEditable(int row, int column) {
-                // All cells are uneditable
-                return column == 1;
-            }
-        };
-    }
 }

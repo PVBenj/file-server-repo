@@ -49,10 +49,6 @@ public class FileModel implements Serializable {
         return this.sharedWithUsers;
     }
 
-    public void shareWithUser(UserModel user) {
-        this.sharedWithUsers.add(user);
-    }
-
     public List<GroupModel> getSharedWithGroups() {
         return this.sharedWithGroups;
     }

@@ -4,8 +4,11 @@ import Controller.FileController;
 import Controller.GroupController;
 import Controller.UserController;
 import Model.FileModel;
+import Model.GroupModel;
+import Model.UserModel;
 import View.Home.FileUploadWindow;
 import View.Home.Home;
+import static View.Home.HomePanels.GroupsPanel.groupsTable;
 import View.Home.UIMethods;
 import View.Resources.CustomFont;
 import java.awt.BorderLayout;
@@ -40,37 +43,33 @@ import javax.swing.table.JTableHeader;
  */
 public class MyFilesPanel extends javax.swing.JPanel implements UIMethods {
     
-    private List<String> selectedUsers;
+    private List<String> selectedUsernames;
     private List<FileModel> myFiles;
+    private List<UserModel> users;
+    private List<GroupModel> groups;
+    private DefaultTableModel myFilesTableModel;
     
     public MyFilesPanel() {
         initComponents();
-        selectedUsers = new ArrayList<>();
-        myFiles = new ArrayList<>();
+        selectedUsernames = new ArrayList<>();
+        users = UserController.getAllUsers();
+        groups = GroupController.getAllUserGroups();
+        myFiles = FileController.getMyFiles(Home.user.getUserId());
         loadFonts();
         contructFileTable();
         createShareUserOption();
     }
     
     public void contructFileTable() {
-        //Styling the table
-        repaintTable();
+        styleTable();
+        loadDataToTable();
+        createPopupMenu();
+        addRightClickListener();
         
-        //Get data to the file table
-        myFileTable.setModel(FileController.getUserFileTable(Home.user.getUserId()));
-        
-        // Create the popup menu
-        popupMenu = new JPopupMenu();
-        downloadItem = new JMenuItem("Download");
-        shareItem = new JMenuItem("Share");
-        deleteItem = new JMenuItem("Delete");
-
-        // Add menu items to the popup menu
-        popupMenu.add(downloadItem);
-        popupMenu.add(shareItem);
-        popupMenu.add(deleteItem);
-        
-        // Add a TableModelListener to detect cell edits
+    }
+    
+    //Add a TableModelListener to detect cell edits
+    private void addRightClickListener() {
         myFileTable.getModel().addTableModelListener((TableModelEvent e) -> {
             // Check if the event is an update
             if (e.getType() == TableModelEvent.UPDATE) {
@@ -87,6 +86,19 @@ public class MyFilesPanel extends javax.swing.JPanel implements UIMethods {
             }
         } 
         );
+    }
+    
+    //Create right click context menu for the table
+    private void createPopupMenu() {
+        popupMenu = new JPopupMenu();
+        downloadItem = new JMenuItem("Download");
+        shareItem = new JMenuItem("Share");
+        deleteItem = new JMenuItem("Delete");
+
+        // Add menu items to the popup menu
+        popupMenu.add(downloadItem);
+        popupMenu.add(shareItem);
+        popupMenu.add(deleteItem);
         
         // Add a mouse listener to detect right-clicks on the table
         myFileTable.addMouseListener(new MouseAdapter() {
@@ -114,6 +126,23 @@ public class MyFilesPanel extends javax.swing.JPanel implements UIMethods {
         setActionToMenu();
     }
     
+    //Load data to the table
+    private void loadDataToTable() {
+        //Table model creation
+        String[] columnNames = {"File Name", "Created By", "Shared With", "Size"};
+        myFilesTableModel = new DefaultTableModel(columnNames, 0);
+        
+        // Add rows from List<Groups> groups
+        for (FileModel file : myFiles) {
+            Object[] row = { file.getFileName(), file.getOwner().getUsername(), file.sharedUsersToString(), file.getFileSize() };
+            myFilesTableModel.addRow(row);
+        }
+        
+        //Setting the table model
+        myFileTable.setModel(myFilesTableModel);
+        
+    }
+    
     private void setActionToMenu() {
         // Add action listeners for the menu items
         downloadItem.addActionListener(e -> {
@@ -132,9 +161,9 @@ public class MyFilesPanel extends javax.swing.JPanel implements UIMethods {
             int result = JOptionPane.showConfirmDialog(null, addUserPanel, "Share file " + fileId + " with users", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
             
             if (result == JOptionPane.OK_OPTION) {
-                    if (!selectedUsers.isEmpty()) {
+                    if (!selectedUsernames.isEmpty()) {
                         //Check if file share has been done from the backend
-                        if(FileController.shareFileWithUser(fileId, selectedUsers)) {
+                        if(FileController.shareFileWithUser(fileId, selectedUsernames)) {
                             JOptionPane.showMessageDialog(null, "File share successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
                         } else {
                             JOptionPane.showMessageDialog(null, "File share unsuccessful!", "Error", JOptionPane.ERROR_MESSAGE);
@@ -234,10 +263,10 @@ public class MyFilesPanel extends javax.swing.JPanel implements UIMethods {
         // Add action listener to JComboBox to handle selection
         userDropdown.addActionListener((ActionEvent e) -> {
             String selectedUser = (String) userDropdown.getSelectedItem();
-            if (!selectedUsers.contains(selectedUser)) {
-                selectedUsers.add(selectedUser);
+            if (!selectedUsernames.contains(selectedUser)) {
+                selectedUsernames.add(selectedUser);
                 // Update the text area with selected usernames
-                selectedUsersArea.setText(String.join(", ", selectedUsers));
+                selectedUsersArea.setText(String.join(", ", selectedUsernames));
             } else {
                 JOptionPane.showMessageDialog(null, "User already selected.");
             }
@@ -273,7 +302,8 @@ public class MyFilesPanel extends javax.swing.JPanel implements UIMethods {
         
     }
     
-    private void repaintTable() {
+    //Styling the table
+    private void styleTable() {
         JTableHeader header = myFileTable.getTableHeader();
         header.setBackground(new Color(62, 62, 62));
         header.setForeground(new Color(255, 255, 255));

@@ -3,13 +3,14 @@ package View.Home;
 import Controller.GroupController;
 import Controller.UserController;
 import Model.GroupModel;
+import Model.UserModel;
 import View.Home.HomePanels.GroupsPanel;
 import View.Resources.CustomFont;
-import com.mysql.cj.result.Row;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -17,17 +18,18 @@ import javax.swing.table.DefaultTableModel;
 
 public final class CreateGroupWindow extends javax.swing.JFrame implements UIMethods {
     private String newGroupId;
-    private List<String> addedUsers;
+    private List<UserModel> users;
+    private List<String> addedUsernames;
     private static GroupModel newGroup;
     private JLabel userList = new JLabel();
     
-    public CreateGroupWindow() {
+    public CreateGroupWindow(List<UserModel> users) {
+        this.users = users;
         initComponents();
         loadFonts();
         groupIdField.setText(createGroupId().substring(0, 11));
-        userListCombo.setSelectedIndex(-1);
-        this.addedUsers = new ArrayList<>();
-        setGroupComboBox();
+        this.addedUsernames = new ArrayList<>();
+        setUserComboBox();
     }
 
     /**
@@ -785,7 +787,7 @@ public final class CreateGroupWindow extends javax.swing.JFrame implements UIMet
         //check if the form validate returns true
         if(formValidate()) {
             //passing the added users and the new group to the group controller
-            if(GroupController.createGroup(newGroup, this.addedUsers)) {
+            if(GroupController.createGroup(newGroup)) {
                 JOptionPane.showMessageDialog(null, "Group created successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
                 updateGroupsTable();
             }else {
@@ -809,11 +811,11 @@ public final class CreateGroupWindow extends javax.swing.JFrame implements UIMet
             String selectedUser = userListCombo.getSelectedItem().toString();
         
             // Check if the user is already added
-            if (addedUsers.contains(selectedUser)) {
+            if (addedUsernames.contains(selectedUser)) {
                 JOptionPane.showMessageDialog(null, "You cannot add the same user multiple times.", "Warning", JOptionPane.WARNING_MESSAGE);
             } else {
                 // Add the user to the set and display it on the panel
-                addedUsers.add(selectedUser);
+                addedUsernames.add(selectedUser);
                 
                 if(userList.getText().isEmpty()) {
                     userList.setText(selectedUser);
@@ -834,8 +836,8 @@ public final class CreateGroupWindow extends javax.swing.JFrame implements UIMet
 
     private void removeUserBTNMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_removeUserBTNMouseClicked
         
-        if(!addedUsers.isEmpty()) {
-            addedUsers.clear();
+        if(!addedUsernames.isEmpty()) {
+            addedUsernames.clear();
             userList.setText(" ");
         }else {
             JOptionPane.showMessageDialog(null, "No users selected to remove!", "Warning", JOptionPane.WARNING_MESSAGE);
@@ -887,13 +889,17 @@ public final class CreateGroupWindow extends javax.swing.JFrame implements UIMet
     
     private void createGroupObj() {
         newGroup = new GroupModel(newGroupId ,groupNameTF.getText(), Home.user);
+        newGroup.setUsers(getUserObjs());
     }
     
-    private void setGroupComboBox() {
-        DefaultTableModel model = UserController.getUserTable();
-        for(int i = 0; i < model.getRowCount(); i++) {
-            userListCombo.addItem(model.getValueAt(i, 1).toString());
+    private void setUserComboBox() {
+        List<String> usernames = new ArrayList<>();
+        
+        for(UserModel user : users) {
+            usernames.add(user.getUsername());
         }
+        
+        userListCombo = new JComboBox(usernames.toArray(new String[0]));
         userListCombo.setSelectedIndex(-1);
     }
     
@@ -901,6 +907,20 @@ public final class CreateGroupWindow extends javax.swing.JFrame implements UIMet
         DefaultTableModel tableModel = (DefaultTableModel) GroupsPanel.groupsTable.getModel();
         Object[] row = { newGroup.getGroupId(), newGroup.getGroupName(), newGroup.groupMembersToString(), newGroup.getGroupOwner().getFirstName() };
         tableModel.addRow(row);
+    }
+    
+    private List<UserModel> getUserObjs() {
+        List<UserModel> addedUserObjs = new ArrayList<>();
+        
+        for(String username : addedUsernames) {
+            for(UserModel user : users) {
+                if(username.equals(user.getUsername())) {
+                    addedUserObjs.add(user);
+                }
+            }
+        }
+        
+        return addedUserObjs;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

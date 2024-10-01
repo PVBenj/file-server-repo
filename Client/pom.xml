@@ -28,4 +28,14 @@
         <maven.compiler.target>22</maven.compiler.target>
         <exec.mainClass>com.fileserver.client.Client</exec.mainClass>
     </properties>
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/java/View/Resources</directory>
+                <includes>
+                    <include>**/*.png</include> <!-- Include all PNG files -->
+                </includes>
+            </resource>
+        </resources>
+    </build>
 </project>

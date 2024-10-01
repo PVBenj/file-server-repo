@@ -578,33 +578,35 @@ public class Home extends javax.swing.JFrame implements UIMethods {
     private void applyIcons() {
         
         try{
+            System.out.println(getClass().getResource("/Icons/dashboard-icon.png"));
+            
             dashboardLabel.setIcon(
-                    new ImageIcon(ImageIO.read(
-                            new File("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Icons/dashboard-icon.png"))));
+            new ImageIcon(ImageIO.read(
+                getClass().getResource("/Icons/dashboard-icon.png"))));
             
             myFilesLabel.setIcon(
-                    new ImageIcon(ImageIO.read(
-                            new File("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Icons/myfiles-icon.png"))));
-            
+            new ImageIcon(ImageIO.read(
+                getClass().getResource("/Icons/myfiles-icon.png"))));
+        
             sharedFilesLabel.setIcon(
-                    new ImageIcon(ImageIO.read(
-                            new File("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Icons/shared-icon.png"))));
-            
+                new ImageIcon(ImageIO.read(
+                    getClass().getResource("/Icons/shared-icon.png"))));
+
             activityLabel.setIcon(
-                    new ImageIcon(ImageIO.read(
-                            new File("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Icons/activity-icon.png"))));
-            
+                new ImageIcon(ImageIO.read(
+                    getClass().getResource("/Icons/activity-icon.png"))));
+
             groupsLabel.setIcon(
-                    new ImageIcon(ImageIO.read(
-                            new File("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Icons/groups-icon.png"))));
-            
+                new ImageIcon(ImageIO.read(
+                    getClass().getResource("/Icons/groups-icon.png"))));
+
             profileIcon.setIcon(
-                    new ImageIcon(ImageIO.read(
-                            new File("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Icons/user-icon.png"))));
-            
+                new ImageIcon(ImageIO.read(
+                    getClass().getResource("/Icons/user-icon.png"))));
+
             usersLabel.setIcon(
-                    new ImageIcon(ImageIO.read(
-                            new File("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Icons/users-icon.png"))));
+                new ImageIcon(ImageIO.read(
+                    getClass().getResource("/Icons/users-icon.png"))));
             
         }catch(IOException e) {
             System.err.println(e.getMessage());

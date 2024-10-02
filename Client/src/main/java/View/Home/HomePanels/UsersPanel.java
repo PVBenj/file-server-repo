@@ -1,14 +1,32 @@
 package View.Home.HomePanels;
 
+import Controller.ActivityLoggerController;
+import Controller.GroupController;
 import Controller.UserController;
+import Model.ActivityLogger;
+import Model.FileModel;
+import Model.GroupModel;
+import Model.UserModel;
 import View.Home.CreateUserWindow;
+import View.Home.Home;
+import static View.Home.HomePanels.GroupsPanel.groupsTable;
 import View.Home.UIMethods;
 import View.Resources.CustomFont;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
@@ -18,14 +36,16 @@ import javax.swing.table.JTableHeader;
  */
 public class UsersPanel extends javax.swing.JPanel implements UIMethods {
 
-    /**
-     * Creates new form UsersPanel
-     */
+    private List<GroupModel> groups;
+    private List<UserModel> users;
+    private DefaultTableModel userTableModel;
+    
     public UsersPanel() {
         initComponents();
         loadFonts();
-        repaintTable();
-        userTable.setModel(UserController.getUserTable());
+        this.groups = GroupController.getAllUserGroups();
+        this.users = UserController.getAllUsers();
+        constructTable();
     }
     
         @Override
@@ -44,8 +64,6 @@ public class UsersPanel extends javax.swing.JPanel implements UIMethods {
         usersPanelHeading.setFont(CustomFont.panelHeadingFont);
         createLabel.setFont(CustomFont.formLabelFont);
         removeLabel.setFont(CustomFont.formLabelFont);
-        userTable.setFont(CustomFont.tableRowFont);
-        userTable.getTableHeader().setFont(CustomFont.tableHeaderFont);
     }
     
     private void repaintTable() {
@@ -54,6 +72,109 @@ public class UsersPanel extends javax.swing.JPanel implements UIMethods {
         header.setForeground(new Color(255, 255, 255));
         header.setPreferredSize(
                 new Dimension(header.getWidth(), 40));
+        userTable.setFont(CustomFont.tableRowFont);
+        userTable.getTableHeader().setFont(CustomFont.tableHeaderFont);
+    }
+    
+    private void constructTable() {
+        repaintTable();
+        loadDataToUserTable();
+        createPopupMenu();
+    }
+    
+    private void loadDataToUserTable() {
+        //Table model creation
+        String[] columnNames = {"User Id", "Username", "First Name", "Email", "Mobile"};
+        userTableModel = new DefaultTableModel(columnNames, 0);
+        
+        // Add rows from List<Groups> groups
+        for (UserModel user : users) {
+            Object[] row = { user.getUserId(), user.getUsername(), user.getFirstName(), user.getEmail(), user.getMobile() };
+            userTableModel.addRow(row);
+        }
+        
+        //Setting the table model
+        userTable.setModel(userTableModel);
+    }
+    
+    //Create right click context menu for the table
+    private void createPopupMenu() {
+        popupMenu = new JPopupMenu();
+        addToGroup = new JMenu("Add To Group");
+        deleteUser = new JMenuItem("Delete User");
+        JMenuItem groupName;
+        //Add items to the submenu addToGroup
+        for(GroupModel group : groups) {
+            groupName = new JMenuItem(group.getGroupName());
+            groupName.setFont(CustomFont.formTextFieldFont);
+            
+            groupName.addActionListener((ActionEvent e) -> {
+                // Get the exact group name that was clicked
+                JMenuItem clickedItem = (JMenuItem) e.getSource();
+                String selectedGroupName = clickedItem.getText();
+                
+                if(!checkUserInGroups(selectedGroupName)) {
+                    if(UserController.addUserToGroup(getSelectedUserId(), getSelectedGroupId(selectedGroupName))) {
+                        JOptionPane.showMessageDialog(null, setJOptionMessageLabel(getSelectedUserId() + " added to the group " + selectedGroupName), 
+                                "Success", JOptionPane.INFORMATION_MESSAGE);
+                        ActivityLoggerController.logActivity(
+                                new ActivityLogger(
+                                        Home.user.getUsername(), getSelectedUserId(), "User had been added to " + selectedGroupName, new Date().toString())
+                    ); 
+                    } else {
+                        JOptionPane.showMessageDialog(null, setJOptionMessageLabel("User add failed!"), "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                }else {
+                    JOptionPane.showMessageDialog(null, setJOptionMessageLabel("Selected user is already in the group " + selectedGroupName), 
+                            "Error", JOptionPane.ERROR_MESSAGE);
+                }
+                
+                
+            });
+            
+            addToGroup.add(groupName);
+        }
+
+        // Add menu items to the popup menu
+        popupMenu.add(addToGroup);
+        popupMenu.add(deleteUser);
+        
+        //Set font of added menus
+        addToGroup.setFont(CustomFont.formTextFieldFont);
+        deleteUser.setFont(CustomFont.formTextFieldFont);
+        
+        
+        // Add a mouse listener to detect right-clicks on the table
+        userTable.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                showPopup(e);
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                showPopup(e);
+            }
+
+            private void showPopup(MouseEvent e) {
+                if (e.isPopupTrigger() && userTable.getSelectedRow() != -1) {
+                    // Select the row where the right-click occurred
+                    int row = userTable.rowAtPoint(e.getPoint());
+                    userTable.setRowSelectionInterval(row, row);
+                    popupMenu.show(e.getComponent(), e.getX(), e.getY());
+                }
+            }
+        });
+        
+        // Add action listeners for the menu items
+        setActionToMenu();
+    }
+    
+    private JLabel setJOptionMessageLabel(String message) {
+        JLabel messageLabel = new JLabel(message);
+        messageLabel.setFont(CustomFont.formTextFieldFont); 
+        
+        return messageLabel;
     }
 
     /**
@@ -459,10 +580,10 @@ public class UsersPanel extends javax.swing.JPanel implements UIMethods {
         String selectedUserId = getSelectedUserId();
         //Checks if table row is selected
         if(!selectedUserId.isEmpty()) {
-            int response = JOptionPane.showConfirmDialog(null, "Do want to remove " 
-                    + userTable.getModel().getValueAt(userTable.getSelectedRow(), 1).toString() + "?", "Warning!", JOptionPane.OK_CANCEL_OPTION);
+            int response = JOptionPane.showConfirmDialog(null, setJOptionMessageLabel("Do want to remove " 
+                    + userTable.getModel().getValueAt(userTable.getSelectedRow(), 1).toString() + "?"), "Warning!", JOptionPane.OK_CANCEL_OPTION);
             //Checks if user confirms the user removal
-            if(response == 0) {
+            if(response == 0) { 
                 if(UserController.removeUser(selectedUserId)) {
                     DefaultTableModel model = (DefaultTableModel) userTable.getModel();
                     model.removeRow(userTable.getSelectedRow());
@@ -492,19 +613,9 @@ public class UsersPanel extends javax.swing.JPanel implements UIMethods {
     }//GEN-LAST:event_createUserBTNMouseExited
 
     private void createUserBTNMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_createUserBTNMouseClicked
-        new CreateUserWindow().setVisible(true);
+        new CreateUserWindow(this.groups).setVisible(true);
     }//GEN-LAST:event_createUserBTNMouseClicked
 
-    private String getSelectedUserId() {
-        if(userTable.getSelectedRow() != -1) {
-            System.out.println("Selected user: " + userTable.getModel().getValueAt(userTable.getSelectedRow(), 0).toString());
-            return userTable.getModel().getValueAt(userTable.getSelectedRow(), 0).toString();
-            
-        }else {
-            JOptionPane.showMessageDialog(null, "Select a user to remove", "Warning", JOptionPane.WARNING_MESSAGE);
-            return null;
-        }
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel createLabel;
@@ -540,6 +651,74 @@ public class UsersPanel extends javax.swing.JPanel implements UIMethods {
     private javax.swing.JTable userTable;
     private javax.swing.JLabel usersPanelHeading;
     // End of variables declaration//GEN-END:variables
+    private JPopupMenu popupMenu;
+    private JMenu addToGroup;
+    private JMenuItem deleteUser;
 
-
+    
+    //Setting action listeners for the menu items
+    //Upon clicking on them relevant functions should get invoked
+    private void setActionToMenu() {
+        //Add action to delete user option
+        deleteUser.addActionListener((ActionEvent e) -> {
+            String userId = getSelectedUserId();
+            
+            if(!userId.isEmpty()) {
+            int response = JOptionPane.showConfirmDialog(null, setJOptionMessageLabel("Do want to remove " 
+                    + userTable.getModel().getValueAt(userTable.getSelectedRow(), 1).toString() + "?"), "Warning!", JOptionPane.OK_CANCEL_OPTION);
+            //Checks if user confirms the user removal
+            if(response == 0) { 
+                if(UserController.removeUser(userId)) {
+                    DefaultTableModel model = (DefaultTableModel) userTable.getModel();
+                    model.removeRow(userTable.getSelectedRow());
+                }
+            }
+         }
+            
+        });
+        
+        //Add action to addToGroup option
+        addToGroup.addActionListener((ActionEvent e) -> {
+            String userId = getSelectedUserId();
+            
+        });
+        
+    }
+    
+    
+    private String getSelectedUserId() {
+        String userId = userTable
+                .getValueAt(userTable.getSelectedRow(), userTable.getSelectedColumn())
+                .toString();
+        
+        if(!userId.isEmpty()) {
+            System.out.println("UserId selected " + userId);
+            return userId;
+        } else {
+            System.out.println("UserId not selected " + userId);
+            return null;
+        }
+    }
+    
+    //Gets the respective groupid by the group name
+    private String getSelectedGroupId(String groupName) {
+        
+        for(GroupModel group : groups) {
+            if(group.getGroupName().equals(groupName)) {
+                return group.getGroupId();
+            }
+            break;
+        }
+        
+        return null;
+    }
+    
+    private boolean checkUserInGroups(String groupName) {
+        for(UserModel user : users) {
+            for(GroupModel group : user.getGroups()) {
+                return group.getGroupName().equals(groupName);
+            }
+        }
+        return false;
+    }
 }

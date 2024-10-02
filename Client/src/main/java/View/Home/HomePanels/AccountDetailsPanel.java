@@ -1,6 +1,8 @@
 package View.Home.HomePanels;
 
+import Controller.ActivityLoggerController;
 import Controller.UserController;
+import Model.ActivityLogger;
 import Model.GroupModel;
 import Model.PasswordHash;
 import Model.UserModel;
@@ -8,6 +10,7 @@ import View.Home.Home;
 import View.Home.UIMethods;
 import View.Resources.CustomFont;
 import java.awt.Color;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -1062,9 +1065,17 @@ public final class AccountDetailsPanel extends javax.swing.JPanel implements UIM
     private void updateBTNMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_updateBTNMouseClicked
          try {
              updateUserObj();
-             UserController.updateUser(updatedUser);
+             if(UserController.updateUser(updatedUser)) {
+                 JOptionPane.showMessageDialog(null, "Account updated successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                 ActivityLoggerController.logActivity(
+                    new ActivityLogger(Home.user.getUsername(), null, "Updated the account details", new Date().toString()));
+             } else {
+                 JOptionPane.showMessageDialog(null, "Account updation unsuccessful!", "Error", JOptionPane.ERROR_MESSAGE);
+                 ActivityLoggerController.logActivity(
+                    new ActivityLogger(Home.user.getUsername(), null, "Account updation unsuccessful", new Date().toString()));
+             }
          } catch (Exception ex) {
-             Logger.getLogger(AccountDetailsPanel.class.getName()).log(Level.SEVERE, null, ex);
+             System.err.println(ex.getMessage());
          }
     }//GEN-LAST:event_updateBTNMouseClicked
 
@@ -1108,6 +1119,8 @@ public final class AccountDetailsPanel extends javax.swing.JPanel implements UIM
                passwordPF.setText(null); 
             } else {
                 JOptionPane.showMessageDialog(null, "Incorrect password!", "Warning", JOptionPane.WARNING_MESSAGE);
+                ActivityLoggerController.logActivity(
+                    new ActivityLogger(Home.user.getUsername(), null, "Unautharized password change attempt", new Date().toString()));
                 setAccountFields();
             }
                 

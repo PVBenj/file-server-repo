@@ -55,9 +55,9 @@ public class GroupModel implements Serializable {
         
         for(UserModel user : this.groupMembers) {
             if(groupMembersStr != null) {
-                groupMembersStr += user.getUsername() + ", ";
+                groupMembersStr += ", " + user.getUsername();
             } else {
-                groupMembersStr = user.getUsername() + ", ";
+                groupMembersStr = user.getUsername();
             }
         }
         

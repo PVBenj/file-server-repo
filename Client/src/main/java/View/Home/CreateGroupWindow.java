@@ -1,31 +1,28 @@
 package View.Home;
 
 import Controller.GroupController;
-import Controller.UserController;
 import Model.GroupModel;
 import Model.UserModel;
-import View.Home.HomePanels.GroupsPanel;
 import View.Resources.CustomFont;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.table.DefaultTableModel;
 
 public final class CreateGroupWindow extends javax.swing.JFrame implements UIMethods {
     private String newGroupId;
     private List<UserModel> users;
     private List<String> addedUsernames;
     private static GroupModel newGroup;
-    private JLabel userList = new JLabel();
+    private JLabel userList;
     
     public CreateGroupWindow(List<UserModel> users) {
         this.users = users;
         initComponents();
+        userList = new JLabel();
         loadFonts();
         groupIdField.setText(createGroupId().substring(0, 11));
         this.addedUsernames = new ArrayList<>();
@@ -767,7 +764,7 @@ public final class CreateGroupWindow extends javax.swing.JFrame implements UIMet
     }// </editor-fold>//GEN-END:initComponents
 
     private void cancelBTNMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cancelBTNMouseClicked
-        int response = JOptionPane.showConfirmDialog(null, "Do want to exit?", "Warning!", JOptionPane.OK_CANCEL_OPTION);
+        int response = JOptionPane.showConfirmDialog(null, setJOptionMessageLabel("Do you want to exit?"), "Warning!", JOptionPane.OK_CANCEL_OPTION);
         if(response == 0) {
             this.dispose();
         }
@@ -787,11 +784,10 @@ public final class CreateGroupWindow extends javax.swing.JFrame implements UIMet
         //check if the form validate returns true
         if(formValidate()) {
             //passing the added users and the new group to the group controller
-            if(GroupController.createGroup(newGroup)) {
-                JOptionPane.showMessageDialog(null, "Group created successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
-                updateGroupsTable();
+            if(GroupController.createGroup(createGroupObj(), getSelectedUserIds())) {
+                JOptionPane.showMessageDialog(null, setJOptionMessageLabel("Group created successfully!"), "Success", JOptionPane.INFORMATION_MESSAGE);
             }else {
-                JOptionPane.showMessageDialog(null, "Group creating unsuccessful!", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, setJOptionMessageLabel("Group creation unsuccessful!"), "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
     }//GEN-LAST:event_createBTNMouseClicked
@@ -812,7 +808,7 @@ public final class CreateGroupWindow extends javax.swing.JFrame implements UIMet
         
             // Check if the user is already added
             if (addedUsernames.contains(selectedUser)) {
-                JOptionPane.showMessageDialog(null, "You cannot add the same user multiple times.", "Warning", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, setJOptionMessageLabel("You cannot add the same user multiple times!"), "Warning", JOptionPane.WARNING_MESSAGE);
             } else {
                 // Add the user to the set and display it on the panel
                 addedUsernames.add(selectedUser);
@@ -821,16 +817,16 @@ public final class CreateGroupWindow extends javax.swing.JFrame implements UIMet
                     userList.setText(selectedUser);
                 }else {
                     userList.setText(
-                            userList.getText() + " " + selectedUser);
+                            userList.getText() + ", " + selectedUser);
                 }
                 
-                userList.setFont(CustomFont.createFont("/home/benjamin/file-server-repo/Client/src/main/java/View/Resources/Fonts/SFPRODISPLAYREGULAR.OTF", 15));
+                userList.setFont(CustomFont.createFont("/Fonts/SFPRODISPLAYREGULAR.OTF", 15));
                 userDisplayPanel.add(userList);
                 userDisplayPanel.revalidate();
                 userDisplayPanel.repaint();
             }
         }else {
-            JOptionPane.showMessageDialog(null, "Please select a user from the drop-down", "Warning", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, setJOptionMessageLabel("Please select a user from the drop down!"), "Warning", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_addUserBTNMouseClicked
 
@@ -838,9 +834,9 @@ public final class CreateGroupWindow extends javax.swing.JFrame implements UIMet
         
         if(!addedUsernames.isEmpty()) {
             addedUsernames.clear();
-            userList.setText(" ");
+            userList.setText("");
         }else {
-            JOptionPane.showMessageDialog(null, "No users selected to remove!", "Warning", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, setJOptionMessageLabel("No users selected to remove!"), "Warning", JOptionPane.WARNING_MESSAGE);
         }
         
         
@@ -882,31 +878,25 @@ public final class CreateGroupWindow extends javax.swing.JFrame implements UIMet
         if(!groupNameTF.getText().isEmpty()) {
             return true;
         }else {
-            JOptionPane.showMessageDialog(null, "Group name should be defined", "Warning", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, setJOptionMessageLabel("Group name must be defined!"), "Warning", JOptionPane.WARNING_MESSAGE);
             return false;
         }
     }
     
-    private void createGroupObj() {
+    private GroupModel createGroupObj() {
         newGroup = new GroupModel(newGroupId ,groupNameTF.getText(), Home.user);
         newGroup.setUsers(getUserObjs());
+        
+        return newGroup;
     }
     
     private void setUserComboBox() {
-        List<String> usernames = new ArrayList<>();
         
         for(UserModel user : users) {
-            usernames.add(user.getUsername());
+            userListCombo.addItem(user.getUsername());
         }
         
-        userListCombo = new JComboBox(usernames.toArray(new String[0]));
         userListCombo.setSelectedIndex(-1);
-    }
-    
-    private static void updateGroupsTable() {
-        DefaultTableModel tableModel = (DefaultTableModel) GroupsPanel.groupsTable.getModel();
-        Object[] row = { newGroup.getGroupId(), newGroup.getGroupName(), newGroup.groupMembersToString(), newGroup.getGroupOwner().getFirstName() };
-        tableModel.addRow(row);
     }
     
     private List<UserModel> getUserObjs() {
@@ -921,6 +911,13 @@ public final class CreateGroupWindow extends javax.swing.JFrame implements UIMet
         }
         
         return addedUserObjs;
+    }
+    
+    private JLabel setJOptionMessageLabel(String message) {
+        JLabel messageLabel = new JLabel(message);
+        messageLabel.setFont(CustomFont.formTextFieldFont); 
+        
+        return messageLabel;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -990,5 +987,20 @@ public final class CreateGroupWindow extends javax.swing.JFrame implements UIMet
     private javax.swing.JComboBox<String> userListCombo;
     // End of variables declaration//GEN-END:variables
 
+    //Gets the respective userId by the username
+    private List<String> getSelectedUserIds() {
+        List<String> userIds = new ArrayList<>();
+        
+        
+        for(UserModel user : users) {
+            for(String username : addedUsernames) {
+                if(user.getUsername().equals(username)) {
+                    userIds.add(user.getUserId());
+                }
+            }
+        }
+        
+        return userIds;
+    }
     
 }

@@ -87,4 +87,18 @@ public class UserModel implements Serializable {
     public List<GroupModel> getGroups() {
         return this.groups;
     }
+    
+    public String userGroupsToString() {
+        String groupsStr = null;
+        
+        for(GroupModel group : this.groups) {
+            if(groups != null) {
+                groupsStr += ", " + group.getGroupName();
+            } else {
+                groupsStr = group.getGroupName();
+            }
+        }
+        
+        return groupsStr;
+    }
 }

@@ -1,35 +1,22 @@
 package Controller;
 
-import Model.ActivityLogger;
-import Model.PasswordHash;
 import Model.UserModel;
 import ServerHandler.RemoteHandler;
-import View.Home.Home;
-import java.util.Date;
-import javax.swing.JOptionPane;
+import java.rmi.RemoteException;
+import java.util.Arrays;
 
 
 public class LoginController {
     
     
-    public static void login(String username, String password) {
+    public static UserModel login(String username, String password) {
         
-        try{
-            UserModel user = RemoteHandler.getRemoteUser()
-                    .login(username, PasswordHash.hash(password));
-            
-            if(user != null) {
-                new Home(user);
-            }else {
-                JOptionPane.showMessageDialog(null, "Incorrect credentials!", "Error", JOptionPane.ERROR_MESSAGE);
-                ActivityLoggerController.logActivity(
-                        new ActivityLogger(username, null, "Login attempt with incorrect credentials", new Date().toString())
-                );
-            }
-            
-        }catch (Exception e) {
-            System.err.println(e.getMessage());
-        }
+        try {
+            return RemoteHandler.getRemoteUser().login(username, password);
+        } catch (RemoteException ex) {
+            System.err.println(Arrays.toString(ex.getStackTrace()));
+            return null;
+        } 
        
     }
     

@@ -1,17 +1,20 @@
 package View.Home;
 
-import Controller.GroupController;
 import Controller.UserController;
+import Model.GroupModel;
+import Model.PasswordHash;
 import Model.UserModel;
 import View.Resources.CustomFont;
 import java.awt.Color;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -19,10 +22,12 @@ import javax.swing.table.DefaultTableModel;
  */
 public final class CreateUserWindow extends javax.swing.JFrame implements UIMethods {
     private String newUserId;
-    private DefaultTableModel userTable;
-    private Set<String> userNames = new HashSet<>();
+    private List<GroupModel> groups;
+    private Set<String> userNames;
     
-    public CreateUserWindow() {
+    public CreateUserWindow(List<GroupModel> groups) {
+        userNames = new HashSet<>();
+        this.groups = groups;
         initComponents();
         loadFonts();
         userIdField.setText(createUserId().substring(0, 11));
@@ -1061,7 +1066,16 @@ public final class CreateUserWindow extends javax.swing.JFrame implements UIMeth
         //Checks if the form validation returns a true
         if(formValidate()) {
             if(checkUsernameAvailability()) {
-                UserController.createUser(createUserObj(), getSelectedGroupId());
+                try {
+                    if(UserController.createUser(createUserObj(), getSelectedGroupId())) {
+                        JOptionPane.showMessageDialog(null, setJOptionMessageLabel("User creation successful!"), "Success", JOptionPane.INFORMATION_MESSAGE);
+                    } else {
+                        JOptionPane.showMessageDialog(null, setJOptionMessageLabel("User creation unsuccessful!"), "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                } catch (Exception ex) {
+                    System.err.println(ex.getMessage());
+                }
+                
             }
         }
     }//GEN-LAST:event_createBTNMouseClicked
@@ -1077,7 +1091,7 @@ public final class CreateUserWindow extends javax.swing.JFrame implements UIMeth
     }//GEN-LAST:event_cancelBTNMouseExited
 
     private void cancelBTNMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cancelBTNMouseClicked
-        int response = JOptionPane.showConfirmDialog(null, "Do want to exit?", "Warning!", JOptionPane.OK_CANCEL_OPTION);
+        int response = JOptionPane.showConfirmDialog(null, setJOptionMessageLabel("Do want to exit?"), "Warning!", JOptionPane.OK_CANCEL_OPTION);
         if(response == 0) {
             this.dispose();
         }
@@ -1120,10 +1134,10 @@ public final class CreateUserWindow extends javax.swing.JFrame implements UIMeth
         
     }
     
-    private UserModel createUserObj() {
+    private UserModel createUserObj() throws Exception {
         String userId = this.newUserId;
         String username = usernameTF.getText();
-        String password = new String(passwordPF.getPassword());
+        String password = PasswordHash.hash(new String(passwordPF.getPassword()));
         String firstName = firstNameTF.getText();
         String mobile = mobileTF.getText();
         String role = roleCombo.getSelectedItem().toString();
@@ -1143,7 +1157,7 @@ public final class CreateUserWindow extends javax.swing.JFrame implements UIMeth
                 && passwordPF.getPassword().length != 0 && !emailTF.getText().isEmpty() && !mobileTF.getText().isEmpty()) {
             return validateFields();
         }else {
-            JOptionPane.showMessageDialog(null, "Fill all the fields", "Warning", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, setJOptionMessageLabel("Fill all the fields"), "Warning", JOptionPane.WARNING_MESSAGE);
             return false;
         }
     }
@@ -1157,10 +1171,10 @@ public final class CreateUserWindow extends javax.swing.JFrame implements UIMeth
             return true;
         }else {
             if(!emailTF.getText().matches(EMAIL_PATTERN)) {
-                JOptionPane.showMessageDialog(null, "Enter a correct email address!", "Warning", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, setJOptionMessageLabel("Enter a correct email address!"), "Warning", JOptionPane.WARNING_MESSAGE);
             } else {
-                JOptionPane.showMessageDialog(null, "Enter a correct mobile number!", "Warning", JOptionPane.WARNING_MESSAGE);
-            }
+                JOptionPane.showMessageDialog(null, setJOptionMessageLabel("Enter a correct mobile number!"), "Warning", JOptionPane.WARNING_MESSAGE);
+            } 
         }
         
         return false;
@@ -1170,16 +1184,17 @@ public final class CreateUserWindow extends javax.swing.JFrame implements UIMeth
         if(!userNames.contains(usernameTF.getText())) {
             return true;
         }else {
-            JOptionPane.showMessageDialog(null, "Username already taken!", "Warning", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, setJOptionMessageLabel("Username already taken!"), "Warning", JOptionPane.WARNING_MESSAGE);
         }
-        return false;
+        return false; 
     }
     
     private void setGroupComboBox() {
-        DefaultTableModel model = GroupController.getGroupTable();
-        for(int i = 0; i < model.getRowCount(); i++) {
-            groupCombo.addItem(model.getValueAt(i, 0) + " - " + model.getValueAt(i, 1).toString());
+        
+        for(GroupModel group : groups) {
+            groupCombo.addItem(group.getGroupId() + " - " + group.getGroupName());
         }
+        
         groupCombo.setSelectedIndex(-1);
     }
     
@@ -1187,6 +1202,13 @@ public final class CreateUserWindow extends javax.swing.JFrame implements UIMeth
         String selectString = groupCombo.getSelectedItem().toString();
         
         return selectString.substring(0, selectString.indexOf(" - ")).trim();
+    }
+    
+    private JLabel setJOptionMessageLabel(String message) {
+        JLabel messageLabel = new JLabel(message);
+        messageLabel.setFont(CustomFont.formTextFieldFont); 
+        
+        return messageLabel;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

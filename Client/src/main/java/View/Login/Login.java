@@ -3,14 +3,14 @@ package View.Login;
 import Controller.ActivityLoggerController;
 import Controller.LoginController;
 import Model.ActivityLogger;
-import Model.GroupModel;
+import Model.PasswordHash;
 import Model.UserModel;
 import View.Home.Home;
 import View.Resources.CustomFont;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import java.awt.Color;
 import java.util.Date;
-import java.util.List;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
@@ -125,31 +125,37 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void loginBTNMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginBTNMouseClicked
-        /*String username = usernameTF.getText().trim();
-        String password = new String(passwordPF.getPassword());
-        login(username, password);*/
-        
-        //Test data
-        UserModel user = new UserModel("1", "johnwick", "Ben123", "Benjamin", "0718375748", "Admin");
-        user.setEmail("pramodyabenjamin@gmail.com");
-        user.setGroups(
-                List.of(
-                        new GroupModel("group1", "Admin group", new UserModel("1", "John", "Ben123", "Benjamin", "0718375748", "Admin")),
-                        new GroupModel("group2", "Editor group", new UserModel("1", "John", "Ben123", "Benjamin", "0718375748", "Admin")),
-                        new GroupModel("group3", "HR group", new UserModel("1", "John", "Ben123", "Benjamin", "0718375748", "Admin")) 
-                )
-        );
-        new Home(user).setVisible(true);
-        this.dispose();
+        try {
+            String username = usernameTF.getText().trim();
+            String password = new String(passwordPF.getPassword());
+            login(username, PasswordHash.hash(password));
+            
+            //Test data
+            /* UserModel user = new UserModel("1", "johnwick", "Ben123", "Benjamin", "0718375748", "Admin");
+            user.setEmail("pramodyabenjamin@gmail.com");
+            user.setGroups(
+            List.of(
+            new GroupModel("group1", "Admin group", new UserModel("1", "John", "Ben123", "Benjamin", "0718375748", "Admin")),
+            new GroupModel("group2", "Editor group", new UserModel("1", "John", "Ben123", "Benjamin", "0718375748", "Admin")),
+            new GroupModel("group3", "HR group", new UserModel("1", "John", "Ben123", "Benjamin", "0718375748", "Admin"))
+            )
+            ); */
+        } catch (Exception ex) {
+            System.err.println(ex.getMessage());
+        }
     }//GEN-LAST:event_loginBTNMouseClicked
 
     private void login(String username, String password) {
         if(!username.isEmpty() && !password.isEmpty()) {
-            
-            LoginController.login(username, password);
+            UserModel logonUser = LoginController.login(username, password);
+            if(logonUser != null) {
+                new Home(logonUser).setVisible(true);
+            }else {
+                JOptionPane.showMessageDialog(null, setJOptionMessageLabel("Incorrect credentials"), "Warning", JOptionPane.WARNING_MESSAGE);
+            }
             
         } else {
-            JOptionPane.showMessageDialog(null, "Please enter both username & password!", "Warning", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, setJOptionMessageLabel("Please enter both username & password!"), "Warning", JOptionPane.WARNING_MESSAGE);
             ActivityLoggerController.logActivity(
                     new ActivityLogger(null, null, "Failed login attempt", new Date().toString())
             );
@@ -187,8 +193,11 @@ public class Login extends javax.swing.JFrame {
         logoLabel.setFont(CustomFont.panelHeadingFont);
     }
     
-    private void test() {
-        //Test method
+    private JLabel setJOptionMessageLabel(String message) {
+        JLabel messageLabel = new JLabel(message);
+        messageLabel.setFont(CustomFont.formTextFieldFont); 
+        
+        return messageLabel;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -72,16 +72,23 @@ public class SharedFiles extends javax.swing.JPanel implements UIMethods {
     
     //Create right click context menu for the table
     private void createPopupMenu(JTable table) {
-        popupMenu = new JPopupMenu();
+        JPopupMenu popupMenu = new JPopupMenu();
         downloadItem = new JMenuItem("Download");
         shareItem = new JMenuItem("Share");
         deleteItem = new JMenuItem("Delete");
+        
+        //Set font of added menus
+        downloadItem.setFont(CustomFont.formTextFieldFont);
+        shareItem.setFont(CustomFont.formTextFieldFont);
+        deleteItem.setFont(CustomFont.formTextFieldFont);
+        
 
         // Add menu items to the popup menu
         popupMenu.add(downloadItem);
         
         //Delete and share option is available only on sharedByMeTable
         //**Only file owner can delete and share files
+        System.out.println("Shared table: " + table.equals(sharedByMeTable));
         if(table.equals(sharedByMeTable)) {
             popupMenu.add(deleteItem);
             popupMenu.add(shareItem);
@@ -169,7 +176,7 @@ public class SharedFiles extends javax.swing.JPanel implements UIMethods {
         
         // Add rows from List<FileModel> filesSharedByMe
         for (FileModel file : filesSharedByMe) {
-            Object[] row = { file.getFileName(), file.getOwner().getUsername(), file.sharedUsersToString(), file.getFileSize() };
+            Object[] row = { file.getFileName(), file.sharedUsersToString(), file.getFileSize() };
             sharedByMeModel.addRow(row);
         }
         
@@ -674,7 +681,6 @@ public class SharedFiles extends javax.swing.JPanel implements UIMethods {
     private javax.swing.JLabel sharedFilesPanelHeading;
     private javax.swing.JTable sharedWithMeTable;
     // End of variables declaration//GEN-END:variables
-    private JPopupMenu popupMenu;
     private JMenuItem downloadItem;
     private JMenuItem shareItem;
     private JMenuItem deleteItem;

@@ -8,7 +8,6 @@ import Model.GroupModel;
 import Model.UserModel;
 import View.Home.FileUploadWindow;
 import View.Home.Home;
-import static View.Home.HomePanels.GroupsPanel.groupsTable;
 import View.Home.UIMethods;
 import View.Resources.CustomFont;
 import java.awt.BorderLayout;
@@ -99,6 +98,12 @@ public class MyFilesPanel extends javax.swing.JPanel implements UIMethods {
         popupMenu.add(downloadItem);
         popupMenu.add(shareItem);
         popupMenu.add(deleteItem);
+        
+        //Set font of added menus
+        downloadItem.setFont(CustomFont.formTextFieldFont);
+        shareItem.setFont(CustomFont.formTextFieldFont);
+        deleteItem.setFont(CustomFont.formTextFieldFont);
+        
         
         // Add a mouse listener to detect right-clicks on the table
         myFileTable.addMouseListener(new MouseAdapter() {
@@ -250,7 +255,7 @@ public class MyFilesPanel extends javax.swing.JPanel implements UIMethods {
     
     private void createShareUserOption() {
         // Convert list to array for JComboBox
-        String[] usernameArray = UserController.getUsernames().toArray(new String[0]);
+        String[] usernameArray = getUsernameArray();
 
         // Create components for the dialog
         userDropdown = new JComboBox<>(usernameArray);
@@ -320,6 +325,16 @@ public class MyFilesPanel extends javax.swing.JPanel implements UIMethods {
             JOptionPane.showMessageDialog(null, "Select a file to remove", "Warning", JOptionPane.WARNING_MESSAGE);
             return null;
         }
+    }
+    
+    private String[] getUsernameArray() {
+        List<String> usernames = new ArrayList<>();
+        
+        for(UserModel user : users) {
+            usernames.add(user.getUsername());
+        }
+        
+        return usernames.toArray(new String[0]);
     }
     
     

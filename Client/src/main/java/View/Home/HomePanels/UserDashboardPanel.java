@@ -31,6 +31,7 @@ public final class UserDashboardPanel extends javax.swing.JPanel implements UIMe
         recentFiles = FileController.getRecentFiles(Home.user.getUserId());
         recentActivities = ActivityLoggerController.getUserActivities(Home.user.getUserId());
         initComponents();
+        constructTables();
         loadFonts();
     }
     

@@ -26,6 +26,8 @@ public class Group implements Serializable {
         return groupName;
     }
 
+    public String getGroupOwnerId(){return groupOwnerId;}
+
     public void setGroupName(String groupName) {
         this.groupName = groupName;
     }

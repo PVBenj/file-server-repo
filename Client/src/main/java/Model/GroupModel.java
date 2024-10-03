@@ -42,7 +42,7 @@ public class GroupModel implements Serializable {
         groupMembers.add(username);
     }
     
-    public void setUsers(List<UserModel> users) {
+    public void setGroupMembers(List<UserModel> users) {
         this.groupMembers = users;
     }
     

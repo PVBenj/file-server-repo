@@ -139,6 +139,7 @@ public class SharedFiles extends javax.swing.JPanel implements UIMethods {
             int selectedRow = table.getSelectedRow();
             String fileId = (String) table.getValueAt(selectedRow, 0);
             System.out.println("Sharing: " + fileId);
+            JTextArea selectedUsersArea = new JTextArea();
             selectedUsersArea.setText(getAlreadySharedWithUsers(fileId));
             
             int result = JOptionPane.showConfirmDialog(null, addUserPanel, "Share file " + fileId + " with users", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);

@@ -784,7 +784,7 @@ public final class CreateGroupWindow extends javax.swing.JFrame implements UIMet
         //check if the form validate returns true
         if(formValidate()) {
             //passing the added users and the new group to the group controller
-            if(GroupController.createGroup(createGroupObj(), getSelectedUserIds())) {
+            if(GroupController.createGroup(createGroupObj())) {
                 JOptionPane.showMessageDialog(null, setJOptionMessageLabel("Group created successfully!"), "Success", JOptionPane.INFORMATION_MESSAGE);
             }else {
                 JOptionPane.showMessageDialog(null, setJOptionMessageLabel("Group creation unsuccessful!"), "Error", JOptionPane.ERROR_MESSAGE);
@@ -885,7 +885,7 @@ public final class CreateGroupWindow extends javax.swing.JFrame implements UIMet
     
     private GroupModel createGroupObj() {
         newGroup = new GroupModel(newGroupId ,groupNameTF.getText(), Home.user);
-        newGroup.setUsers(getUserObjs());
+        newGroup.setGroupMembers(getUserObjs());
         
         return newGroup;
     }

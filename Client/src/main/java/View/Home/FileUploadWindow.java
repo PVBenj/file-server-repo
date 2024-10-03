@@ -1,25 +1,28 @@
 package View.Home;
 
 import Controller.ActivityLoggerController;
-import Controller.FileController;
 import Model.ActivityLogger;
 import Model.FileModel;
-import View.Home.HomePanels.MyFilesPanel;
 import View.Resources.CustomFont;
 import java.awt.Color;
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -28,7 +31,7 @@ import javax.swing.JPanel;
 public class FileUploadWindow extends javax.swing.JFrame implements UIMethods {
     
     private String newFileId;
-    private List<File> newFiles;
+    private List<Path> newFiles;
     private List<FileModel>fileObjs;
     SimpleDateFormat formatter;
     
@@ -73,7 +76,6 @@ public class FileUploadWindow extends javax.swing.JFrame implements UIMethods {
         jPanel7 = new javax.swing.JPanel();
         jPanel10 = new javax.swing.JPanel();
         roundPanel11 = new View.Resources.RoundPanel();
-        progressBar = new javax.swing.JProgressBar();
         fileNameLabel = new javax.swing.JLabel();
         jPanel11 = new javax.swing.JPanel();
         jPanel12 = new javax.swing.JPanel();
@@ -93,9 +95,7 @@ public class FileUploadWindow extends javax.swing.JFrame implements UIMethods {
         uploadLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(523, 650));
         setMinimumSize(new java.awt.Dimension(523, 650));
-        setPreferredSize(new java.awt.Dimension(523, 650));
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(240, 240, 240));
@@ -380,10 +380,7 @@ public class FileUploadWindow extends javax.swing.JFrame implements UIMethods {
         roundPanel11.setRoundTopLeft(10);
         roundPanel11.setRoundTopRight(10);
 
-        progressBar.setPreferredSize(new java.awt.Dimension(146, 10));
-
         fileNameLabel.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
-        fileNameLabel.setText("filename.ext");
         fileNameLabel.setIconTextGap(8);
 
         javax.swing.GroupLayout roundPanel11Layout = new javax.swing.GroupLayout(roundPanel11);
@@ -391,20 +388,16 @@ public class FileUploadWindow extends javax.swing.JFrame implements UIMethods {
         roundPanel11Layout.setHorizontalGroup(
             roundPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(roundPanel11Layout.createSequentialGroup()
-                .addGap(21, 21, 21)
-                .addGroup(roundPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(fileNameLabel)
-                    .addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 413, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addGap(20, 20, 20)
+                .addComponent(fileNameLabel)
+                .addContainerGap(433, Short.MAX_VALUE))
         );
         roundPanel11Layout.setVerticalGroup(
             roundPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, roundPanel11Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(roundPanel11Layout.createSequentialGroup()
+                .addGap(31, 31, 31)
                 .addComponent(fileNameLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(19, 19, 19))
+                .addContainerGap(49, Short.MAX_VALUE))
         );
 
         roundPanel3.add(roundPanel11, java.awt.BorderLayout.CENTER);
@@ -612,7 +605,7 @@ public class FileUploadWindow extends javax.swing.JFrame implements UIMethods {
     }// </editor-fold>//GEN-END:initComponents
 
     private void cancelBTNMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cancelBTNMouseClicked
-        int response = JOptionPane.showConfirmDialog(null, "Do want to exit?", "Warning!", JOptionPane.OK_CANCEL_OPTION);
+        int response = JOptionPane.showConfirmDialog(null, setJOptionMessageLabel("Do want to exit?"), "Warning!", JOptionPane.OK_CANCEL_OPTION);
         if(response == 0) {
             this.dispose();
         }
@@ -652,23 +645,23 @@ public class FileUploadWindow extends javax.swing.JFrame implements UIMethods {
         int userResponse = fileChooser.showOpenDialog(null);
         
         if (userResponse == JFileChooser.APPROVE_OPTION) {
-            File selectedFile = fileChooser.getSelectedFile();
-            //check if the selected file is an EXE file
-            if(!selectedFile.getName().endsWith(".exe") && !selectedFile.getName().endsWith(".sh") && !selectedFile.getName().endsWith(".bat")) {
-                newFiles.add(selectedFile);
+            Path selectedFilePath = fileChooser.getSelectedFile().toPath();
+            //check if the selected file is a supported file (Unsupported: .exe, .sh, .bat
+            if(checkFileExtension(getFileExtension(selectedFilePath))) {
+                newFiles.add(selectedFilePath);
             } else {
-                JOptionPane.showMessageDialog(null, "Unsupported file extension detected!", "Failed!", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, setJOptionMessageLabel("Unsupported file extension detected!"), "Failed!", JOptionPane.ERROR_MESSAGE);
                 ActivityLoggerController.logActivity(
                         new ActivityLogger(Home.user.getUsername(), null, "Unsupported file upload attempt", new Date().toString()));
             }
             String fileNames = null;
             
-            for(int i = 0; i < newFiles.size(); i++) {
-                if(i == 0) {
-                    fileNames = newFiles.get(i).getName();
+            for(Path newFile : newFiles) {
+                if(fileNames != null) {
+                    fileNames += ", " + newFile.getFileName().toString();
                     fileNameLabel.setText(fileNames);
                 }else {
-                    fileNames += ", " + newFiles.get(i).getName();
+                    fileNames = newFile.getFileName().toString();
                     fileNameLabel.setText(fileNames);
                 }
             }
@@ -678,22 +671,31 @@ public class FileUploadWindow extends javax.swing.JFrame implements UIMethods {
 
     private void uploadBTNMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_uploadBTNMouseClicked
         if(!newFiles.isEmpty()) {
-            progressBar.setIndeterminate(true);
-            
-            if(FileController.createNewFile(createFileObjs())) {
-                JOptionPane.showMessageDialog(null, "Files has been successfully uploaded!", "Completed!", JOptionPane.INFORMATION_MESSAGE);
-                new MyFilesPanel().contructFileTable();
-                progressBar.setMaximum(100);
-            } else {
-                progressBar.setIndeterminate(false);
-                JOptionPane.showMessageDialog(null, "File upload failed!", "Failed!", JOptionPane.ERROR_MESSAGE);
-            }
+            List<FileModel> fileObjs = createFileObjs();
+            triggerProgressIndicator(getAllFileSize(fileObjs));
         } else {
-            JOptionPane.showMessageDialog(null, "Select files to upload!", "Warning", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, setJOptionMessageLabel("Select files to upload!"), "Warning", JOptionPane.WARNING_MESSAGE);
         }
         
     }//GEN-LAST:event_uploadBTNMouseClicked
   
+    // Helper method to GET the file extension
+    private String getFileExtension(Path filePath) {
+        String fileName = filePath.getFileName().toString();
+        int lastDotIndex = fileName.lastIndexOf('.');
+        if (lastDotIndex > 0 && lastDotIndex < fileName.length() - 1) {
+            return fileName.substring(lastDotIndex + 1).toLowerCase(); // Return the extension in lowercase
+        } else {
+            return ""; // Return empty string if no extension found
+        }
+    }
+    
+    // Helper method to CHECK the file extension
+    private boolean checkFileExtension(String fileExtension) {
+        System.out.println("Selected file extension: " + fileExtension);
+        return !fileExtension.equals("exe") && !fileExtension.equals("sh") && !fileExtension.equals("bat");
+    }
+    
     @Override
     public void changeColor(JPanel hover, Color myColor) {
         hover.setBackground(myColor);
@@ -735,13 +737,70 @@ public class FileUploadWindow extends javax.swing.JFrame implements UIMethods {
     
     private List<FileModel> createFileObjs() {
         String createdDateTime = formatter.format(new Date());
-        for(File file : newFiles) {
-            String fileSize = Double.toString(file.length() / (1024.0 * 1024.0)) + " MB";
-            FileModel obj = new FileModel(createFileId(), file.getName(), createdDateTime, Home.user, fileSize);
-            obj.setRawFile(file);
-            fileObjs.add(obj);
+        for(Path file : newFiles) {
+            try {
+                String fileSize = Double.toString(Files.size(file)/ (1024.0 * 1024.0)) + " MB";
+                FileModel obj = new FileModel(createFileId(), file.getFileName().toString(), createdDateTime, Home.user, fileSize);
+                obj.setRawFile(file);
+                fileObjs.add(obj);
+            } catch (IOException ex) {
+                System.err.println(ex.getMessage());
+            }
         }
         return fileObjs;
+    }
+    
+    private long getAllFileSize(List<FileModel> fileObjs) {
+        long totalFileSize = 0;
+        for(FileModel file : fileObjs) {
+            try {
+                totalFileSize += Files.size(file.getRawFile());
+            } catch (IOException ex) {
+                System.err.println(ex.getMessage());
+            }
+        }
+        return totalFileSize / (1024 * 1024); //Returning the file size in MB
+    }
+    
+    private void triggerProgressIndicator(long fileSize) {
+        SwingUtilities.invokeLater(() -> {
+            // Create a JProgressBar
+            JProgressBar progressBar = new JProgressBar(0, 100);
+            progressBar.setStringPainted(true);  // Show progress percentage
+            progressBar.setIndeterminate(false); // Determinate progress bar
+
+            // Create an option pane with the progress bar
+            Object[] dialogContent = {setJOptionMessageLabel("File deleting, please wait..."), progressBar}; 
+            JOptionPane optionPane = new JOptionPane(dialogContent, JOptionPane.INFORMATION_MESSAGE, 
+                                                      JOptionPane.DEFAULT_OPTION, null, new Object[]{}, null);
+
+            // Create and show the dialog containing the option pane
+            JDialog dialog = optionPane.createDialog("Progress");
+            dialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE); // Prevent closing during operation
+            dialog.setModal(true);
+
+            // Start a background thread to simulate progress
+            new Thread(() -> {
+                for (int i = 0; i <= 100; i++) {
+                    try {
+                        Thread.sleep(fileSize * 10); // Simulate work being done
+                    } catch (InterruptedException e) {
+                        System.err.println(Arrays.toString(e.getStackTrace()));;
+                    }
+                    progressBar.setValue(i); // Update the progress bar
+                }
+                dialog.dispose(); // Close the dialog when done
+            }).start();
+
+            dialog.setVisible(true); // Show the progress dialog
+        });
+    }
+    
+    private JLabel setJOptionMessageLabel(String message) {
+        JLabel messageLabel = new JLabel(message);
+        messageLabel.setFont(CustomFont.formTextFieldFont); 
+        
+        return messageLabel;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -769,7 +828,6 @@ public class FileUploadWindow extends javax.swing.JFrame implements UIMethods {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JLabel panelHeading;
-    private javax.swing.JProgressBar progressBar;
     private View.Resources.RoundPanel roundPanel10;
     private View.Resources.RoundPanel roundPanel11;
     private View.Resources.RoundPanel roundPanel12;

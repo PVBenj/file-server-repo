@@ -16,12 +16,14 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
@@ -151,15 +153,21 @@ public class MyFilesPanel extends javax.swing.JPanel implements UIMethods {
     private void setActionToMenu() {
         // Add action listeners for the menu items
         downloadItem.addActionListener(e -> {
-            int selectedRow = myFileTable.getSelectedRow();
-            String fileId = (String) myFileTable.getValueAt(selectedRow, 0);
+            String fileId = getSelectedFileId();
+            String fileName = (String) myFileTable.getValueAt(myFileTable.getSelectedRow(), 0);
             System.out.println("Downloading: " + fileId);
-            // Add download logic here
+            
+            if(FileController.downloadFile(fileId, 
+                    openDownloadPathSelection(fileName))) {
+                JOptionPane.showMessageDialog(null, setJOptionMessageLabel("File download successful!"), "Download Success", JOptionPane.INFORMATION_MESSAGE); 
+            } else {
+                JOptionPane.showMessageDialog(null, setJOptionMessageLabel("File download unsuccessful!"), "Download Failed", JOptionPane.ERROR_MESSAGE);
+            }
+            
         });
 
         shareItem.addActionListener(e -> {
-            int selectedRow = myFileTable.getSelectedRow();
-            String fileId = (String) myFileTable.getValueAt(selectedRow, 0);
+            String fileId = getSelectedFileId();
             System.out.println("Sharing: " + fileId);
             selectedUsersArea.setText(getAlreadySharedWithUsers(fileId));
             
@@ -169,9 +177,9 @@ public class MyFilesPanel extends javax.swing.JPanel implements UIMethods {
                     if (!selectedUsernames.isEmpty()) {
                         //Check if file share has been done from the backend
                         if(FileController.shareFileWithUser(fileId, selectedUsernames)) {
-                            JOptionPane.showMessageDialog(null, "File share successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                            JOptionPane.showMessageDialog(null, setJOptionMessageLabel("File share successful!"), "Success", JOptionPane.INFORMATION_MESSAGE);
                         } else {
-                            JOptionPane.showMessageDialog(null, "File share unsuccessful!", "Error", JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(null, setJOptionMessageLabel("File share unsuccessful!"), "Error", JOptionPane.ERROR_MESSAGE);
                         }
                     } else {
                         JOptionPane.showMessageDialog(null, "No users selected.");
@@ -180,13 +188,26 @@ public class MyFilesPanel extends javax.swing.JPanel implements UIMethods {
         });
 
         deleteItem.addActionListener(e -> {
-            int selectedRow = myFileTable.getSelectedRow();
-            String fileId = (String) myFileTable.getValueAt(selectedRow, 0);
+            String fileId = getSelectedFileId();
             System.out.println("Deleting: " + fileId);
             
             deleteFile(fileId);
         });
 
+    }
+    
+    private Path openDownloadPathSelection(String fileName) {
+        JFileChooser pathChooser = new JFileChooser();
+        pathChooser.setDialogTitle("Select download location");
+        pathChooser.setSelectedFile(new java.io.File(fileName));
+        int userSelection = pathChooser.showSaveDialog(null);
+        
+        if(userSelection == JFileChooser.APPROVE_OPTION) {
+            Path destinationPath = pathChooser.getSelectedFile().toPath();
+            System.out.println("Saving file to: " + destinationPath);
+            return destinationPath;
+        }
+        return null;
     }
     
     private String getAlreadySharedWithUsers(String selectedFileId) {
@@ -201,18 +222,18 @@ public class MyFilesPanel extends javax.swing.JPanel implements UIMethods {
     }
     
     private void deleteFile(String fileId) {
-        int response = JOptionPane.showConfirmDialog(null, "Do want to remove "
-                        + myFileTable.getModel().getValueAt(myFileTable.getSelectedRow(), 0).toString() + "?", "Warning!", JOptionPane.OK_CANCEL_OPTION);
+        int response = JOptionPane.showConfirmDialog(null, setJOptionMessageLabel("Do want to remove "
+                        + myFileTable.getModel().getValueAt(myFileTable.getSelectedRow(), 0).toString() + "?"), "Warning!", JOptionPane.OK_CANCEL_OPTION);
         //Checks if user confirms the file removal
-        if(response == 0) {
+        if(response == 0) { 
             //File delete indicator
             setProgressIndicator();
             if(FileController.deleteFile(fileId)) {
-                JOptionPane.showMessageDialog(null, "File deleted successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, setJOptionMessageLabel("File deleted successfully!"), "Success", JOptionPane.INFORMATION_MESSAGE);
                 DefaultTableModel model = (DefaultTableModel) myFileTable.getModel();
                 model.removeRow(myFileTable.getSelectedRow());
             }else {
-                JOptionPane.showMessageDialog(null, "File delete unsuccessful!", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, setJOptionMessageLabel("File deleted unsuccessfully!"), "Error", JOptionPane.ERROR_MESSAGE);
             }
                 
             
@@ -227,7 +248,7 @@ public class MyFilesPanel extends javax.swing.JPanel implements UIMethods {
             progressBar.setIndeterminate(false); // Determinate progress bar
 
             // Create an option pane with the progress bar
-            Object[] dialogContent = {"File deleting, please wait...", progressBar};
+            Object[] dialogContent = {setJOptionMessageLabel("File deleting, please wait..."), progressBar};
             JOptionPane optionPane = new JOptionPane(dialogContent, JOptionPane.INFORMATION_MESSAGE, 
                                                       JOptionPane.DEFAULT_OPTION, null, new Object[]{}, null);
 
@@ -273,7 +294,7 @@ public class MyFilesPanel extends javax.swing.JPanel implements UIMethods {
                 // Update the text area with selected usernames
                 selectedUsersArea.setText(String.join(", ", selectedUsernames));
             } else {
-                JOptionPane.showMessageDialog(null, "User already selected.");
+                JOptionPane.showMessageDialog(null, setJOptionMessageLabel("User already selected."));
             }
         });
 
@@ -319,12 +340,21 @@ public class MyFilesPanel extends javax.swing.JPanel implements UIMethods {
     private String getSelectedFileId() {
         if(myFileTable.getSelectedRow() != -1) {
             System.out.println("Selected file: " + myFileTable.getModel().getValueAt(myFileTable.getSelectedRow(), 0).toString());
-            return myFileTable.getModel().getValueAt(myFileTable.getSelectedRow(), 0).toString();
+            String fileName = myFileTable.getModel().getValueAt(myFileTable.getSelectedRow(), 0).toString();
+            
+            for(FileModel file : myFiles) {
+                if(file.getFileName().equals(fileName)) {
+                    return file.getFileId();
+                }
+                break;
+            }
             
         }else {
-            JOptionPane.showMessageDialog(null, "Select a file to remove", "Warning", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, setJOptionMessageLabel("Select a file to remove"), "Warning", JOptionPane.WARNING_MESSAGE);
             return null;
         }
+        
+        return null;
     }
     
     private String[] getUsernameArray() {
@@ -787,7 +817,7 @@ public class MyFilesPanel extends javax.swing.JPanel implements UIMethods {
         if(!selectedFileId.isEmpty()) {
                 deleteFile(selectedFileId);
         } else {
-            JOptionPane.showMessageDialog(null, "Select a file to remove", "Warning", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, setJOptionMessageLabel("Select a file to remove"), "Warning", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_deleteBTNMouseClicked
 
@@ -823,6 +853,12 @@ public class MyFilesPanel extends javax.swing.JPanel implements UIMethods {
         changeColor(shareBTN, new Color(64,165,120));
     }//GEN-LAST:event_shareBTNMouseExited
 
+    private JLabel setJOptionMessageLabel(String message) {
+        JLabel messageLabel = new JLabel(message);
+        messageLabel.setFont(CustomFont.formTextFieldFont); 
+        
+        return messageLabel;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private View.Resources.RoundPanel deleteBTN;

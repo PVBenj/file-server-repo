@@ -6,15 +6,15 @@ import Model.PasswordHash;
 import Model.UserModel;
 import View.Resources.CustomFont;
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 
 /**
  *
@@ -24,10 +24,14 @@ public final class CreateUserWindow extends javax.swing.JFrame implements UIMeth
     private String newUserId;
     private List<GroupModel> groups;
     private Set<String> userNames;
+    private List<String> selectedGroupNames;
+    private JTextArea groupsList;
     
     public CreateUserWindow(List<GroupModel> groups) {
         userNames = new HashSet<>();
         this.groups = groups;
+        groupsList = new JTextArea();
+        selectedGroupNames = new ArrayList<>();
         initComponents();
         loadFonts();
         userIdField.setText(createUserId().substring(0, 11));
@@ -131,6 +135,9 @@ public final class CreateUserWindow extends javax.swing.JFrame implements UIMeth
         roundPanel18 = new View.Resources.RoundPanel();
         groupLabel = new javax.swing.JLabel();
         groupCombo = new javax.swing.JComboBox<>();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        selectedGroupsPanel = new javax.swing.JPanel();
         roundPanel19 = new View.Resources.RoundPanel();
         jPanel57 = new javax.swing.JPanel();
         jPanel58 = new javax.swing.JPanel();
@@ -152,7 +159,8 @@ public final class CreateUserWindow extends javax.swing.JFrame implements UIMeth
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setMinimumSize(new java.awt.Dimension(1053, 700));
+        setMinimumSize(new java.awt.Dimension(1061, 808));
+        setPreferredSize(new java.awt.Dimension(1061, 808));
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(240, 240, 240));
@@ -166,7 +174,7 @@ public final class CreateUserWindow extends javax.swing.JFrame implements UIMeth
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 736, Short.MAX_VALUE)
+            .addGap(0, 778, Short.MAX_VALUE)
         );
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.LINE_START);
@@ -178,7 +186,7 @@ public final class CreateUserWindow extends javax.swing.JFrame implements UIMeth
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1053, Short.MAX_VALUE)
+            .addGap(0, 1061, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -198,7 +206,7 @@ public final class CreateUserWindow extends javax.swing.JFrame implements UIMeth
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 736, Short.MAX_VALUE)
+            .addGap(0, 778, Short.MAX_VALUE)
         );
 
         getContentPane().add(jPanel3, java.awt.BorderLayout.LINE_END);
@@ -210,7 +218,7 @@ public final class CreateUserWindow extends javax.swing.JFrame implements UIMeth
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1053, Short.MAX_VALUE)
+            .addGap(0, 1061, Short.MAX_VALUE)
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -249,7 +257,7 @@ public final class CreateUserWindow extends javax.swing.JFrame implements UIMeth
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(userIdField))
                     .addComponent(panelHeading))
-                .addContainerGap(871, Short.MAX_VALUE))
+                .addContainerGap(879, Short.MAX_VALUE))
         );
         roundPanel2Layout.setVerticalGroup(
             roundPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -275,7 +283,7 @@ public final class CreateUserWindow extends javax.swing.JFrame implements UIMeth
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1023, Short.MAX_VALUE)
+            .addGap(0, 1031, Short.MAX_VALUE)
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -341,7 +349,7 @@ public final class CreateUserWindow extends javax.swing.JFrame implements UIMeth
         roundPanel14.setLayout(roundPanel14Layout);
         roundPanel14Layout.setHorizontalGroup(
             roundPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 1001, Short.MAX_VALUE)
         );
         roundPanel14Layout.setVerticalGroup(
             roundPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -364,7 +372,7 @@ public final class CreateUserWindow extends javax.swing.JFrame implements UIMeth
         roundPanel15.setLayout(roundPanel15Layout);
         roundPanel15Layout.setHorizontalGroup(
             roundPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 993, Short.MAX_VALUE)
+            .addGap(0, 1001, Short.MAX_VALUE)
         );
         roundPanel15Layout.setVerticalGroup(
             roundPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -489,7 +497,7 @@ public final class CreateUserWindow extends javax.swing.JFrame implements UIMeth
             .addGroup(roundPanel5Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(sectionHeadingLabel)
-                .addContainerGap(897, Short.MAX_VALUE))
+                .addContainerGap(905, Short.MAX_VALUE))
         );
         roundPanel5Layout.setVerticalGroup(
             roundPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -793,7 +801,7 @@ public final class CreateUserWindow extends javax.swing.JFrame implements UIMeth
         jPanel33.setLayout(jPanel33Layout);
         jPanel33Layout.setHorizontalGroup(
             jPanel33Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1023, Short.MAX_VALUE)
+            .addGap(0, 1031, Short.MAX_VALUE)
         );
         jPanel33Layout.setVerticalGroup(
             jPanel33Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -806,7 +814,7 @@ public final class CreateUserWindow extends javax.swing.JFrame implements UIMeth
         jPanel34.setLayout(new java.awt.BorderLayout());
 
         roundPanel10.setBackground(new java.awt.Color(255, 255, 255));
-        roundPanel10.setPreferredSize(new java.awt.Dimension(1023, 200));
+        roundPanel10.setPreferredSize(new java.awt.Dimension(1023, 300));
         roundPanel10.setRoundBottomLeft(10);
         roundPanel10.setRoundBottomRight(10);
         roundPanel10.setRoundTopLeft(10);
@@ -828,7 +836,7 @@ public final class CreateUserWindow extends javax.swing.JFrame implements UIMeth
             .addGroup(roundPanel11Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(sectionHeadingLabel1)
-                .addContainerGap(871, Short.MAX_VALUE))
+                .addContainerGap(879, Short.MAX_VALUE))
         );
         roundPanel11Layout.setVerticalGroup(
             roundPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -922,7 +930,7 @@ public final class CreateUserWindow extends javax.swing.JFrame implements UIMeth
         );
         jPanel48Layout.setVerticalGroup(
             jPanel48Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 80, Short.MAX_VALUE)
+            .addGap(0, 180, Short.MAX_VALUE)
         );
 
         roundPanel17.add(jPanel48, java.awt.BorderLayout.LINE_START);
@@ -933,25 +941,52 @@ public final class CreateUserWindow extends javax.swing.JFrame implements UIMeth
         groupLabel.setFont(new java.awt.Font("Liberation Sans", 1, 16)); // NOI18N
         groupLabel.setText("Group");
 
+        jButton1.setText("Remove");
+
+        jButton2.setText("Add");
+        jButton2.setPreferredSize(new java.awt.Dimension(85, 24));
+        jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton2MouseClicked(evt);
+            }
+        });
+
+        selectedGroupsPanel.setBackground(new java.awt.Color(255, 255, 255));
+
         javax.swing.GroupLayout roundPanel18Layout = new javax.swing.GroupLayout(roundPanel18);
         roundPanel18.setLayout(roundPanel18Layout);
         roundPanel18Layout.setHorizontalGroup(
             roundPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(roundPanel18Layout.createSequentialGroup()
-                .addComponent(groupLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(groupCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(roundPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(roundPanel18Layout.createSequentialGroup()
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton1))
+                    .addGroup(roundPanel18Layout.createSequentialGroup()
+                        .addComponent(groupLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(groupCombo, 0, 234, Short.MAX_VALUE))
+                    .addComponent(selectedGroupsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(0, 48, Short.MAX_VALUE))
         );
         roundPanel18Layout.setVerticalGroup(
             roundPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(roundPanel18Layout.createSequentialGroup()
-                .addComponent(groupLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 20, Short.MAX_VALUE))
-            .addGroup(roundPanel18Layout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addComponent(groupCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(roundPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(groupLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(roundPanel18Layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(groupCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(roundPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(roundPanel18Layout.createSequentialGroup()
+                                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
+                                .addGap(5, 5, 5)))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(selectedGroupsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(39, Short.MAX_VALUE))
         );
 
         roundPanel17.add(roundPanel18, java.awt.BorderLayout.CENTER);
@@ -1067,7 +1102,7 @@ public final class CreateUserWindow extends javax.swing.JFrame implements UIMeth
         if(formValidate()) {
             if(checkUsernameAvailability()) {
                 try {
-                    if(UserController.createUser(createUserObj(), getSelectedGroupId())) {
+                    if(UserController.createUser(createUserObj())) {
                         JOptionPane.showMessageDialog(null, setJOptionMessageLabel("User creation successful!"), "Success", JOptionPane.INFORMATION_MESSAGE);
                     } else {
                         JOptionPane.showMessageDialog(null, setJOptionMessageLabel("User creation unsuccessful!"), "Error", JOptionPane.ERROR_MESSAGE);
@@ -1096,6 +1131,33 @@ public final class CreateUserWindow extends javax.swing.JFrame implements UIMeth
             this.dispose();
         }
     }//GEN-LAST:event_cancelBTNMouseClicked
+
+    private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
+        if (groupCombo.getSelectedIndex() != -1) {
+            String selectedGroup = groupCombo.getSelectedItem().toString();
+        
+            // Check if the user is already added
+            if (selectedGroupNames.contains(selectedGroup)) {
+                JOptionPane.showMessageDialog(null, setJOptionMessageLabel("You cannot add the same user multiple times!"), "Warning", JOptionPane.WARNING_MESSAGE);
+            } else {
+                // Add the user to the set and display it on the panel
+                selectedGroupNames.add(selectedGroup);
+                
+                if(groupsList.getText().isEmpty()) {
+                    groupsList.setText(selectedGroup);
+                }else {
+                    groupsList.setText(groupsList.getText() + ", " + selectedGroup);
+                }
+                
+                groupsList.setFont(CustomFont.createFont("/Fonts/SFPRODISPLAYREGULAR.OTF", 15));
+                selectedGroupsPanel.add(groupsList);
+                selectedGroupsPanel.revalidate();
+                selectedGroupsPanel.repaint();
+            }
+        }else {
+            JOptionPane.showMessageDialog(null, setJOptionMessageLabel("Please select a group from the drop down!"), "Warning", JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_jButton2MouseClicked
     
         @Override
     public void changeColor(JPanel hover, Color myColor) {
@@ -1142,7 +1204,7 @@ public final class CreateUserWindow extends javax.swing.JFrame implements UIMeth
         String mobile = mobileTF.getText();
         String role = roleCombo.getSelectedItem().toString();
         UserModel user = new UserModel(userId, username, password, firstName, mobile, role);
-        //user.addGroup(groupId);
+        user.setGroups(getSelectedGroupObjs(getSelectedGroupIds()));
         
         return user;
     }
@@ -1192,16 +1254,42 @@ public final class CreateUserWindow extends javax.swing.JFrame implements UIMeth
     private void setGroupComboBox() {
         
         for(GroupModel group : groups) {
-            groupCombo.addItem(group.getGroupId() + " - " + group.getGroupName());
+            groupCombo.addItem(group.getGroupName());
         }
         
         groupCombo.setSelectedIndex(-1);
     }
     
-    private String getSelectedGroupId() {
-        String selectString = groupCombo.getSelectedItem().toString();
+    private List<GroupModel> getSelectedGroupObjs(List<String> getSelectedGroupIds) {
+        List<GroupModel> selectedGroups = new ArrayList<>();
         
-        return selectString.substring(0, selectString.indexOf(" - ")).trim();
+        for(GroupModel group : groups) {
+            for(String groupId : getSelectedGroupIds) {
+                if(group.getGroupId().equals(groupId)) {
+                    selectedGroups.add(group);
+                }
+            }
+        }
+        
+        return selectedGroups;
+    }
+    
+    private List<String> getSelectedGroupIds() {
+        List<String> selectedGroupIds = new ArrayList<>();
+        try{
+            for(GroupModel group : groups) {
+                for(String groupName : selectedGroupNames) {
+                    if(group.getGroupName().equals(groupName)) {
+                        selectedGroupIds.add(group.getGroupId());
+                    }
+                }
+            }
+            return selectedGroupIds;
+        }catch(Exception e) {
+            System.err.println(e.getMessage());
+            return null;
+        }
+        
     }
     
     private JLabel setJOptionMessageLabel(String message) {
@@ -1222,6 +1310,8 @@ public final class CreateUserWindow extends javax.swing.JFrame implements UIMeth
     private javax.swing.JTextField firstNameTF;
     private javax.swing.JComboBox<String> groupCombo;
     private javax.swing.JLabel groupLabel;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
@@ -1303,6 +1393,7 @@ public final class CreateUserWindow extends javax.swing.JFrame implements UIMeth
     private View.Resources.RoundPanel roundPanel9;
     private javax.swing.JLabel sectionHeadingLabel;
     private javax.swing.JLabel sectionHeadingLabel1;
+    private javax.swing.JPanel selectedGroupsPanel;
     private javax.swing.JLabel userIdField;
     private javax.swing.JLabel userIdLabel;
     private javax.swing.JLabel usernameLabel;

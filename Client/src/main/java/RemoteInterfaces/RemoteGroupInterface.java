@@ -10,7 +10,7 @@ import java.util.List;
  * @author benjamin
  */
 public interface RemoteGroupInterface extends Remote {
-    boolean createGroup(GroupModel group, List<String> userIds) throws RemoteException;
+    boolean createGroup(GroupModel group) throws RemoteException;
     boolean deleteGroup(String groupId) throws RemoteException;
     List<GroupModel> fetchUserGroups(String userId) throws RemoteException;
     List<GroupModel> fetchAllGroups() throws RemoteException; //Method to be added to the server side.

@@ -2,6 +2,7 @@ package Model;
 
 import java.io.File;
 import java.io.Serializable;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +12,7 @@ public class FileModel implements Serializable {
     private final String createDateTime; 
     private UserModel owner; // The user who created this file
     private String fileSize;
-    private File rawFile;
+    private Path rawFilePath;
     private List<UserModel> sharedWithUsers; // Users with whom this file is shared
     private List<GroupModel> sharedWithGroups; // Groups with whom this file is shared
 
@@ -65,12 +66,12 @@ public class FileModel implements Serializable {
         return fileSize;
     }
 
-    public File getRawFile() {
-        return rawFile;
+    public Path getRawFile() {
+        return rawFilePath;
     }
 
-    public void setRawFile(File rawFile) {
-        this.rawFile = rawFile;
+    public void setRawFile(Path rawFile) {
+        this.rawFilePath = rawFile;
     }
     
     public String sharedUsersToString() {

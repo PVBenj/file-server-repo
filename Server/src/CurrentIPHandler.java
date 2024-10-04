@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 
 public class CurrentIPHandler {
     public static String getCurrentIP() throws IOException {
-        Process process = Runtime.getRuntime().exec("ipconfig");
+        Process process = Runtime.getRuntime().exec("ifconfig");
         BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
 
         String ipRegex = "(\\d{1,3}\\.){3}\\d{1,3}";

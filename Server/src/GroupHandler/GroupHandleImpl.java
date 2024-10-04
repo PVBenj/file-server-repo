@@ -1,7 +1,7 @@
 package GroupHandler;
 
 import DatabaseController.GroupDBHandler;
-import Models.Group;
+import Models.GroupModel;
 import RemoteInterfaces.RemoteGroupInterface;
 
 import java.rmi.RemoteException;
@@ -14,7 +14,7 @@ public class GroupHandleImpl extends UnicastRemoteObject implements RemoteGroupI
     }
 
     @Override
-    public boolean addUser(Group group) throws RemoteException {
+    public boolean addUser(GroupModel group) throws RemoteException {
         try {
             GroupDBHandler.CreateGroup(group);
         }

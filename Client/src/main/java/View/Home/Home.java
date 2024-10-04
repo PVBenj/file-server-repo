@@ -84,6 +84,7 @@ public class Home extends javax.swing.JFrame implements UIMethods {
         jPanel4 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         usernamePanel = new javax.swing.JLabel();
+        logoLabel = new javax.swing.JLabel();
         homePanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -442,6 +443,10 @@ public class Home extends javax.swing.JFrame implements UIMethods {
 
         jPanel2.add(jPanel3, java.awt.BorderLayout.LINE_END);
 
+        logoLabel.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        logoLabel.setPreferredSize(new java.awt.Dimension(90, 80));
+        jPanel2.add(logoLabel, java.awt.BorderLayout.LINE_START);
+
         backgroundPanel.add(jPanel2, java.awt.BorderLayout.PAGE_START);
 
         homePanel.setLayout(new java.awt.CardLayout());
@@ -608,6 +613,10 @@ public class Home extends javax.swing.JFrame implements UIMethods {
                 new ImageIcon(ImageIO.read(
                     getClass().getResource("/Icons/users-icon.png"))));
             
+            logoLabel.setIcon(
+                new ImageIcon(ImageIO.read(
+                    getClass().getResource("/Icons/logo3.png"))));
+            
         }catch(IOException e) {
             System.err.println(e.getMessage());
         }
@@ -683,6 +692,7 @@ public class Home extends javax.swing.JFrame implements UIMethods {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
+    private javax.swing.JLabel logoLabel;
     private javax.swing.JPanel menuPanel;
     private javax.swing.JLabel myFilesLabel;
     private javax.swing.JPanel myFilesPanel;

@@ -31,5 +31,24 @@ public class FileDBHandler {
 
     }
 
+    public static boolean deleteFile(String fileId){
+        try{
+            String qu = "Delete from files_tb where = ?";
+            DBQueryExcecutor.executeQuery(qu,Arrays.asList(fileId),"update");
+            return true;
+        } catch (RuntimeException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+    public static ResultSet fetchFilesByUserID(String userID){
+        try{
+            String qu = "Select * from files_tb where owner_id = ?";
+            return DBQueryExcecutor.executeQuery(qu,Arrays.asList(userID),"get");
+
+        } catch (RuntimeException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 }

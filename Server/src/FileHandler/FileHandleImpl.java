@@ -7,6 +7,7 @@ import Models.FileModel;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.file.Files;
@@ -16,6 +17,8 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -148,7 +151,18 @@ public class FileHandleImpl extends UnicastRemoteObject implements RemoteFileInt
 
     @Override
     public boolean deleteFile(String fileId) throws RemoteException {
-        return false;
+        try {
+            List<String> filedetails = FileDBHandler.getFileDetailsByFileID(fileId);
+            Path filePath = Paths.get(this.basePath+filedetails.get(1));
+            Files.delete(filePath);
+            FileDBHandler.deleteFile(fileId);
+            return false;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     @Override
@@ -157,7 +171,20 @@ public class FileHandleImpl extends UnicastRemoteObject implements RemoteFileInt
     }
 
     @Override
-    public List<FileModel> fetchAllFiles(String userId) throws RemoteException {
+    public List<FileModel> fetchAllFiles(String userId) throws RemoteException{
+
+        try {
+            ResultSet userFiles = FileDBHandler.fetchFilesByUserID(userId);
+
+            while (userFiles.next()){
+
+                System.out.println(userFiles.getString(2));
+
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
         return List.of();
     }
 }

@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface RemoteUserInterface extends Remote {
     UserModel login(String username, String password) throws RemoteException;
-    void sayHello() throws RemoteException;
+    boolean updateUser(UserModel updateUser) throws RemoteException;
     boolean createUser(UserModel newUser) throws RemoteException;
     List<UserModel> fetchAllUsers() throws RemoteException, SQLException;
     boolean deleteUser(String UserID) throws RemoteException;

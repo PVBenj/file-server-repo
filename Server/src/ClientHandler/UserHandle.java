@@ -43,9 +43,11 @@ public class UserHandle extends UnicastRemoteObject implements RemoteUserInterfa
     }
 
     @Override
-    public void sayHello() {
-        System.out.println("Hi I'm the file server!");
+    public boolean updateUser(UserModel updateUser) throws RemoteException {
+        return false;
     }
+
+    
 
 
     @Override

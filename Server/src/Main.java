@@ -1,10 +1,11 @@
 import ClientHandler.UserHandle;
 import DatabaseController.DatabaseConnection;
 import FileHandler.FileHandleImpl;
+
 import java.rmi.Naming;
 import java.rmi.registry.LocateRegistry;
 
-
+import GroupsHandler.GroupHandleImpl;
 public class Main {
 
     public static void main(String[] args) {
@@ -20,10 +21,15 @@ public class Main {
             LocateRegistry.createRegistry(1500);
             UserHandle obj = new UserHandle();
             FileHandleImpl obj2 = new FileHandleImpl();
+            GroupHandleImpl obj3 = new GroupHandleImpl();
+
+
+
 
 //             Bind the remote object to the registry
             Naming.rebind("rmi://"+ip+":1500/UserHandle", obj);
             Naming.rebind("rmi://"+ip+":1500/FileHandle", obj2);
+            Naming.rebind("rmi://"+ip+":1500/GroupHandl", obj3);
 
 
 

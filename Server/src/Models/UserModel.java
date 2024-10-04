@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class UserModel implements Serializable {
     private final String userId;
     private String username;
@@ -22,7 +21,7 @@ public class UserModel implements Serializable {
         this.firstName = firstName;
         this.mobile = mobile;
         this.role = role;
-        this.groups = new ArrayList<>();
+        groups = new ArrayList<>();
     }
 
     public String getUserId() {
@@ -49,14 +48,6 @@ public class UserModel implements Serializable {
         return role;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public void setUsername(String username) {
         this.username = username;
     }
@@ -77,19 +68,37 @@ public class UserModel implements Serializable {
         this.role = role;
     }
 
-    public List<GroupModel> getGroups() {
-        return groups;
+    public String getEmail() {
+        return email;
     }
 
-    public void addGroup(GroupModel group) {
+    public void setEmail(String email) {
+        this.email = email;
+    }
+    
+    public void addToGroup(GroupModel group) {
         this.groups.add(group);
     }
-
+    
     public void setGroups(List<GroupModel> groups) {
         this.groups = groups;
     }
     
+    public List<GroupModel> getGroups() {
+        return this.groups;
+    }
     
-    
-    
+    public String userGroupsToString() {
+        String groupsStr = null;
+        
+        for(GroupModel group : this.groups) {
+            if(groups != null) {
+                groupsStr += ", " + group.getGroupName();
+            } else {
+                groupsStr = group.getGroupName();
+            }
+        }
+        
+        return groupsStr;
+    }
 }

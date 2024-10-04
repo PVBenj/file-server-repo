@@ -8,14 +8,14 @@ import java.util.List;
 public class GroupModel implements Serializable {
     private String groupId;
     private String groupName;
-    private List<UserModel> users;
-    private final String groupOwnerId;
+    private final UserModel groupOwner;
+    private List<UserModel> groupMembers;
 
-    public GroupModel(String groupId, String groupName, String groupOwnerId) {
+    public GroupModel(String groupId, String groupName, UserModel groupOwner) {
         this.groupId = groupId;
         this.groupName = groupName;
-        this.users = new ArrayList<>();
-        this.groupOwnerId = groupOwnerId;
+        this.groupOwner = groupOwner;
+        groupMembers = new ArrayList<>();
     }
 
     public String getGroupId() {
@@ -26,8 +26,6 @@ public class GroupModel implements Serializable {
         return groupName;
     }
 
-    public String getGroupOwnerId(){return groupOwnerId;}
-
     public void setGroupName(String groupName) {
         this.groupName = groupName;
     }
@@ -35,16 +33,35 @@ public class GroupModel implements Serializable {
     public void setGroupId(String groupId) {
         this.groupId = groupId;
     }
-
-    public List<UserModel> getUsers() {
-        return users;
-    }
-
-    public void addUsers(UserModel user) {
-        this.users.add(user);
+    
+    public UserModel getGroupOwner() {
+        return groupOwner;
     }
     
+    public void addUser(UserModel username) {
+        groupMembers.add(username);
+    }
     
+    public void setGroupMembers(List<UserModel> users) {
+        this.groupMembers = users;
+    }
     
+    public List<UserModel> getGroupMembers() {
+        return groupMembers;
+    }
+    
+    public String groupMembersToString() {
+        String groupMembersStr = null;
+        
+        for(UserModel user : this.groupMembers) {
+            if(groupMembersStr != null) {
+                groupMembersStr += ", " + user.getUsername();
+            } else {
+                groupMembersStr = user.getUsername();
+            }
+        }
+        
+        return groupMembersStr;
+    }
     
 }

@@ -1,9 +1,9 @@
 package ClientHandler;
-import DatabaseController.DBQueryExcecutor;
+
 import DatabaseController.UserDBHandler;
-import RemoteInterfaces.RemoteUserInterface;
 import Models.GroupModel;
 import Models.UserModel;
+import RemoteInterfaces.RemoteUserInterface;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -23,23 +23,25 @@ public class UserHandle extends UnicastRemoteObject implements RemoteUserInterfa
 
     @Override
     public UserModel login(String username, String password) {
+        UserModel logonUser = null;
         try {
-            ResultSet rs = UserDBHandler.authenticateUser(username,password);
-            UserModel logonUser = null;
-            while(rs.next()) {
-                logonUser = new UserModel(rs.getString(1),rs.getString(2),
-                        rs.getString(3),rs.getString(4),rs.getString(5),
+            ResultSet rs = UserDBHandler.authenticateUser(username, password);
+            logonUser = null;
+            while (rs.next()) {
+                logonUser = new UserModel(rs.getString(1), rs.getString(2),
+                        rs.getString(3), rs.getString(4), rs.getString(5),
                         rs.getString(7));
                 logonUser.setEmail(rs.getString(6));
                 logonUser.setGroups(getUserGroups(logonUser.getUserId()));
-                return logonUser;
+
             }
 
         } catch (Exception e) {
             System.err.printf("%s: %s%n", e.getMessage(), Arrays.toString(e.getStackTrace()));
+
         }
 
-        return null;
+        return logonUser;
     }
 
     @Override
@@ -47,7 +49,7 @@ public class UserHandle extends UnicastRemoteObject implements RemoteUserInterfa
         return false;
     }
 
-    
+
 
 
     @Override
@@ -101,20 +103,20 @@ public class UserHandle extends UnicastRemoteObject implements RemoteUserInterfa
     private List<GroupModel> getUserGroups(String userId) {
         List<GroupModel> userGroups = new ArrayList<>();
 
-        try(ResultSet rs = UserDBHandler.getUserGroups(userId)) {
-            //Check if the result set is empty
-            if(rs != null) {
-                while(rs.next()) {
-                    userGroups.add(new GroupModel(rs.getString(1), rs.getString(2), rs.getString(3)));
-                }
-                return userGroups;
-            }else {
-                System.err.println("User has no groups!");
-                return null;
-            }
-        } catch (Exception e) {
-            System.err.printf("%s: %s%n", e.getMessage(), Arrays.toString(e.getStackTrace()));
-        }
+//        try(ResultSet rs = UserDBHandler.getUserGroups(userId)) {
+//            //Check if the result set is empty
+//            if(rs != null) {
+//                while(rs.next()) {
+//                    userGroups.add(new GroupModel(rs.getString(1), rs.getString(2), rs.getString(3)));
+//                }
+//                return userGroups;
+//            }else {
+//                System.err.println("User has no groups!");
+//                return null;
+//            }
+//        } catch (Exception e) {
+//            System.err.printf("%s: %s%n", e.getMessage(), Arrays.toString(e.getStackTrace()));
+//        }
         return userGroups;
     }
 

@@ -11,6 +11,7 @@ import static DatabaseController.DBQueryExcecutor.executeQuery;
 
 public class UserDBHandler {
 
+
     public static ResultSet authenticateUser(String username, String password) {
         String qu = "SELECT * FROM users_tb where username = ? and password_hash = ?";
         List<Object> parameters = Arrays.asList(username, password);
@@ -70,6 +71,17 @@ public class UserDBHandler {
         }
         return fileOwnerName;
 
+    }
+
+    public static UserModel getUserfromID(String userID) throws SQLException {
+        UserModel user = null;
+        String qu = "SELECT * FROM users_tb where user_id = ?";
+        ResultSet rs = DBQueryExcecutor.executeQuery(qu,Arrays.asList(userID),"get");
+
+        while (rs.next()) {
+          user = new UserModel(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getString(6));
+        }
+       return user;
     }
 
 

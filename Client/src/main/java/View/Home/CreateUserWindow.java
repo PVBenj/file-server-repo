@@ -1,9 +1,9 @@
 package View.Home;
 
 import Controller.UserController;
-import Model.GroupModel;
-import Model.PasswordHash;
-import Model.UserModel;
+import Models.GroupModel;
+import Models.PasswordHash;
+import Models.UserModel;
 import View.Resources.CustomFont;
 import java.awt.Color;
 import java.util.ArrayList;

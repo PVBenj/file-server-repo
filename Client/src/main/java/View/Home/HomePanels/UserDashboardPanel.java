@@ -2,8 +2,8 @@ package View.Home.HomePanels;
 
 import Controller.ActivityLoggerController;
 import Controller.FileController;
-import Model.ActivityLogger;
-import Model.FileModel;
+import Models.ActivityLogger;
+import Models.FileModel;
 import View.Home.Home;
 import View.Home.UIMethods;
 import View.Resources.CustomFont;
@@ -44,7 +44,7 @@ public final class UserDashboardPanel extends javax.swing.JPanel implements UIMe
     
     private void styleTable(JTable table) {
         JTableHeader header = table.getTableHeader();
-        header.setBackground(new Color(62, 62, 62));
+        header.setBackground(new Color(0,29,61));
         header.setForeground(new Color(255, 255, 255));
         header.setPreferredSize(
                 new Dimension(header.getWidth(), 40));
@@ -453,7 +453,7 @@ public final class UserDashboardPanel extends javax.swing.JPanel implements UIMe
         jPanel15.setLayout(new java.awt.BorderLayout());
 
         recentActivitySection.setBackground(new java.awt.Color(255, 255, 255));
-        recentActivitySection.setPreferredSize(new java.awt.Dimension(810, 385));
+        recentActivitySection.setPreferredSize(new java.awt.Dimension(770, 385));
         recentActivitySection.setRoundBottomLeft(10);
         recentActivitySection.setRoundBottomRight(10);
         recentActivitySection.setRoundTopLeft(10);
@@ -476,7 +476,7 @@ public final class UserDashboardPanel extends javax.swing.JPanel implements UIMe
             .addGroup(roundPanel1Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(recentActivityHeading)
-                .addContainerGap(676, Short.MAX_VALUE))
+                .addContainerGap(636, Short.MAX_VALUE))
         );
         roundPanel1Layout.setVerticalGroup(
             roundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -534,7 +534,7 @@ public final class UserDashboardPanel extends javax.swing.JPanel implements UIMe
         roundPanel4.setLayout(roundPanel4Layout);
         roundPanel4Layout.setHorizontalGroup(
             roundPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 810, Short.MAX_VALUE)
+            .addGap(0, 770, Short.MAX_VALUE)
         );
         roundPanel4Layout.setVerticalGroup(
             roundPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -555,7 +555,7 @@ public final class UserDashboardPanel extends javax.swing.JPanel implements UIMe
             }
         ));
         recentActivityTable.setRowHeight(40);
-        recentActivityTable.setSelectionBackground(new java.awt.Color(72, 207, 203));
+        recentActivityTable.setSelectionBackground(new java.awt.Color(60, 194, 250));
         jScrollPane1.setViewportView(recentActivityTable);
 
         roundPanel3.add(jScrollPane1, java.awt.BorderLayout.CENTER);
@@ -571,7 +571,7 @@ public final class UserDashboardPanel extends javax.swing.JPanel implements UIMe
         jPanel18.setLayout(new java.awt.BorderLayout());
 
         recentUploadsSection.setBackground(new java.awt.Color(255, 255, 255));
-        recentUploadsSection.setPreferredSize(new java.awt.Dimension(810, 402));
+        recentUploadsSection.setPreferredSize(new java.awt.Dimension(770, 402));
         recentUploadsSection.setRoundBottomLeft(10);
         recentUploadsSection.setRoundBottomRight(10);
         recentUploadsSection.setRoundTopLeft(10);
@@ -594,7 +594,7 @@ public final class UserDashboardPanel extends javax.swing.JPanel implements UIMe
             .addGroup(roundPanel2Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(recentUploadsHeading)
-                .addContainerGap(668, Short.MAX_VALUE))
+                .addContainerGap(628, Short.MAX_VALUE))
         );
         roundPanel2Layout.setVerticalGroup(
             roundPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -652,7 +652,7 @@ public final class UserDashboardPanel extends javax.swing.JPanel implements UIMe
         roundPanel6.setLayout(roundPanel6Layout);
         roundPanel6Layout.setHorizontalGroup(
             roundPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 810, Short.MAX_VALUE)
+            .addGap(0, 770, Short.MAX_VALUE)
         );
         roundPanel6Layout.setVerticalGroup(
             roundPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -673,7 +673,7 @@ public final class UserDashboardPanel extends javax.swing.JPanel implements UIMe
             }
         ));
         recentUploadsTable.setRowHeight(40);
-        recentUploadsTable.setSelectionBackground(new java.awt.Color(72, 207, 203));
+        recentUploadsTable.setSelectionBackground(new java.awt.Color(60, 194, 250));
         jScrollPane2.setViewportView(recentUploadsTable);
 
         roundPanel5.add(jScrollPane2, java.awt.BorderLayout.CENTER);

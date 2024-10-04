@@ -1,6 +1,6 @@
 package RemoteInterfaces;
 
-import Model.UserModel;
+import Models.UserModel;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.sql.SQLException;

@@ -1,8 +1,8 @@
 package View.Home.HomePanels;
 
 import Controller.ActivityLoggerController;
-import Model.ActivityLogger;
-import Model.GroupModel;
+import Models.ActivityLogger;
+import Models.GroupModel;
 import View.Home.Home;
 import View.Home.UIMethods;
 import View.Resources.CustomFont;
@@ -242,7 +242,7 @@ public final class ActivityPanel extends javax.swing.JPanel implements UIMethods
             }
         ));
         activityTable.setRowHeight(40);
-        activityTable.setSelectionBackground(new java.awt.Color(72, 207, 203));
+        activityTable.setSelectionBackground(new java.awt.Color(60, 194, 250));
         jScrollPane1.setViewportView(activityTable);
 
         roundPanel7.add(jScrollPane1, java.awt.BorderLayout.CENTER);
@@ -259,7 +259,7 @@ public final class ActivityPanel extends javax.swing.JPanel implements UIMethods
     //Style the table
     private void styleTable() {
         JTableHeader header = activityTable.getTableHeader();
-        header.setBackground(new Color(62, 62, 62));
+        header.setBackground(new Color(0,29,61));
         header.setForeground(new Color(255, 255, 255));
         header.setPreferredSize(
                 new Dimension(header.getWidth(), 40));

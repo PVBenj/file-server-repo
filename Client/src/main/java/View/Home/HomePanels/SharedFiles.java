@@ -2,29 +2,36 @@ package View.Home.HomePanels;
 
 import Controller.FileController;
 import Controller.UserController;
-import Model.FileModel;
-import Model.UserModel;
+import Models.FileModel;
+import Models.UserModel;
 import View.Home.Home;
 import View.Home.UIMethods;
 import View.Resources.CustomFont;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import javax.swing.BorderFactory;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JProgressBar;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
+import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
@@ -49,6 +56,7 @@ public class SharedFiles extends javax.swing.JPanel implements UIMethods {
         users = UserController.getAllUsers();
         selectedUsernames = new ArrayList<>();
         constructTable();
+        createShareUserOption();
     }
     
     private void constructTable() {
@@ -62,7 +70,7 @@ public class SharedFiles extends javax.swing.JPanel implements UIMethods {
     
     private void styleTable(JTable table) {
         JTableHeader header = table.getTableHeader();
-        header.setBackground(new Color(62, 62, 62));
+        header.setBackground(new Color(0,29,61));
         header.setForeground(new Color(255, 255, 255));
         header.setPreferredSize(
                 new Dimension(header.getWidth(), 40));
@@ -122,11 +130,18 @@ public class SharedFiles extends javax.swing.JPanel implements UIMethods {
     
     private void setActionToMenu(JTable table) {
         // Add action listeners for the menu items
-        downloadItem.addActionListener(e -> {
-            int selectedRow = table.getSelectedRow();
-            String fileId = (String) table.getValueAt(selectedRow, 0);
+         downloadItem.addActionListener(e -> {
+            String fileId = getSelectedFileId(table);
+            String fileName = (String) table.getValueAt(table.getSelectedRow(), 0);
             System.out.println("Downloading: " + fileId);
-            // Add download logic here
+            
+            if(FileController.downloadFile(fileId, 
+                    openDownloadPathSelection(fileName))) {
+                JOptionPane.showMessageDialog(null, setJOptionMessageLabel("File download successful!"), "Download Success", JOptionPane.INFORMATION_MESSAGE); 
+            } else {
+                JOptionPane.showMessageDialog(null, setJOptionMessageLabel("File download unsuccessful!"), "Download Failed", JOptionPane.ERROR_MESSAGE);
+            }
+            
         });
 
         
@@ -168,6 +183,48 @@ public class SharedFiles extends javax.swing.JPanel implements UIMethods {
         }
         
 
+    }
+    
+    private String getSelectedFileId(JTable table) {
+        List<FileModel> files = new ArrayList<>();
+        
+        if(table.equals(sharedByMeTable)) {
+            files = filesSharedByMe;
+        } else {
+            files = filesSharedWithMe;
+        }
+        
+        if(table.getSelectedRow() != -1) {
+            System.out.println("Selected file: " + table.getModel().getValueAt(table.getSelectedRow(), 0).toString());
+            String fileName = table.getModel().getValueAt(table.getSelectedRow(), 0).toString();
+            
+            for(FileModel file : files) {
+                if(file.getFileName().equals(fileName)) {
+                    return file.getFileId();
+                }
+                break;
+            }
+            
+        }else {
+            JOptionPane.showMessageDialog(null, setJOptionMessageLabel("Select a file to remove"), "Warning", JOptionPane.WARNING_MESSAGE);
+            return null;
+        }
+        
+        return null;
+    }
+    
+    private Path openDownloadPathSelection(String fileName) {
+        JFileChooser pathChooser = new JFileChooser();
+        pathChooser.setDialogTitle("Select download location");
+        pathChooser.setSelectedFile(new java.io.File(fileName));
+        int userSelection = pathChooser.showSaveDialog(null);
+        
+        if(userSelection == JFileChooser.APPROVE_OPTION) {
+            Path destinationPath = pathChooser.getSelectedFile().toPath();
+            System.out.println("Saving file to: " + destinationPath);
+            return destinationPath;
+        }
+        return null;
     }
     
     private void loadDataToSharedByMeTable() {
@@ -251,6 +308,55 @@ public class SharedFiles extends javax.swing.JPanel implements UIMethods {
         sharedFilesPanelHeading.setFont(CustomFont.panelHeadingFont);
         section1Heading.setFont(CustomFont.sectionHeadingFont);
         section2Heading.setFont(CustomFont.sectionHeadingFont);
+    }
+    
+    
+    private JLabel setJOptionMessageLabel(String message) {
+        JLabel messageLabel = new JLabel(message);
+        messageLabel.setFont(CustomFont.formTextFieldFont); 
+        
+        return messageLabel;
+    }
+    
+    private void createShareUserOption() {
+        // Convert list to array for JComboBox
+        String[] usernameArray = getUsernameArray();
+
+        // Create components for the dialog
+        userDropdown = new JComboBox<>(usernameArray);
+        selectedUsersArea = new JTextArea(5, 20);
+        selectedUsersArea.setEditable(false); // Display area for selected users
+        TitledBorder titledBorder = BorderFactory.createTitledBorder("Selected Users");
+        titledBorder.setTitleFont(CustomFont.joptionPaneFont); 
+        selectedUsersArea.setBorder(titledBorder);
+
+        // Add action listener to JComboBox to handle selection
+        userDropdown.addActionListener((ActionEvent e) -> {
+            String selectedUser = (String) userDropdown.getSelectedItem();
+            if (!selectedUsernames.contains(selectedUser)) {
+                selectedUsernames.add(selectedUser);
+                // Update the text area with selected usernames
+                selectedUsersArea.setText(String.join(", ", selectedUsernames));
+            } else {
+                JOptionPane.showMessageDialog(null, setJOptionMessageLabel("User already selected."));
+            }
+        });
+
+        // Create a panel to hold the dropdown and selected users display
+        addUserPanel = new JPanel(new BorderLayout());
+        addUserPanel.add(userDropdown, BorderLayout.NORTH);
+        addUserPanel.add(new JScrollPane(selectedUsersArea), BorderLayout.CENTER);
+        addUserPanel.setPreferredSize(new Dimension(500, 200));
+    }
+    
+    private String[] getUsernameArray() {
+        List<String> usernames = new ArrayList<>();
+        
+        for(UserModel user : users) {
+            usernames.add(user.getUsername());
+        }
+        
+        return usernames.toArray(new String[0]);
     }
 
     /**
@@ -422,7 +528,7 @@ public class SharedFiles extends javax.swing.JPanel implements UIMethods {
         jPanel4.setLayout(new java.awt.BorderLayout());
 
         roundPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        roundPanel1.setPreferredSize(new java.awt.Dimension(810, 501));
+        roundPanel1.setPreferredSize(new java.awt.Dimension(770, 501));
         roundPanel1.setRoundBottomLeft(10);
         roundPanel1.setRoundBottomRight(10);
         roundPanel1.setRoundTopLeft(10);
@@ -444,7 +550,7 @@ public class SharedFiles extends javax.swing.JPanel implements UIMethods {
             .addGroup(roundPanel5Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(section1Heading)
-                .addContainerGap(713, Short.MAX_VALUE))
+                .addContainerGap(673, Short.MAX_VALUE))
         );
         roundPanel5Layout.setVerticalGroup(
             roundPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -502,7 +608,7 @@ public class SharedFiles extends javax.swing.JPanel implements UIMethods {
         roundPanel10.setLayout(roundPanel10Layout);
         roundPanel10Layout.setHorizontalGroup(
             roundPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 810, Short.MAX_VALUE)
+            .addGap(0, 770, Short.MAX_VALUE)
         );
         roundPanel10Layout.setVerticalGroup(
             roundPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -523,7 +629,7 @@ public class SharedFiles extends javax.swing.JPanel implements UIMethods {
             }
         ));
         sharedWithMeTable.setRowHeight(40);
-        sharedWithMeTable.setSelectionBackground(new java.awt.Color(72, 207, 203));
+        sharedWithMeTable.setSelectionBackground(new java.awt.Color(60, 194, 250));
         jScrollPane1.setViewportView(sharedWithMeTable);
 
         roundPanel9.add(jScrollPane1, java.awt.BorderLayout.CENTER);
@@ -533,7 +639,7 @@ public class SharedFiles extends javax.swing.JPanel implements UIMethods {
         jPanel4.add(roundPanel1, java.awt.BorderLayout.LINE_START);
 
         roundPanel4.setBackground(new java.awt.Color(255, 255, 255));
-        roundPanel4.setPreferredSize(new java.awt.Dimension(810, 501));
+        roundPanel4.setPreferredSize(new java.awt.Dimension(770, 501));
         roundPanel4.setRoundBottomLeft(10);
         roundPanel4.setRoundBottomRight(10);
         roundPanel4.setRoundTopLeft(10);
@@ -555,7 +661,7 @@ public class SharedFiles extends javax.swing.JPanel implements UIMethods {
             .addGroup(roundPanel6Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(section2Heading)
-                .addContainerGap(728, Short.MAX_VALUE))
+                .addContainerGap(688, Short.MAX_VALUE))
         );
         roundPanel6Layout.setVerticalGroup(
             roundPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -613,7 +719,7 @@ public class SharedFiles extends javax.swing.JPanel implements UIMethods {
         roundPanel12.setLayout(roundPanel12Layout);
         roundPanel12Layout.setHorizontalGroup(
             roundPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 810, Short.MAX_VALUE)
+            .addGap(0, 770, Short.MAX_VALUE)
         );
         roundPanel12Layout.setVerticalGroup(
             roundPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -634,7 +740,7 @@ public class SharedFiles extends javax.swing.JPanel implements UIMethods {
             }
         ));
         sharedByMeTable.setRowHeight(40);
-        sharedByMeTable.setSelectionBackground(new java.awt.Color(72, 207, 203));
+        sharedByMeTable.setSelectionBackground(new java.awt.Color(60, 194, 250));
         jScrollPane2.setViewportView(sharedByMeTable);
 
         roundPanel11.add(jScrollPane2, java.awt.BorderLayout.CENTER);

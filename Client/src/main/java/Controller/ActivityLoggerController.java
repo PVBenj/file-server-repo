@@ -1,6 +1,6 @@
 package Controller;
 
-import Model.ActivityLogger;
+import Models.ActivityLogger;
 import java.util.Date;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;

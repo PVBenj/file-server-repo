@@ -1,6 +1,6 @@
 package RemoteInterfaces;
 
-import Model.ActivityLogger;
+import Models.ActivityLogger;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;

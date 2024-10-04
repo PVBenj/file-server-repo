@@ -2,10 +2,10 @@ package View.Home.HomePanels;
 
 import Controller.ActivityLoggerController;
 import Controller.UserController;
-import Model.ActivityLogger;
-import Model.GroupModel;
-import Model.PasswordHash;
-import Model.UserModel;
+import Models.ActivityLogger;
+import Models.GroupModel;
+import Models.PasswordHash;
+import Models.UserModel;
 import View.Home.Home;
 import View.Home.UIMethods;
 import View.Resources.CustomFont;

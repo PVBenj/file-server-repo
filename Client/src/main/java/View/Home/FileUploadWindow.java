@@ -1,8 +1,9 @@
 package View.Home;
 
 import Controller.ActivityLoggerController;
-import Model.ActivityLogger;
-import Model.FileModel;
+import Controller.FileController;
+import Models.ActivityLogger;
+import Models.FileModel;
 import View.Resources.CustomFont;
 import java.awt.Color;
 import java.io.IOException;
@@ -646,7 +647,7 @@ public class FileUploadWindow extends javax.swing.JFrame implements UIMethods {
         
         if (userResponse == JFileChooser.APPROVE_OPTION) {
             Path selectedFilePath = fileChooser.getSelectedFile().toPath();
-            //check if the selected file is a supported file (Unsupported: .exe, .sh, .bat
+            //check if the selected file is a supported file (Unsupported: .exe, .sh, .bat)
             if(checkFileExtension(getFileExtension(selectedFilePath))) {
                 newFiles.add(selectedFilePath);
             } else {
@@ -671,8 +672,12 @@ public class FileUploadWindow extends javax.swing.JFrame implements UIMethods {
 
     private void uploadBTNMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_uploadBTNMouseClicked
         if(!newFiles.isEmpty()) {
-            List<FileModel> fileObjs = createFileObjs();
-            triggerProgressIndicator(getAllFileSize(fileObjs));
+            triggerProgressIndicator(getAllFileSize());
+            if(FileController.uploadFiles(createFileObjs())) {
+                JOptionPane.showMessageDialog(null, setJOptionMessageLabel("File upload success!"), "Success", JOptionPane.INFORMATION_MESSAGE);
+            }else {
+                JOptionPane.showMessageDialog(null, setJOptionMessageLabel("File upload unsuccess!"), "Error", JOptionPane.ERROR_MESSAGE);
+            }
         } else {
             JOptionPane.showMessageDialog(null, setJOptionMessageLabel("Select files to upload!"), "Warning", JOptionPane.WARNING_MESSAGE);
         }
@@ -741,7 +746,7 @@ public class FileUploadWindow extends javax.swing.JFrame implements UIMethods {
             try {
                 String fileSize = Double.toString(Files.size(file)/ (1024.0 * 1024.0)) + " MB";
                 FileModel obj = new FileModel(createFileId(), file.getFileName().toString(), createdDateTime, Home.user, fileSize);
-                obj.setRawFile(file);
+                obj.setFileDataArray(Files.readAllBytes(file));
                 fileObjs.add(obj);
             } catch (IOException ex) {
                 System.err.println(ex.getMessage());
@@ -750,11 +755,11 @@ public class FileUploadWindow extends javax.swing.JFrame implements UIMethods {
         return fileObjs;
     }
     
-    private long getAllFileSize(List<FileModel> fileObjs) {
+    private long getAllFileSize() {
         long totalFileSize = 0;
-        for(FileModel file : fileObjs) {
+        for(Path file : newFiles) {
             try {
-                totalFileSize += Files.size(file.getRawFile());
+                totalFileSize += Files.size(file);
             } catch (IOException ex) {
                 System.err.println(ex.getMessage());
             }

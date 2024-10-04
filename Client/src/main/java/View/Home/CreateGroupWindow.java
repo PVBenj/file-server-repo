@@ -1,8 +1,8 @@
 package View.Home;
 
 import Controller.GroupController;
-import Model.GroupModel;
-import Model.UserModel;
+import Models.GroupModel;
+import Models.UserModel;
 import View.Resources.CustomFont;
 import java.awt.Color;
 import java.util.ArrayList;

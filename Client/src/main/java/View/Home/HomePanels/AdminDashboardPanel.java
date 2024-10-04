@@ -4,10 +4,10 @@ import Controller.ActivityLoggerController;
 import Controller.FileController;
 import Controller.GroupController;
 import Controller.UserController;
-import Model.ActivityLogger;
-import Model.FileModel;
-import Model.GroupModel;
-import Model.UserModel;
+import Models.ActivityLogger;
+import Models.FileModel;
+import Models.GroupModel;
+import Models.UserModel;
 import View.Home.Home;
 import View.Home.UIMethods;
 import View.Resources.CustomFont;
@@ -55,7 +55,7 @@ public final class AdminDashboardPanel extends javax.swing.JPanel implements UIM
     //Style the tables
     private void styleTable(JTable table) {
         JTableHeader header = table.getTableHeader();
-        header.setBackground(new Color(62, 62, 62));
+        header.setBackground(new Color(0,29,61));
         header.setForeground(new Color(255, 255, 255));
         header.setPreferredSize(
                 new Dimension(header.getWidth(), 40));
@@ -464,7 +464,7 @@ public final class AdminDashboardPanel extends javax.swing.JPanel implements UIM
         jPanel15.setLayout(new java.awt.BorderLayout());
 
         recentActivitySection.setBackground(new java.awt.Color(255, 255, 255));
-        recentActivitySection.setPreferredSize(new java.awt.Dimension(810, 385));
+        recentActivitySection.setPreferredSize(new java.awt.Dimension(770, 385));
         recentActivitySection.setRoundBottomLeft(10);
         recentActivitySection.setRoundBottomRight(10);
         recentActivitySection.setRoundTopLeft(10);
@@ -487,7 +487,7 @@ public final class AdminDashboardPanel extends javax.swing.JPanel implements UIM
             .addGroup(roundPanel1Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(recentActivityHeading)
-                .addContainerGap(676, Short.MAX_VALUE))
+                .addContainerGap(636, Short.MAX_VALUE))
         );
         roundPanel1Layout.setVerticalGroup(
             roundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -545,7 +545,7 @@ public final class AdminDashboardPanel extends javax.swing.JPanel implements UIM
         roundPanel4.setLayout(roundPanel4Layout);
         roundPanel4Layout.setHorizontalGroup(
             roundPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 810, Short.MAX_VALUE)
+            .addGap(0, 770, Short.MAX_VALUE)
         );
         roundPanel4Layout.setVerticalGroup(
             roundPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -567,7 +567,7 @@ public final class AdminDashboardPanel extends javax.swing.JPanel implements UIM
         ));
         recentActivityTable.setEnabled(false);
         recentActivityTable.setRowHeight(40);
-        recentActivityTable.setSelectionBackground(new java.awt.Color(72, 207, 203));
+        recentActivityTable.setSelectionBackground(new java.awt.Color(60, 194, 250));
         jScrollPane1.setViewportView(recentActivityTable);
 
         roundPanel3.add(jScrollPane1, java.awt.BorderLayout.CENTER);
@@ -582,7 +582,7 @@ public final class AdminDashboardPanel extends javax.swing.JPanel implements UIM
         jPanel18.setLayout(new java.awt.BorderLayout());
 
         recentUploadsSection.setBackground(new java.awt.Color(255, 255, 255));
-        recentUploadsSection.setPreferredSize(new java.awt.Dimension(810, 402));
+        recentUploadsSection.setPreferredSize(new java.awt.Dimension(770, 402));
         recentUploadsSection.setRoundBottomLeft(10);
         recentUploadsSection.setRoundBottomRight(10);
         recentUploadsSection.setRoundTopLeft(10);
@@ -605,7 +605,7 @@ public final class AdminDashboardPanel extends javax.swing.JPanel implements UIM
             .addGroup(roundPanel2Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(recentUploadsHeading)
-                .addContainerGap(693, Short.MAX_VALUE))
+                .addContainerGap(653, Short.MAX_VALUE))
         );
         roundPanel2Layout.setVerticalGroup(
             roundPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -663,7 +663,7 @@ public final class AdminDashboardPanel extends javax.swing.JPanel implements UIM
         roundPanel6.setLayout(roundPanel6Layout);
         roundPanel6Layout.setHorizontalGroup(
             roundPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 810, Short.MAX_VALUE)
+            .addGap(0, 770, Short.MAX_VALUE)
         );
         roundPanel6Layout.setVerticalGroup(
             roundPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -685,7 +685,7 @@ public final class AdminDashboardPanel extends javax.swing.JPanel implements UIM
         ));
         userGroupsTable.setEnabled(false);
         userGroupsTable.setRowHeight(40);
-        userGroupsTable.setSelectionBackground(new java.awt.Color(72, 207, 203));
+        userGroupsTable.setSelectionBackground(new java.awt.Color(60, 194, 250));
         jScrollPane2.setViewportView(userGroupsTable);
 
         roundPanel5.add(jScrollPane2, java.awt.BorderLayout.CENTER);

@@ -1,4 +1,4 @@
-package Model;
+package Models;
 
 import java.io.Serializable;
 import java.util.ArrayList;

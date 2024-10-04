@@ -61,7 +61,7 @@
             <Container class="javax.swing.JPanel" name="jPanel1">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="3e" green="3e" red="3e" type="rgb"/>
+                  <Color blue="3d" green="1d" red="0" type="rgb"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                   <Dimension value="[250, 30]"/>
@@ -90,7 +90,7 @@
             <Container class="javax.swing.JPanel" name="jPanel14">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="3e" green="3e" red="3e" type="rgb"/>
+                  <Color blue="4a" green="2a" red="1" type="rgb"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -104,7 +104,7 @@
                 <Container class="javax.swing.JPanel" name="dashboardPanel">
                   <Properties>
                     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                      <Color blue="3e" green="3e" red="3e" type="rgb"/>
+                      <Color blue="3d" green="1d" red="0" type="rgb"/>
                     </Property>
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                       <Dimension value="[250, 60]"/>
@@ -146,7 +146,7 @@
                     <Container class="javax.swing.JPanel" name="jPanel9">
                       <Properties>
                         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                          <Color blue="3e" green="3e" red="3e" type="rgb"/>
+                          <Color blue="3d" green="1d" red="0" type="rgb"/>
                         </Property>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                           <Dimension value="[50, 60]"/>
@@ -185,7 +185,7 @@
                     <Container class="javax.swing.JPanel" name="myFilesPanel">
                       <Properties>
                         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                          <Color blue="3e" green="3e" red="3e" type="rgb"/>
+                          <Color blue="3d" green="1d" red="0" type="rgb"/>
                         </Property>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                           <Dimension value="[250, 60]"/>
@@ -227,7 +227,7 @@
                         <Container class="javax.swing.JPanel" name="jPanel10">
                           <Properties>
                             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                              <Color blue="3e" green="3e" red="3e" type="rgb"/>
+                              <Color blue="3d" green="1d" red="0" type="rgb"/>
                             </Property>
                             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                               <Dimension value="[50, 60]"/>
@@ -266,7 +266,7 @@
                         <Container class="javax.swing.JPanel" name="sharedFilesPanel">
                           <Properties>
                             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                              <Color blue="3e" green="3e" red="3e" type="rgb"/>
+                              <Color blue="3d" green="1d" red="0" type="rgb"/>
                             </Property>
                             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                               <Dimension value="[250, 60]"/>
@@ -308,7 +308,7 @@
                             <Container class="javax.swing.JPanel" name="jPanel11">
                               <Properties>
                                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                                  <Color blue="3e" green="3e" red="3e" type="rgb"/>
+                                  <Color blue="3d" green="1d" red="0" type="rgb"/>
                                 </Property>
                                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                                   <Dimension value="[50, 60]"/>
@@ -352,7 +352,7 @@
                             <Container class="javax.swing.JPanel" name="activityPanel">
                               <Properties>
                                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                                  <Color blue="3e" green="3e" red="3e" type="rgb"/>
+                                  <Color blue="3d" green="1d" red="0" type="rgb"/>
                                 </Property>
                                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                                   <Dimension value="[250, 60]"/>
@@ -394,7 +394,7 @@
                                 <Container class="javax.swing.JPanel" name="jPanel12">
                                   <Properties>
                                     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                                      <Color blue="3e" green="3e" red="3e" type="rgb"/>
+                                      <Color blue="3d" green="1d" red="0" type="rgb"/>
                                     </Property>
                                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                                       <Dimension value="[50, 60]"/>
@@ -433,7 +433,7 @@
                                 <Container class="javax.swing.JPanel" name="usersPanel">
                                   <Properties>
                                     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                                      <Color blue="3e" green="3e" red="3e" type="rgb"/>
+                                      <Color blue="3d" green="1d" red="0" type="rgb"/>
                                     </Property>
                                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                                       <Dimension value="[250, 60]"/>
@@ -475,7 +475,7 @@
                                     <Container class="javax.swing.JPanel" name="jPanel15">
                                       <Properties>
                                         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                                          <Color blue="3e" green="3e" red="3e" type="rgb"/>
+                                          <Color blue="3d" green="1d" red="0" type="rgb"/>
                                         </Property>
                                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                                           <Dimension value="[50, 60]"/>
@@ -505,7 +505,7 @@
                                 <Container class="javax.swing.JPanel" name="jPanel16">
                                   <Properties>
                                     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                                      <Color blue="3e" green="3e" red="3e" type="rgb"/>
+                                      <Color blue="3d" green="1d" red="0" type="rgb"/>
                                     </Property>
                                   </Properties>
                                   <Constraints>
@@ -519,7 +519,7 @@
                                     <Container class="javax.swing.JPanel" name="groupsPanel">
                                       <Properties>
                                         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                                          <Color blue="3e" green="3e" red="3e" type="rgb"/>
+                                          <Color blue="3d" green="1d" red="0" type="rgb"/>
                                         </Property>
                                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                                           <Dimension value="[250, 60]"/>
@@ -561,7 +561,7 @@
                                         <Container class="javax.swing.JPanel" name="jPanel17">
                                           <Properties>
                                             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                                              <Color blue="3e" green="3e" red="3e" type="rgb"/>
+                                              <Color blue="3d" green="1d" red="0" type="rgb"/>
                                             </Property>
                                             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                                               <Dimension value="[50, 60]"/>
@@ -605,7 +605,7 @@
         <Container class="javax.swing.JPanel" name="jPanel2">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="28" green="28" red="28" type="rgb"/>
+              <Color blue="23" green="19" red="5" type="rgb"/>
             </Property>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[1080, 80]"/>
@@ -622,7 +622,7 @@
             <Container class="javax.swing.JPanel" name="jPanel3">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="28" green="28" red="28" type="rgb"/>
+                  <Color blue="23" green="19" red="5" type="rgb"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                   <Dimension value="[200, 80]"/>
@@ -644,7 +644,7 @@
                 <Container class="javax.swing.JPanel" name="profilePanel">
                   <Properties>
                     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                      <Color blue="28" green="28" red="28" type="rgb"/>
+                      <Color blue="23" green="19" red="5" type="rgb"/>
                     </Property>
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                       <Dimension value="[80, 80]"/>
@@ -679,7 +679,7 @@
                 <Container class="javax.swing.JPanel" name="jPanel4">
                   <Properties>
                     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                      <Color blue="28" green="28" red="28" type="rgb"/>
+                      <Color blue="23" green="19" red="5" type="rgb"/>
                     </Property>
                   </Properties>
                   <Constraints>
@@ -693,7 +693,7 @@
                     <Container class="javax.swing.JPanel" name="jPanel5">
                       <Properties>
                         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                          <Color blue="28" green="28" red="28" type="rgb"/>
+                          <Color blue="23" green="19" red="5" type="rgb"/>
                         </Property>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                           <Dimension value="[10, 80]"/>

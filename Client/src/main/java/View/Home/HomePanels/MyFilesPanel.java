@@ -3,9 +3,9 @@ package View.Home.HomePanels;
 import Controller.FileController;
 import Controller.GroupController;
 import Controller.UserController;
-import Model.FileModel;
-import Model.GroupModel;
-import Model.UserModel;
+import Models.FileModel;
+import Models.GroupModel;
+import Models.UserModel;
 import View.Home.FileUploadWindow;
 import View.Home.Home;
 import View.Home.UIMethods;
@@ -331,7 +331,7 @@ public class MyFilesPanel extends javax.swing.JPanel implements UIMethods {
     //Styling the table
     private void styleTable() {
         JTableHeader header = myFileTable.getTableHeader();
-        header.setBackground(new Color(62, 62, 62));
+        header.setBackground(new Color(0,29,61));
         header.setForeground(new Color(255, 255, 255));
         header.setPreferredSize(
                 new Dimension(header.getWidth(), 40));
@@ -799,7 +799,7 @@ public class MyFilesPanel extends javax.swing.JPanel implements UIMethods {
             }
         ));
         myFileTable.setRowHeight(40);
-        myFileTable.setSelectionBackground(new java.awt.Color(72, 207, 203));
+        myFileTable.setSelectionBackground(new java.awt.Color(60, 194, 250));
         jScrollPane1.setViewportView(myFileTable);
 
         roundPanel7.add(jScrollPane1, java.awt.BorderLayout.CENTER);

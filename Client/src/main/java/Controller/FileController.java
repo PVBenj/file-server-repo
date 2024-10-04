@@ -1,7 +1,7 @@
 package Controller;
 
-import Model.FileModel;
-import Model.UserModel;
+import Models.FileModel;
+import Models.UserModel;
 import ServerHandler.RemoteHandler;
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -27,28 +27,39 @@ public class FileController {
     
     public static List<FileModel> getMyFiles(String userId) {
         
-//        try {
-//            return RemoteHandler.getRemoteFileObj().fetchAllFiles(userId);
-//        } catch (RemoteException ex) {
-//            System.err.println(Arrays.toString(ex.getStackTrace()));
-//            return null;
-//        } 
+        try {
+            return RemoteHandler.getRemoteFileObj().fetchAllFiles(userId);
+        } catch (RemoteException ex) {
+            System.err.println(Arrays.toString(ex.getStackTrace()));
+            return null;
+        } 
         
         //Test data
-        return List.of(
-            new FileModel("file1", "test1.txt", new Date().toString(), new UserModel("0001", "johnwick", "John123", "John", "0718274567", "Admin"), "file size in MB"),
-            new FileModel("file2", "test2.txt", new Date().toString(), new UserModel("0001", "johnwick", "John123", "John", "0718274567", "Admin"), "file size in MB"),
-            new FileModel("file3", "test3.txt", new Date().toString(), new UserModel("0001", "johnwick", "John123", "John", "0718274567", "Admin"), "file size in MB")
-        ); 
+//        return List.of(
+//            new FileModel("file1", "test1.txt", new Date().toString(), new UserModel("0001", "johnwick", "John123", "John", "0718274567", "Admin"), "file size in MB"),
+//            new FileModel("file2", "test2.txt", new Date().toString(), new UserModel("0001", "johnwick", "John123", "John", "0718274567", "Admin"), "file size in MB"),
+//            new FileModel("file3", "test3.txt", new Date().toString(), new UserModel("0001", "johnwick", "John123", "John", "0718274567", "Admin"), "file size in MB")
+//        ); 
        
     }
     
     public static boolean uploadFiles(List<FileModel> fileObjs) {
         
+        for(FileModel file : fileObjs) {
+            try{
+                RemoteHandler.getRemoteFileObj().uploadFile(file);
+                return true;
+            }catch(Exception e) {
+                System.err.println(e.getMessage());
+                return false;
+            }
+        }
+        
+        
 //        //Iterate over file paths list inside the fileobject
 //        for(FileModel file : fileObjs) {
-//            String fileName = file.getRawFile().getFileName().toString();
-//            try (FileChannel fileChannel = FileChannel.open(file.getRawFile())) {
+//            String fileName = file.getFileDataArray().getFileName().toString();
+//            try (FileChannel fileChannel = FileChannel.open(file.getFileDataArray())) {
 //                ByteBuffer buffer = ByteBuffer.allocate(1024 * 1024); // 1 MB buffer
 //                int bytesRead;
 //                while ((bytesRead = fileChannel.read(buffer)) > 0) {
@@ -70,7 +81,7 @@ public class FileController {
 //                System.err.println(ex.getMessage());
 //            }
 //        }
-        return true;
+        return false;
     }
     
     public static boolean downloadFile(String fileId, Path destinationPath) {
@@ -88,119 +99,120 @@ public class FileController {
             System.err.println(ex.getMessage());
             return false;
         }
+
     }
     
     
     public static List<FileModel> getRecentFiles(String userId) {
-//        List<FileModel> recentFiles = new ArrayList<>();
-//        files = FileController.getMyFiles(userId);
-//        
-//        try {
-//            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-//            
-//            for(FileModel file : files) {
-//                LocalDateTime createdDateTime = LocalDateTime.parse(file.getCreateDateTime());
-//                LocalDateTime currentDateTime = LocalDateTime.now();
-//                
-//                if(Duration.between(currentDateTime, createdDateTime).toHours() <= 24) {
-//                    recentFiles.add(file);
-//                }
-//            } 
-//            return recentFiles;
-//            
-//        } catch (Exception ex) {
-//            System.err.println("Error Details: " + ex.getMessage());
-//            return null;
-//        }
+        List<FileModel> recentFiles = new ArrayList<>();
+        files = FileController.getMyFiles(userId);
+        
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+            
+            for(FileModel file : files) {
+                LocalDateTime createdDateTime = LocalDateTime.parse(file.getCreateDateTime());
+                LocalDateTime currentDateTime = LocalDateTime.now();
+                
+                if(Duration.between(currentDateTime, createdDateTime).toHours() <= 24) {
+                    recentFiles.add(file);
+                }
+            } 
+            return recentFiles;
+            
+        } catch (Exception ex) {
+            System.err.println("Error Details: " + ex.getMessage());
+            return null;
+        }
         
         //Test data
-        return List.of(
-            new FileModel("file1", "test1.txt", new Date().toString(), new UserModel("0001", "johnwick", "John123", "John", "0718274567", "Admin"), "file size in MB"),
-            new FileModel("file2", "test2.txt", new Date().toString(), new UserModel("0001", "johnwick", "John123", "John", "0718274567", "Admin"), "file size in MB"),
-            new FileModel("file3", "test3.txt", new Date().toString(), new UserModel("0001", "johnwick", "John123", "John", "0718274567", "Admin"), "file size in MB")
-        ); 
+//        return List.of(
+//            new FileModel("file1", "test1.txt", new Date().toString(), new UserModel("0001", "johnwick", "John123", "John", "0718274567", "Admin"), "file size in MB"),
+//            new FileModel("file2", "test2.txt", new Date().toString(), new UserModel("0001", "johnwick", "John123", "John", "0718274567", "Admin"), "file size in MB"),
+//            new FileModel("file3", "test3.txt", new Date().toString(), new UserModel("0001", "johnwick", "John123", "John", "0718274567", "Admin"), "file size in MB")
+//        ); 
     }
     
     public static boolean updateFileName(String fileId, String newName) {
-//        try {
-//            return RemoteHandler.getRemoteFileObj().updateFileName(fileId, newName);
-//        }catch (RemoteException ex) {
-//            System.err.println(Arrays.toString(ex.getStackTrace()));
-//            return false;
-//        } 
-        return true;
+        try {
+            return RemoteHandler.getRemoteFileObj().updateFileName(fileId, newName);
+        }catch (RemoteException ex) {
+            System.err.println(Arrays.toString(ex.getStackTrace()));
+            return false;
+        } 
+//        return true;
     }
     
     public static boolean deleteFile(String fileId) {
-//        try {
-//            return RemoteHandler.getRemoteFileObj().deleteFile(fileId);
-//        } catch (RemoteException ex) {  
-//            System.err.println(Arrays.toString(ex.getStackTrace()));
-//            return false;
-//        }
+        try {
+            return RemoteHandler.getRemoteFileObj().deleteFile(fileId);
+        } catch (RemoteException ex) {  
+            System.err.println(Arrays.toString(ex.getStackTrace()));
+            return false;
+        }
 
-        return true;
+//        return true;
     }
     
     public static List<FileModel> getSharedByMeFiles(String userId) {
-//        List<FileModel> sharedFiles = new ArrayList<>();
-//        
-//        files = getMyFiles(userId);
-//        
-//        for(FileModel file : files) {
-//            if(!file.getSharedWithUsers().isEmpty()) {
-//                sharedFiles.add(file);
-//            }
-//        }
-//        return sharedFiles;
+        List<FileModel> sharedFiles = new ArrayList<>();
+        
+        files = getMyFiles(userId);
+        
+        for(FileModel file : files) {
+            if(!file.getSharedWithUsers().isEmpty()) {
+                sharedFiles.add(file);
+            }
+        }
+        return sharedFiles;
 
 
 
         //Test data
-        return List.of(
-            new FileModel("file1", "test1.txt", new Date().toString(), new UserModel("0001", "johnwick", "John123", "John", "0718274567", "Admin"), "file size in MB"),
-            new FileModel("file2", "test2.txt", new Date().toString(), new UserModel("0001", "johnwick", "John123", "John", "0718274567", "Admin"), "file size in MB"),
-            new FileModel("file3", "test3.txt", new Date().toString(), new UserModel("0001", "johnwick", "John123", "John", "0718274567", "Admin"), "file size in MB")
-        ); 
+//        return List.of(
+//            new FileModel("file1", "test1.txt", new Date().toString(), new UserModel("0001", "johnwick", "John123", "John", "0718274567", "Admin"), "file size in MB"),
+//            new FileModel("file2", "test2.txt", new Date().toString(), new UserModel("0001", "johnwick", "John123", "John", "0718274567", "Admin"), "file size in MB"),
+//            new FileModel("file3", "test3.txt", new Date().toString(), new UserModel("0001", "johnwick", "John123", "John", "0718274567", "Admin"), "file size in MB")
+//        ); 
          
     }
     
     public static List<FileModel> getSharedWithYouFiles(String userId) {
-//        List<FileModel> sharedWithMeFiles = new ArrayList<>();
-//        
-//        files = getMyFiles(userId);
-//        
-//        for(FileModel file : files) {
-//            for(UserModel user : file.getSharedWithUsers()) {
-//                if(user.getUserId().equals(userId)) {
-//                    sharedWithMeFiles.add(file);
-//                }
-//            }
-//        }
-//        return sharedWithMeFiles;
+        List<FileModel> sharedWithMeFiles = new ArrayList<>();
+        
+        files = getMyFiles(userId);
+        
+        for(FileModel file : files) {
+            for(UserModel user : file.getSharedWithUsers()) {
+                if(user.getUserId().equals(userId)) {
+                    sharedWithMeFiles.add(file);
+                }
+            }
+        }
+        return sharedWithMeFiles;
 
 
 
 
 
         //Test data
-        return List.of(
-            new FileModel("file1", "test1.txt", new Date().toString(), new UserModel("0001", "johnwick", "John123", "John", "0718274567", "Admin"), "file size in MB"),
-            new FileModel("file2", "test2.txt", new Date().toString(), new UserModel("0001", "johnwick", "John123", "John", "0718274567", "Admin"), "file size in MB"),
-            new FileModel("file3", "test3.txt", new Date().toString(), new UserModel("0001", "johnwick", "John123", "John", "0718274567", "Admin"), "file size in MB")
-        ); 
+//        return List.of(
+//            new FileModel("file1", "test1.txt", new Date().toString(), new UserModel("0001", "johnwick", "John123", "John", "0718274567", "Admin"), "file size in MB"),
+//            new FileModel("file2", "test2.txt", new Date().toString(), new UserModel("0001", "johnwick", "John123", "John", "0718274567", "Admin"), "file size in MB"),
+//            new FileModel("file3", "test3.txt", new Date().toString(), new UserModel("0001", "johnwick", "John123", "John", "0718274567", "Admin"), "file size in MB")
+//        ); 
          
     }
     
     public static boolean shareFileWithUser(String fileId, List<String> users) {
         
-//        try {
-//            return RemoteHandler.getRemoteFileObj().shareFileWithUser(fileId, users);
-//        } catch (RemoteException ex) {
-//            System.err.println(Arrays.toString(ex.getStackTrace()));
-//            return false;
-//        } 
-        return true;
+        try {
+            return RemoteHandler.getRemoteFileObj().shareFileWithUser(fileId, users);
+        } catch (RemoteException ex) {
+            System.err.println(Arrays.toString(ex.getStackTrace()));
+            return false;
+        } 
+//        return true;
     }
     
 }

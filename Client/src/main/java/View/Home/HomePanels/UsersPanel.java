@@ -3,10 +3,10 @@ package View.Home.HomePanels;
 import Controller.ActivityLoggerController;
 import Controller.GroupController;
 import Controller.UserController;
-import Model.ActivityLogger;
-import Model.FileModel;
-import Model.GroupModel;
-import Model.UserModel;
+import Models.ActivityLogger;
+import Models.FileModel;
+import Models.GroupModel;
+import Models.UserModel;
 import View.Home.CreateUserWindow;
 import View.Home.Home;
 import static View.Home.HomePanels.GroupsPanel.groupsTable;
@@ -68,7 +68,7 @@ public class UsersPanel extends javax.swing.JPanel implements UIMethods {
     
     private void repaintTable() {
         JTableHeader header = userTable.getTableHeader();
-        header.setBackground(new Color(62, 62, 62));
+        header.setBackground(new Color(0,29,61));
         header.setForeground(new Color(255, 255, 255));
         header.setPreferredSize(
                 new Dimension(header.getWidth(), 40));
@@ -562,7 +562,7 @@ public class UsersPanel extends javax.swing.JPanel implements UIMethods {
         ));
         userTable.setGridColor(new java.awt.Color(255, 255, 255));
         userTable.setRowHeight(40);
-        userTable.setSelectionBackground(new java.awt.Color(72, 207, 203));
+        userTable.setSelectionBackground(new java.awt.Color(60, 194, 250));
         jScrollPane1.setViewportView(userTable);
 
         roundPanel7.add(jScrollPane1, java.awt.BorderLayout.CENTER);

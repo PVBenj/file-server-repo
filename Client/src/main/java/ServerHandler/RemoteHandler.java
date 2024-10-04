@@ -14,7 +14,7 @@ public class RemoteHandler {
     //Methods to get the stub for RMI
     public static RemoteUserInterface getRemoteUser() {
         try{
-            return (RemoteUserInterface) Naming.lookup("rmi://192.168.8.123:1500/UserHandle");
+            return (RemoteUserInterface) Naming.lookup("rmi://192.168.8.117:1500/UserHandle");
         }catch (MalformedURLException | NotBoundException | RemoteException e) {
             System.err.println(e.getMessage());
         }

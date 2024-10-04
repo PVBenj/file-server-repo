@@ -2,8 +2,8 @@ package View.Home;
 
 import Controller.GroupController;
 import Controller.UserController;
-import Model.GroupModel;
-import Model.UserModel;
+import Models.GroupModel;
+import Models.UserModel;
 import View.Home.HomePanels.AccountDetailsPanel;
 import View.Home.HomePanels.ActivityPanel;
 import View.Home.HomePanels.AdminDashboardPanel;
@@ -97,7 +97,7 @@ public class Home extends javax.swing.JFrame implements UIMethods {
         menuPanel.setPreferredSize(new java.awt.Dimension(250, 720));
         menuPanel.setLayout(new java.awt.BorderLayout());
 
-        jPanel1.setBackground(new java.awt.Color(62, 62, 62));
+        jPanel1.setBackground(new java.awt.Color(0, 29, 61));
         jPanel1.setPreferredSize(new java.awt.Dimension(250, 30));
         jPanel1.setRequestFocusEnabled(false);
 
@@ -114,10 +114,10 @@ public class Home extends javax.swing.JFrame implements UIMethods {
 
         menuPanel.add(jPanel1, java.awt.BorderLayout.PAGE_START);
 
-        jPanel14.setBackground(new java.awt.Color(62, 62, 62));
+        jPanel14.setBackground(new java.awt.Color(1, 42, 74));
         jPanel14.setLayout(new java.awt.BorderLayout());
 
-        dashboardPanel.setBackground(new java.awt.Color(62, 62, 62));
+        dashboardPanel.setBackground(new java.awt.Color(0, 29, 61));
         dashboardPanel.setPreferredSize(new java.awt.Dimension(250, 60));
         dashboardPanel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -139,7 +139,7 @@ public class Home extends javax.swing.JFrame implements UIMethods {
         dashboardLabel.setIconTextGap(12);
         dashboardPanel.add(dashboardLabel, java.awt.BorderLayout.CENTER);
 
-        jPanel9.setBackground(new java.awt.Color(62, 62, 62));
+        jPanel9.setBackground(new java.awt.Color(0, 29, 61));
         jPanel9.setPreferredSize(new java.awt.Dimension(50, 60));
 
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
@@ -159,7 +159,7 @@ public class Home extends javax.swing.JFrame implements UIMethods {
 
         jPanel6.setLayout(new java.awt.BorderLayout());
 
-        myFilesPanel.setBackground(new java.awt.Color(62, 62, 62));
+        myFilesPanel.setBackground(new java.awt.Color(0, 29, 61));
         myFilesPanel.setPreferredSize(new java.awt.Dimension(250, 60));
         myFilesPanel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -181,7 +181,7 @@ public class Home extends javax.swing.JFrame implements UIMethods {
         myFilesLabel.setIconTextGap(12);
         myFilesPanel.add(myFilesLabel, java.awt.BorderLayout.CENTER);
 
-        jPanel10.setBackground(new java.awt.Color(62, 62, 62));
+        jPanel10.setBackground(new java.awt.Color(0, 29, 61));
         jPanel10.setPreferredSize(new java.awt.Dimension(50, 60));
 
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
@@ -201,7 +201,7 @@ public class Home extends javax.swing.JFrame implements UIMethods {
 
         jPanel7.setLayout(new java.awt.BorderLayout());
 
-        sharedFilesPanel.setBackground(new java.awt.Color(62, 62, 62));
+        sharedFilesPanel.setBackground(new java.awt.Color(0, 29, 61));
         sharedFilesPanel.setPreferredSize(new java.awt.Dimension(250, 60));
         sharedFilesPanel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -223,7 +223,7 @@ public class Home extends javax.swing.JFrame implements UIMethods {
         sharedFilesLabel.setIconTextGap(12);
         sharedFilesPanel.add(sharedFilesLabel, java.awt.BorderLayout.CENTER);
 
-        jPanel11.setBackground(new java.awt.Color(62, 62, 62));
+        jPanel11.setBackground(new java.awt.Color(0, 29, 61));
         jPanel11.setPreferredSize(new java.awt.Dimension(50, 60));
 
         javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
@@ -244,7 +244,7 @@ public class Home extends javax.swing.JFrame implements UIMethods {
         jPanel8.setBackground(new java.awt.Color(62, 62, 62));
         jPanel8.setLayout(new java.awt.BorderLayout());
 
-        activityPanel.setBackground(new java.awt.Color(62, 62, 62));
+        activityPanel.setBackground(new java.awt.Color(0, 29, 61));
         activityPanel.setPreferredSize(new java.awt.Dimension(250, 60));
         activityPanel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -266,7 +266,7 @@ public class Home extends javax.swing.JFrame implements UIMethods {
         activityLabel.setIconTextGap(12);
         activityPanel.add(activityLabel, java.awt.BorderLayout.CENTER);
 
-        jPanel12.setBackground(new java.awt.Color(62, 62, 62));
+        jPanel12.setBackground(new java.awt.Color(0, 29, 61));
         jPanel12.setPreferredSize(new java.awt.Dimension(50, 60));
 
         javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
@@ -286,7 +286,7 @@ public class Home extends javax.swing.JFrame implements UIMethods {
 
         jPanel13.setLayout(new java.awt.BorderLayout());
 
-        usersPanel.setBackground(new java.awt.Color(62, 62, 62));
+        usersPanel.setBackground(new java.awt.Color(0, 29, 61));
         usersPanel.setPreferredSize(new java.awt.Dimension(250, 60));
         usersPanel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -308,7 +308,7 @@ public class Home extends javax.swing.JFrame implements UIMethods {
         usersLabel.setIconTextGap(12);
         usersPanel.add(usersLabel, java.awt.BorderLayout.CENTER);
 
-        jPanel15.setBackground(new java.awt.Color(62, 62, 62));
+        jPanel15.setBackground(new java.awt.Color(0, 29, 61));
         jPanel15.setPreferredSize(new java.awt.Dimension(50, 60));
 
         javax.swing.GroupLayout jPanel15Layout = new javax.swing.GroupLayout(jPanel15);
@@ -326,10 +326,10 @@ public class Home extends javax.swing.JFrame implements UIMethods {
 
         jPanel13.add(usersPanel, java.awt.BorderLayout.PAGE_START);
 
-        jPanel16.setBackground(new java.awt.Color(62, 62, 62));
+        jPanel16.setBackground(new java.awt.Color(0, 29, 61));
         jPanel16.setLayout(new java.awt.BorderLayout());
 
-        groupsPanel.setBackground(new java.awt.Color(62, 62, 62));
+        groupsPanel.setBackground(new java.awt.Color(0, 29, 61));
         groupsPanel.setPreferredSize(new java.awt.Dimension(250, 60));
         groupsPanel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -351,7 +351,7 @@ public class Home extends javax.swing.JFrame implements UIMethods {
         groupsLabel.setIconTextGap(12);
         groupsPanel.add(groupsLabel, java.awt.BorderLayout.CENTER);
 
-        jPanel17.setBackground(new java.awt.Color(62, 62, 62));
+        jPanel17.setBackground(new java.awt.Color(0, 29, 61));
         jPanel17.setPreferredSize(new java.awt.Dimension(50, 60));
 
         javax.swing.GroupLayout jPanel17Layout = new javax.swing.GroupLayout(jPanel17);
@@ -383,11 +383,11 @@ public class Home extends javax.swing.JFrame implements UIMethods {
 
         backgroundPanel.add(menuPanel, java.awt.BorderLayout.LINE_START);
 
-        jPanel2.setBackground(new java.awt.Color(40, 40, 40));
+        jPanel2.setBackground(new java.awt.Color(5, 25, 35));
         jPanel2.setPreferredSize(new java.awt.Dimension(1080, 80));
         jPanel2.setLayout(new java.awt.BorderLayout());
 
-        jPanel3.setBackground(new java.awt.Color(40, 40, 40));
+        jPanel3.setBackground(new java.awt.Color(5, 25, 35));
         jPanel3.setPreferredSize(new java.awt.Dimension(200, 80));
         jPanel3.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -402,7 +402,7 @@ public class Home extends javax.swing.JFrame implements UIMethods {
         });
         jPanel3.setLayout(new java.awt.BorderLayout());
 
-        profilePanel.setBackground(new java.awt.Color(40, 40, 40));
+        profilePanel.setBackground(new java.awt.Color(5, 25, 35));
         profilePanel.setPreferredSize(new java.awt.Dimension(80, 80));
         profilePanel.setLayout(new java.awt.BorderLayout());
 
@@ -413,10 +413,10 @@ public class Home extends javax.swing.JFrame implements UIMethods {
 
         jPanel3.add(profilePanel, java.awt.BorderLayout.LINE_END);
 
-        jPanel4.setBackground(new java.awt.Color(40, 40, 40));
+        jPanel4.setBackground(new java.awt.Color(5, 25, 35));
         jPanel4.setLayout(new java.awt.BorderLayout());
 
-        jPanel5.setBackground(new java.awt.Color(40, 40, 40));
+        jPanel5.setBackground(new java.awt.Color(5, 25, 35));
         jPanel5.setPreferredSize(new java.awt.Dimension(10, 80));
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
@@ -455,25 +455,25 @@ public class Home extends javax.swing.JFrame implements UIMethods {
 
     private void jPanel3MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel3MouseEntered
         //changeColor(jPanel3, new Color(55, 55, 55));
-        changeColor(profilePanel, new Color(55, 55, 55));
-        changeColor(jPanel4, new Color(55, 55, 55));
-        changeColor(jPanel5, new Color(55, 55, 55));
+        changeColor(profilePanel, new Color(0, 29, 61));
+        changeColor(jPanel4, new Color(0,29,61));
+        changeColor(jPanel5, new Color(0,29,61));
     }//GEN-LAST:event_jPanel3MouseEntered
 
     private void jPanel3MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel3MouseExited
-        changeColor(profilePanel, new Color(40, 40, 40));
-        changeColor(jPanel4, new Color(40, 40, 40));
-        changeColor(jPanel5, new Color(40, 40, 40));
+        changeColor(profilePanel, new Color(5,25,35));
+        changeColor(jPanel4, new Color(5,25,35));
+        changeColor(jPanel5, new Color(5,25,35));
     }//GEN-LAST:event_jPanel3MouseExited
 
     private void dashboardPanelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dashboardPanelMouseEntered
-        changeColor(dashboardPanel, new Color(34, 151, 153));
-        changeColor(jPanel9, new Color(34, 151, 153));
+        changeColor(dashboardPanel, new Color(1,73,124));
+        changeColor(jPanel9, new Color(1,73,124));
     }//GEN-LAST:event_dashboardPanelMouseEntered
 
     private void dashboardPanelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dashboardPanelMouseExited
-        changeColor(dashboardPanel, new Color(62, 62, 62));
-        changeColor(jPanel9, new Color(62, 62, 62));
+        changeColor(dashboardPanel, new Color(0,29,61));
+        changeColor(jPanel9, new Color(0,29,61));
     }//GEN-LAST:event_dashboardPanelMouseExited
 
     private void dashboardPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dashboardPanelMouseClicked
@@ -490,13 +490,13 @@ public class Home extends javax.swing.JFrame implements UIMethods {
     }//GEN-LAST:event_dashboardPanelMouseClicked
 
     private void myFilesPanelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_myFilesPanelMouseEntered
-        changeColor(myFilesPanel, new Color(34, 151, 153));
-        changeColor(jPanel10, new Color(34, 151, 153));
+        changeColor(myFilesPanel, new Color(1,73,124));
+        changeColor(jPanel10, new Color(1,73,124));
     }//GEN-LAST:event_myFilesPanelMouseEntered
 
     private void myFilesPanelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_myFilesPanelMouseExited
-        changeColor(myFilesPanel, new Color(62, 62, 62));
-        changeColor(jPanel10, new Color(62, 62, 62));
+        changeColor(myFilesPanel, new Color(0,29,61));
+        changeColor(jPanel10, new Color(0,29,61));
     }//GEN-LAST:event_myFilesPanelMouseExited
 
     private void myFilesPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_myFilesPanelMouseClicked
@@ -505,13 +505,13 @@ public class Home extends javax.swing.JFrame implements UIMethods {
     }//GEN-LAST:event_myFilesPanelMouseClicked
 
     private void sharedFilesPanelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sharedFilesPanelMouseEntered
-        changeColor(sharedFilesPanel, new Color(34, 151, 153));
-        changeColor(jPanel11, new Color(34, 151, 153));
+        changeColor(sharedFilesPanel, new Color(1,73,124));
+        changeColor(jPanel11, new Color(1,73,124));
     }//GEN-LAST:event_sharedFilesPanelMouseEntered
 
     private void sharedFilesPanelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sharedFilesPanelMouseExited
-        changeColor(sharedFilesPanel, new Color(62, 62, 62));
-        changeColor(jPanel11, new Color(62, 62, 62));
+        changeColor(sharedFilesPanel, new Color(0,29,61));
+        changeColor(jPanel11, new Color(0,29,61));
     }//GEN-LAST:event_sharedFilesPanelMouseExited
 
     private void sharedFilesPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sharedFilesPanelMouseClicked
@@ -520,13 +520,13 @@ public class Home extends javax.swing.JFrame implements UIMethods {
     }//GEN-LAST:event_sharedFilesPanelMouseClicked
 
     private void activityPanelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_activityPanelMouseEntered
-        changeColor(activityPanel, new Color(34, 151, 153));
-        changeColor(jPanel12, new Color(34, 151, 153));
+        changeColor(activityPanel, new Color(1,73,124));
+        changeColor(jPanel12, new Color(1,73,124));
     }//GEN-LAST:event_activityPanelMouseEntered
 
     private void activityPanelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_activityPanelMouseExited
-        changeColor(activityPanel, new Color(62, 62, 62));
-        changeColor(jPanel12, new Color(62, 62, 62));
+        changeColor(activityPanel, new Color(0,29,61));
+        changeColor(jPanel12, new Color(0,29,61));
     }//GEN-LAST:event_activityPanelMouseExited
 
     private void activityPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_activityPanelMouseClicked
@@ -540,13 +540,13 @@ public class Home extends javax.swing.JFrame implements UIMethods {
     }//GEN-LAST:event_usersPanelMouseClicked
 
     private void usersPanelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_usersPanelMouseEntered
-        changeColor(usersPanel, new Color(34, 151, 153));
-        changeColor(jPanel15, new Color(34, 151, 153));
+        changeColor(usersPanel, new Color(1,73,124));
+        changeColor(jPanel15, new Color(1,73,124));
     }//GEN-LAST:event_usersPanelMouseEntered
 
     private void usersPanelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_usersPanelMouseExited
-        changeColor(usersPanel, new Color(62, 62, 62));
-        changeColor(jPanel15, new Color(62, 62, 62));
+        changeColor(usersPanel, new Color(0,29,61));
+        changeColor(jPanel15, new Color(0,29,61));
     }//GEN-LAST:event_usersPanelMouseExited
 
     private void groupsPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_groupsPanelMouseClicked
@@ -555,13 +555,13 @@ public class Home extends javax.swing.JFrame implements UIMethods {
     }//GEN-LAST:event_groupsPanelMouseClicked
 
     private void groupsPanelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_groupsPanelMouseEntered
-        changeColor(groupsPanel, new Color(34, 151, 153));
-        changeColor(jPanel17, new Color(34, 151, 153));
+        changeColor(groupsPanel, new Color(1,73,124));
+        changeColor(jPanel17, new Color(1,73,124));
     }//GEN-LAST:event_groupsPanelMouseEntered
 
     private void groupsPanelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_groupsPanelMouseExited
-        changeColor(groupsPanel, new Color(62, 62, 62));
-        changeColor(jPanel17, new Color(62, 62, 62));
+        changeColor(groupsPanel, new Color(0,29,61));
+        changeColor(jPanel17, new Color(0,29,61));
     }//GEN-LAST:event_groupsPanelMouseExited
 
     private void jPanel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel3MouseClicked

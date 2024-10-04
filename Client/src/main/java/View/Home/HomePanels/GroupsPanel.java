@@ -3,9 +3,9 @@ package View.Home.HomePanels;
 import Controller.ActivityLoggerController;
 import Controller.GroupController;
 import Controller.UserController;
-import Model.ActivityLogger;
-import Model.GroupModel;
-import Model.UserModel;
+import Models.ActivityLogger;
+import Models.GroupModel;
+import Models.UserModel;
 import View.Home.CreateGroupWindow;
 import View.Home.Home;
 import View.Home.UIMethods;
@@ -90,7 +90,7 @@ public final class GroupsPanel extends javax.swing.JPanel implements UIMethods {
     //Style the table
     private void styleTable() {
         JTableHeader header = groupsTable.getTableHeader();
-        header.setBackground(new Color(62, 62, 62));
+        header.setBackground(new Color(0,29,61));
         header.setForeground(new Color(255, 255, 255));
         header.setPreferredSize(
                 new Dimension(header.getWidth(), 40));
@@ -611,7 +611,7 @@ public final class GroupsPanel extends javax.swing.JPanel implements UIMethods {
             }
         ));
         groupsTable.setRowHeight(40);
-        groupsTable.setSelectionBackground(new java.awt.Color(72, 207, 203));
+        groupsTable.setSelectionBackground(new java.awt.Color(60, 194, 250));
         jScrollPane1.setViewportView(groupsTable);
 
         roundPanel7.add(jScrollPane1, java.awt.BorderLayout.CENTER);

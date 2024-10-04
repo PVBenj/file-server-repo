@@ -1,6 +1,6 @@
 package RemoteInterfaces;
 
-import Model.GroupModel;
+import Models.GroupModel;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;

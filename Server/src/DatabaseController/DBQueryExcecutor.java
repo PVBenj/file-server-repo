@@ -15,8 +15,10 @@ public class DBQueryExcecutor {
         if(connection != null){
             try {
                 PreparedStatement statement = connection.prepareStatement(query);
+                if(sqlParameters != null){
+                    setParameters(statement,sqlParameters);
+                }
 
-                setParameters(statement,sqlParameters);
 
                 if(type.equals("get")){
                     rs = statement.executeQuery();

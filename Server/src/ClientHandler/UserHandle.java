@@ -1,8 +1,9 @@
 package ClientHandler;
+import DatabaseController.DBQueryExcecutor;
 import DatabaseController.UserDBHandler;
 import RemoteInterfaces.RemoteUserInterface;
-import Models.Group;
-import Models.User;
+import Models.GroupModel;
+import Models.UserModel;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -21,13 +22,12 @@ public class UserHandle extends UnicastRemoteObject implements RemoteUserInterfa
     }
 
     @Override
-    public User login(String username, String password) {
+    public UserModel login(String username, String password) {
         try {
             ResultSet rs = UserDBHandler.authenticateUser(username,password);
-            System.out.println(rs);
-            User logonUser = null;
+            UserModel logonUser = null;
             while(rs.next()) {
-                logonUser = new User(rs.getString(1),rs.getString(2),
+                logonUser = new UserModel(rs.getString(1),rs.getString(2),
                         rs.getString(3),rs.getString(4),rs.getString(5),
                         rs.getString(7));
                 logonUser.setEmail(rs.getString(6));
@@ -49,20 +49,32 @@ public class UserHandle extends UnicastRemoteObject implements RemoteUserInterfa
 
 
     @Override
-    public String register(User newUser) throws RemoteException {
-        UserDBHandler.addUser(newUser);
-        return "Data Success fully added";
+    public boolean createUser(UserModel newUser) throws RemoteException {
+        try {
+            UserDBHandler.addUser(newUser);
+
+            if(newUser.getGroups().size() > 0){
+                for (GroupModel g : newUser.getGroups()){
+                    this.addUserToGroup(newUser.getUserId(),g.getGroupId());
+
+                }
+            }
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
     }
 
     @Override
-    public List<User> fetchAllUsers() throws RemoteException, SQLException {
+    public List<UserModel> fetchAllUsers() throws RemoteException, SQLException {
 //        this methode fetch all users data from database and return the data set as a User Object List
-        List<User> userList= new ArrayList<>();
+        List<UserModel> userList= new ArrayList<>();
         ResultSet allUsersData = UserDBHandler.getAllUsers();
 
         while (allUsersData.next()){
 
-            User u = new User(allUsersData.getString(1),allUsersData.getString(2),
+            UserModel u = new UserModel(allUsersData.getString(1),allUsersData.getString(2),
                     allUsersData.getString(3),allUsersData.getString(4),allUsersData.getString(5),
                     allUsersData.getString(6));
             userList.add(u);
@@ -71,19 +83,27 @@ public class UserHandle extends UnicastRemoteObject implements RemoteUserInterfa
     }
 
     @Override
-    public String deleteUser(int UserID) throws RemoteException {
-        return "";
+    public boolean deleteUser(String UserID) throws RemoteException {
+        UserDBHandler.deletUser(UserID);
+        return true;
+    }
+
+    @Override
+    public boolean addUserToGroup(String userId, String groupId) throws RemoteException {
+        return UserDBHandler.addUserToGroup(userId,groupId);
+
+
     }
 
     //Helper method for login method
-    private List<Group> getUserGroups(String userId) {
-        List<Group> userGroups = new ArrayList<>();
+    private List<GroupModel> getUserGroups(String userId) {
+        List<GroupModel> userGroups = new ArrayList<>();
 
         try(ResultSet rs = UserDBHandler.getUserGroups(userId)) {
             //Check if the result set is empty
             if(rs != null) {
                 while(rs.next()) {
-                    userGroups.add(new Group(rs.getString(1), rs.getString(2), rs.getString(3)));
+                    userGroups.add(new GroupModel(rs.getString(1), rs.getString(2), rs.getString(3)));
                 }
                 return userGroups;
             }else {

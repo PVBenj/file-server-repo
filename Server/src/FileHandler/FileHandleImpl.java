@@ -1,27 +1,39 @@
 package FileHandler;
 
 import DatabaseController.FileDBHandler;
+import DatabaseController.UserDBHandler;
 import RemoteInterfaces.RemoteFileInterface;
 import Models.FileModel;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.nio.ByteBuffer;
+import java.nio.channels.FileChannel;
 import java.nio.file.Files;
 import java.io.FileOutputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class FileHandleImpl extends UnicastRemoteObject implements RemoteFileInterface {
     private final String basePath =  "/home/kali/Desktop/Project/file-server-repo/Server/src/FileHandler/FileStorage/";
+    private final ExecutorService executor;
     public FileHandleImpl() throws RemoteException {
         super();
+        this.executor = Executors.newFixedThreadPool(10);
     }
+
 
     @Override
     public void sayHello() {
@@ -31,34 +43,50 @@ public class FileHandleImpl extends UnicastRemoteObject implements RemoteFileInt
     @Override
     public boolean uploadFile(FileModel file) throws RemoteException {
 
-        try{
+        executor.execute(()->{
+            try{
 //            fetching username from ownerID to create file path
-            String fileOwnerName = FileDBHandler.getUsernamefromID(file.getOwnerId());
+                String fileOwnerName = UserDBHandler.getUsernamefromID(file.getOwnerId());
 
 
 //            Creating the file path to store files according to user
-            Path savePath = Paths.get(this.basePath +file.getOwnerId()+"_"+fileOwnerName);
-            System.out.println(savePath.toString());
+                String foldername = file.getOwnerId()+"_"+fileOwnerName;
+                Path savePath = Paths.get(this.basePath +foldername);
+
 
 //            create Directory if the specified path not exist
-            if(!Files.exists(savePath)){
-                Files.createDirectories(savePath);
-            }
+                if(!Files.exists(savePath)){
+                    Files.createDirectories(savePath);
+                }
 
+                Path filePath = Paths.get(savePath +"/" +  file.getFileName());
+
+                System.out.println(filePath);
 //            Saving the file to the Directory
-            File saveFile = new File(savePath.toString()+"/"+file.getFileName());
-            FileOutputStream save = new FileOutputStream(saveFile);
-            save.write(file.getFiledata());
-            save.close();
+
+                FileChannel fileChannel = FileChannel.open(filePath, StandardOpenOption.CREATE, StandardOpenOption.WRITE);
+                ByteBuffer buffer = ByteBuffer.wrap(file.getFiledata());
+                fileChannel.write(buffer);
+
+
 
 //            Adding file Details to Database
-            FileDBHandler.addFile(file.getOwnerId(),file.getFilePath(),file.getFileName(),file.getCreateDateTime());
-            return true;
+                System.out.println("FileID" + file.getFileId());
+                System.out.println("Filename" + file.getFileName());
+                System.out.println("filepath" + foldername+ "/"+ file.getFileName());
+                System.out.println("created" + file.getCreateDateTime());
+                System.out.println("ownerID" + file.getOwnerId());
 
-        }catch (Exception e){
-            e.printStackTrace();
-            return false;
-        }
+                FileDBHandler.addFile(file.getFileId(),file.getFileName(),foldername + "/" + file.getFileName(),file.getCreateDateTime(),file.getOwnerId());
+
+
+            }catch (Exception e){
+                e.printStackTrace();
+
+            }
+        });
+
+        return true;
 
 
     }
@@ -72,37 +100,64 @@ public class FileHandleImpl extends UnicastRemoteObject implements RemoteFileInt
     }
 
     @Override
-    public FileModel downloadFile(String ownerID, String fileName) throws RemoteException {
+    public byte[] downloadFile(String fileID) throws RemoteException {
+
+        CompletableFuture<byte[]> future = new CompletableFuture<>();
+
+        executor.execute(()->{
+            try {
+                List<String> fileDetails = FileDBHandler.getFileDetailsByFileID(fileID);
+
+                Path filePath = Paths.get(this.basePath+fileDetails.get(1));
+
+                byte[] file = Files.readAllBytes(filePath);
+                future.complete(file);
+
+
+
+                LocalDateTime currentDateTime = LocalDateTime.now();
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+                String formattedDateTime = currentDateTime.format(formatter);
+
+
+            }
+            catch (Exception e){
+                e.printStackTrace();
+
+            }
+
+        });
         try {
-            byte[] fileData;
-            String fileOwnername = FileDBHandler.getUsernamefromID(ownerID);
-            Path savedPath = Paths.get(this.basePath + ownerID+"_"+fileOwnername + "/" + fileName);
-            File dfile = new File(savedPath.toString());
-            FileInputStream In = new FileInputStream(dfile);
-            fileData = new byte[(int) dfile.length()];
-            In.read(fileData);
-            In.close();
-
-            LocalDateTime currentDateTime = LocalDateTime.now();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-            String formattedDateTime = currentDateTime.format(formatter);
-
-            return new FileModel(fileName,ownerID,formattedDateTime,fileData);
+            return future.get();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        } catch (ExecutionException e) {
+            throw new RuntimeException(e);
         }
-        catch (Exception e){
-            e.printStackTrace();
-        }
+    }
 
-        return null;
+//    @Override
+//    public List<FileModel> downloadFile(String fileID) throws RemoteException {
+//        List<FileModel> files= new ArrayList<>();
+//        for(String filename : filenames){
+//            FileModel file = this.downloadFile(OwnerID,filename);
+//            files.add(file);
+//        }
+//        return files;
+//    }
+
+    @Override
+    public boolean deleteFile(String fileId) throws RemoteException {
+        return false;
     }
 
     @Override
-    public List<FileModel> downloadFile(String OwnerID, List<String> filenames) throws RemoteException {
-        List<FileModel> files= new ArrayList<>();
-        for(String filename : filenames){
-            FileModel file = this.downloadFile(OwnerID,filename);
-            files.add(file);
-        }
-        return files;
+    public boolean shareFileWithUser(String fileId, List<String> usernames) throws RemoteException {
+        return false;
+    }
+
+    @Override
+    public List<FileModel> fetchAllFiles(String userId) throws RemoteException {
+        return List.of();
     }
 }

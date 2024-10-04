@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class User implements Serializable {
+public class UserModel implements Serializable {
     private final String userId;
     private String username;
     private String password;
@@ -13,9 +13,9 @@ public class User implements Serializable {
     private String mobile;
     private String email;
     private String role;
-    private List<Group> groups;
+    private List<GroupModel> groups;
 
-    public User(String userId, String username, String password, String firstName, String mobile, String role) {
+    public UserModel(String userId, String username, String password, String firstName, String mobile, String role) {
         this.userId = userId;
         this.username = username;
         this.password = password;
@@ -77,15 +77,15 @@ public class User implements Serializable {
         this.role = role;
     }
 
-    public List<Group> getGroups() {
+    public List<GroupModel> getGroups() {
         return groups;
     }
 
-    public void addGroup(Group group) {
+    public void addGroup(GroupModel group) {
         this.groups.add(group);
     }
 
-    public void setGroups(List<Group> groups) {
+    public void setGroups(List<GroupModel> groups) {
         this.groups = groups;
     }
     

@@ -5,13 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class Group implements Serializable {
+public class GroupModel implements Serializable {
     private String groupId;
     private String groupName;
-    private List<User> users;
+    private List<UserModel> users;
     private final String groupOwnerId;
 
-    public Group(String groupId, String groupName, String groupOwnerId) {
+    public GroupModel(String groupId, String groupName, String groupOwnerId) {
         this.groupId = groupId;
         this.groupName = groupName;
         this.users = new ArrayList<>();
@@ -36,11 +36,11 @@ public class Group implements Serializable {
         this.groupId = groupId;
     }
 
-    public List<User> getUsers() {
+    public List<UserModel> getUsers() {
         return users;
     }
 
-    public void addUsers(User user) {
+    public void addUsers(UserModel user) {
         this.users.add(user);
     }
     

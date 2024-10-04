@@ -10,6 +10,8 @@ public class FileModel implements Serializable {
     private final String filePath = null;
     private final String createDateTime;
 
+
+
     public FileModel(String fileName, String ownerId, String createDateTime,byte[] fileData) {
         this.fileData = fileData;
         this.fileName = fileName;
@@ -40,6 +42,12 @@ public class FileModel implements Serializable {
 
     public void setFileId(String fileId) {
         this.fileId = fileId;
+    }
+    public void setFilename (String fileName) {
+        this.fileName = fileName;
+    }
+    public void setFileData(byte[] data) {
+        this.fileData = data;
     }
 
     public String getCreateDateTime() {

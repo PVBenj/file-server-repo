@@ -1,4 +1,5 @@
 import ClientHandler.UserHandle;
+import DatabaseController.DatabaseConnection;
 import FileHandler.FileHandleImpl;
 import java.rmi.Naming;
 import java.rmi.registry.LocateRegistry;
@@ -23,6 +24,8 @@ public class Main {
 //             Bind the remote object to the registry
             Naming.rebind("rmi://"+ip+":1500/UserHandle", obj);
             Naming.rebind("rmi://"+ip+":1500/FileHandle", obj2);
+
+
 
 
 

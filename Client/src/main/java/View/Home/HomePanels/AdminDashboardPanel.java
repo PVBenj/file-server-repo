@@ -69,14 +69,22 @@ public final class AdminDashboardPanel extends javax.swing.JPanel implements UIM
         String[] columnNames = {"Group ID", "Group Name", "Members", "Created By"};
         userGroupsModel = new DefaultTableModel(columnNames, 0);
         
-        // Add rows from List<Groups> groups
-        for (GroupModel group : groups) {
-            Object[] row = { group.getGroupId(), group.getGroupName(), group.groupMembersToString(), group.getGroupOwner().getFirstName() };
-            userGroupsModel.addRow(row);
+        if(groups != null) {
+            // Add rows from List<Groups> groups
+            for (GroupModel group : groups) {
+                Object[] row = { group.getGroupId(), group.getGroupName(), group.groupMembersToString(), group.getGroupOwner().getFirstName() };
+                userGroupsModel.addRow(row);
+            }
+            
+            //Setting the table model
+            userGroupsTable.setModel(userGroupsModel);  
+        }else {
+            System.err.println("No data in groups list!");
         }
         
-        //Setting the table model
-        userGroupsTable.setModel(userGroupsModel);
+        
+        
+        
         
     }
     
@@ -85,20 +93,34 @@ public final class AdminDashboardPanel extends javax.swing.JPanel implements UIM
         String[] columnNames = {"Username", "Detail", "On"};
         recentActivityModel = new DefaultTableModel(columnNames, 0);
         
-        // Add rows from List<ActivityLogger> activities
-        for (ActivityLogger activity : activities) {
-            Object[] row = { activity.getUserName(), activity.getDetails(), activity.getDateAndTime() };
-            recentActivityModel.addRow(row);
+        if(activities != null) {
+            // Add rows from List<ActivityLogger> activities
+            for (ActivityLogger activity : activities) {
+                Object[] row = { activity.getUserName(), activity.getDetails(), activity.getDateAndTime() };
+                recentActivityModel.addRow(row);
+            }
+            //Setting the table model
+            recentActivityTable.setModel(recentActivityModel);
+        }else {
+            System.err.println("No data in activities list!");
         }
         
-        //Setting the table model
-        recentActivityTable.setModel(recentActivityModel);
+        
+        
+        
     }
     
     private void setSectionCountLabels() {
-        userNoLabel.setText(String.valueOf(users.size()));
-        groupNoLabel.setText(String.valueOf(groups.size()));
-        recentNoLabel.setText(String.valueOf(recentFiles.size()));
+        if(users != null && groups != null && recentFiles != null) {
+            userNoLabel.setText(String.valueOf(users.size()));
+            groupNoLabel.setText(String.valueOf(groups.size()));
+            recentNoLabel.setText(String.valueOf(recentFiles.size()));
+        } else {
+            userNoLabel.setText("00");
+            groupNoLabel.setText("00");
+            recentNoLabel.setText("00");
+        }
+        
     }
     
     
@@ -556,13 +578,13 @@ public final class AdminDashboardPanel extends javax.swing.JPanel implements UIM
 
         recentActivityTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Username", "Details", "On"
             }
         ));
         recentActivityTable.setEnabled(false);
@@ -680,7 +702,7 @@ public final class AdminDashboardPanel extends javax.swing.JPanel implements UIM
                 {null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Group Id", "Group Name", "Members", "Created by"
             }
         ));
         userGroupsTable.setEnabled(false);

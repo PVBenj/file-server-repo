@@ -40,6 +40,8 @@ public class FileController {
 //            new FileModel("file2", "test2.txt", new Date().toString(), new UserModel("0001", "johnwick", "John123", "John", "0718274567", "Admin"), "file size in MB"),
 //            new FileModel("file3", "test3.txt", new Date().toString(), new UserModel("0001", "johnwick", "John123", "John", "0718274567", "Admin"), "file size in MB")
 //        ); 
+
+//        return null;
        
     }
     
@@ -131,6 +133,8 @@ public class FileController {
 //            new FileModel("file2", "test2.txt", new Date().toString(), new UserModel("0001", "johnwick", "John123", "John", "0718274567", "Admin"), "file size in MB"),
 //            new FileModel("file3", "test3.txt", new Date().toString(), new UserModel("0001", "johnwick", "John123", "John", "0718274567", "Admin"), "file size in MB")
 //        ); 
+
+
     }
     
     public static boolean updateFileName(String fileId, String newName) {
@@ -174,6 +178,10 @@ public class FileController {
 //            new FileModel("file2", "test2.txt", new Date().toString(), new UserModel("0001", "johnwick", "John123", "John", "0718274567", "Admin"), "file size in MB"),
 //            new FileModel("file3", "test3.txt", new Date().toString(), new UserModel("0001", "johnwick", "John123", "John", "0718274567", "Admin"), "file size in MB")
 //        ); 
+
+
+
+//        return null;
          
     }
     
@@ -191,16 +199,14 @@ public class FileController {
         }
         return sharedWithMeFiles;
 
-
-
-
-
         //Test data
 //        return List.of(
 //            new FileModel("file1", "test1.txt", new Date().toString(), new UserModel("0001", "johnwick", "John123", "John", "0718274567", "Admin"), "file size in MB"),
 //            new FileModel("file2", "test2.txt", new Date().toString(), new UserModel("0001", "johnwick", "John123", "John", "0718274567", "Admin"), "file size in MB"),
 //            new FileModel("file3", "test3.txt", new Date().toString(), new UserModel("0001", "johnwick", "John123", "John", "0718274567", "Admin"), "file size in MB")
 //        ); 
+
+        
          
     }
     

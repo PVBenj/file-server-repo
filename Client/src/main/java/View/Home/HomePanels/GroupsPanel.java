@@ -98,18 +98,25 @@ public final class GroupsPanel extends javax.swing.JPanel implements UIMethods {
     
     //Load data to the table
     private void loadDataToTable() {
-        //Table model creation
-        String[] columnNames = {"Group ID", "Group Name", "Members", "Created By"};
-        tableModel = new DefaultTableModel(columnNames, 0);
         
-        // Add rows from List<Groups> groups
-        for (GroupModel group : groups) {
-            Object[] row = { group.getGroupId(), group.getGroupName(), group.groupMembersToString(), group.getGroupOwner().getFirstName() };
-            tableModel.addRow(row);
+        if(groups != null) {
+            //Table model creation
+            String[] columnNames = {"Group ID", "Group Name", "Members", "Created By"};
+            tableModel = new DefaultTableModel(columnNames, 0);
+
+            // Add rows from List<Groups> groups
+            for (GroupModel group : groups) {
+                Object[] row = { group.getGroupId(), group.getGroupName(), group.groupMembersToString(), group.getGroupOwner().getFirstName() };
+                tableModel.addRow(row);
+            }
+
+            //Setting the table model
+            groupsTable.setModel(tableModel);
+        }else {
+            System.out.println("no data in groups");
         }
         
-        //Setting the table model
-        groupsTable.setModel(tableModel);
+        
         
     }
     
@@ -814,13 +821,20 @@ public final class GroupsPanel extends javax.swing.JPanel implements UIMethods {
     
     //Gets a username arrays from the users list
     private String[] getUsernameArray() {
+        
         // Convert list to array for JComboBox
         List<String> userNames = new ArrayList<>();
-        for(UserModel user : users) {
+        
+        if(users != null) {
+            for(UserModel user : users) {
             userNames.add(user.getUsername());
+            }
+
+            return userNames.toArray(new String[0]);
+        }else {
+            return new String[0];
         }
         
-        return userNames.toArray(new String[0]);
     }
     
     /* private String[] getGroupMemberNamesArray(String groupId) {

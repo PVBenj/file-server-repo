@@ -17,6 +17,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.nio.file.Path;
+import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -135,18 +136,26 @@ public class MyFilesPanel extends javax.swing.JPanel implements UIMethods {
     
     //Load data to the table
     private void loadDataToTable() {
-        //Table model creation
-        String[] columnNames = {"File Name", "Created By", "Shared With", "Size"};
-        myFilesTableModel = new DefaultTableModel(columnNames, 0);
         
-        // Add rows from List<Groups> groups
-        for (FileModel file : myFiles) {
-            Object[] row = { file.getFileName(), file.getOwner().getUsername(), file.sharedUsersToString(), file.getFileSize() };
-            myFilesTableModel.addRow(row);
+        
+        if(myFiles != null) {
+            //Table model creation
+            String[] columnNames = {"File Name", "Created By", "Shared With", "Size"};
+            myFilesTableModel = new DefaultTableModel(columnNames, 0);
+
+            // Add rows from List<Groups> groups
+            for (FileModel file : myFiles) {
+                Object[] row = { file.getFileName(), file.getOwner().getUsername(), file.sharedUsersToString(), file.getFileSize() };
+                myFilesTableModel.addRow(row);
+            }
+
+            //Setting the table model
+            myFileTable.setModel(myFilesTableModel);
+        }else {
+            System.out.println("No data in myFiles list");
         }
+         
         
-        //Setting the table model
-        myFileTable.setModel(myFilesTableModel);
         
     }
     
@@ -360,11 +369,16 @@ public class MyFilesPanel extends javax.swing.JPanel implements UIMethods {
     private String[] getUsernameArray() {
         List<String> usernames = new ArrayList<>();
         
-        for(UserModel user : users) {
+        if(users != null) {
+            for(UserModel user : users) {
             usernames.add(user.getUsername());
+            }
+
+            return usernames.toArray(new String[0]);
+        }else {
+            return new String[0];
         }
         
-        return usernames.toArray(new String[0]);
     }
     
     

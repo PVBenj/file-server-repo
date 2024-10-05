@@ -24,14 +24,17 @@ public final class UserDashboardPanel extends javax.swing.JPanel implements UIMe
 
     private DefaultTableModel recentFileModel;
     private DefaultTableModel recentActivityModel;
+    private List<FileModel> allMyFiles;
     private List<FileModel> recentFiles;
     private List<ActivityLogger> recentActivities;
     
     public UserDashboardPanel() {
         recentFiles = FileController.getRecentFiles(Home.user.getUserId());
         recentActivities = ActivityLoggerController.getUserActivities(Home.user.getUserId());
+        allMyFiles = FileController.getMyFiles(Home.user.getUserId());
         initComponents();
         constructTables();
+        setSectionCountLabels();
         loadFonts();
     }
     
@@ -57,14 +60,21 @@ public final class UserDashboardPanel extends javax.swing.JPanel implements UIMe
         String[] columnNames = {"Username", "Detail", "On"};
         recentActivityModel = new DefaultTableModel(columnNames, 0);
         
-        // Add rows from List<ActivityLogger> activities
-        for (ActivityLogger activity : recentActivities) {
-            Object[] row = { activity.getUserName(), activity.getDetails(), activity.getDateAndTime() };
-            recentActivityModel.addRow(row);
+        if(recentActivities != null) {
+            // Add rows from List<ActivityLogger> activities
+            for (ActivityLogger activity : recentActivities) {
+                Object[] row = { activity.getUserName(), activity.getDetails(), activity.getDateAndTime() };
+                recentActivityModel.addRow(row);
+            }
+            //Setting the table model
+            recentActivityTable.setModel(recentActivityModel);
+        } else {
+            System.err.println("No data in user home recentActivities!");
         }
         
-        //Setting the table model
-        recentActivityTable.setModel(recentActivityModel);
+        
+        
+        
     }
     
     //Load data to loadDataToRecentUploadsTable
@@ -72,14 +82,33 @@ public final class UserDashboardPanel extends javax.swing.JPanel implements UIMe
         String[] columnNames = {"File Name", "Shared With", "Created"};
         recentFileModel = new DefaultTableModel(columnNames, 0);
         
-        // Add rows from List<ActivityLogger> activities
-        for (FileModel file : recentFiles) {
-            Object[] row = { file.getFileName(), file.sharedUsersToString(), file.getCreateDateTime() };
-            recentFileModel.addRow(row);
+        if(recentFiles != null) {
+            // Add rows from List<ActivityLogger> activities
+            for (FileModel file : recentFiles) {
+                Object[] row = { file.getFileName(), file.sharedUsersToString(), file.getCreateDateTime() };
+                recentFileModel.addRow(row);
+            }
+
+            //Setting the table model
+            recentUploadsTable.setModel(recentFileModel);
+        }else {
+            System.err.println("No data in user home recentFiles!");
         }
         
-        //Setting the table model
-        recentUploadsTable.setModel(recentFileModel);
+        
+    }
+    
+    private void setSectionCountLabels() {
+        if(recentFiles != null && recentActivities != null && allMyFiles != null ) {
+            myFilesNoLabel.setText(String.valueOf(allMyFiles.size()));
+            sharedFilesNoLabel.setText("0");
+            recentlyNoLabel.setText(String.valueOf(recentFiles.size()));
+        } else {
+            myFilesNoLabel.setText("0");
+            sharedFilesNoLabel.setText("0");
+            recentlyNoLabel.setText("0");
+        }
+        
     }
     
     
@@ -545,13 +574,13 @@ public final class UserDashboardPanel extends javax.swing.JPanel implements UIMe
 
         recentActivityTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Username", "Details", "On"
             }
         ));
         recentActivityTable.setRowHeight(40);
@@ -663,13 +692,13 @@ public final class UserDashboardPanel extends javax.swing.JPanel implements UIMe
 
         recentUploadsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "File Name", "Shared With", "Created"
             }
         ));
         recentUploadsTable.setRowHeight(40);

@@ -26,6 +26,7 @@ public class UserController {
 //            new UserModel("0003", "slystallone", "Sly123", "Silvester", "0718274567", "Admin"),
 //            new UserModel("0004", "deamon", "Dami123", "Deamon", "0718274567", "Admin")
 //        ); 
+
     }
      
     //Method to create a user

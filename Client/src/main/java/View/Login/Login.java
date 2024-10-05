@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package View.Login;
 
 import Controller.ActivityLoggerController;
@@ -314,7 +310,7 @@ public class Login extends javax.swing.JFrame {
         if(!username.isEmpty() && !password.isEmpty()) {
             try {
                 
-                login(username, PasswordHash.hash(password));
+                login(username, password);
                 //Test data
                 /* UserModel user = new UserModel("1", "johnwick", "Ben123", "Benjamin", "0718375748", "Admin");
                 user.setEmail("pramodyabenjamin@gmail.com");
@@ -377,10 +373,8 @@ public class Login extends javax.swing.JFrame {
         setLookAndFeel();
         FlatMacLightLaf.setup();
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Login().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new Login().setVisible(true);
         });
     }
     

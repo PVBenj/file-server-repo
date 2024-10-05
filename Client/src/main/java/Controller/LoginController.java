@@ -18,9 +18,6 @@ public class LoginController {
             return null;
         } 
 
-//        return new UserModel(
-//               "0001", "johnwick", "John123", "John", "0718274567", "Generic"
-//            );
        
     }
     

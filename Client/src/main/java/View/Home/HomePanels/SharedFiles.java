@@ -228,33 +228,46 @@ public class SharedFiles extends javax.swing.JPanel implements UIMethods {
     }
     
     private void loadDataToSharedByMeTable() {
-        //Table model creation
-        String[] columnNames = {"File Name", "Shared With", "Size"};
-        sharedByMeModel = new DefaultTableModel(columnNames, 0);
         
-        // Add rows from List<FileModel> filesSharedByMe
-        for (FileModel file : filesSharedByMe) {
-            Object[] row = { file.getFileName(), file.sharedUsersToString(), file.getFileSize() };
-            sharedByMeModel.addRow(row);
+        if(sharedByMeModel != null) {
+            //Table model creation
+            String[] columnNames = {"File Name", "Shared With", "Size"};
+            sharedByMeModel = new DefaultTableModel(columnNames, 0);
+
+            // Add rows from List<FileModel> filesSharedByMe
+            for (FileModel file : filesSharedByMe) {
+                Object[] row = { file.getFileName(), file.sharedUsersToString(), file.getFileSize() };
+                sharedByMeModel.addRow(row);
+            }
+
+            //Setting the table model
+            sharedByMeTable.setModel(sharedByMeModel);
+        }else {
+            System.out.println("");
         }
         
-        //Setting the table model
-        sharedByMeTable.setModel(sharedByMeModel);
+        
     }
     
     private void loadDataToSharedWithMeTable() {
-        //Table model creation
-        String[] columnNames = {"File Name", "Created By", "Shared With", "Size"};
-        sharedWithMeModel = new DefaultTableModel(columnNames, 0);
         
-        // Add rows from List<FileModel> filesSharedWithMe
-        for (FileModel file : filesSharedWithMe) {
-            Object[] row = { file.getFileName(), file.getOwner().getUsername(), file.sharedUsersToString(), file.getFileSize() };
-            sharedWithMeModel.addRow(row);
+        if(filesSharedWithMe != null) {
+            //Table model creation
+            String[] columnNames = {"File Name", "Created By", "Shared With", "Size"};
+            sharedWithMeModel = new DefaultTableModel(columnNames, 0);
+
+            // Add rows from List<FileModel> filesSharedWithMe
+            for (FileModel file : filesSharedWithMe) {
+                Object[] row = { file.getFileName(), file.getOwner().getUsername(), file.sharedUsersToString(), file.getFileSize() };
+                sharedWithMeModel.addRow(row);
+            }
+
+            //Setting the table model
+            sharedWithMeTable.setModel(sharedWithMeModel);
+        }else {
+            System.out.println("No data in filesSharedWithMe");
         }
         
-        //Setting the table model
-        sharedWithMeTable.setModel(sharedWithMeModel);
     }
     
     private void setProgressIndicator() {
@@ -352,11 +365,17 @@ public class SharedFiles extends javax.swing.JPanel implements UIMethods {
     private String[] getUsernameArray() {
         List<String> usernames = new ArrayList<>();
         
-        for(UserModel user : users) {
+        if(users != null) {
+            for(UserModel user : users) {
             usernames.add(user.getUsername());
+            }
+
+            return usernames.toArray(new String[0]);
+        } else {
+            return new String[0];
         }
         
-        return usernames.toArray(new String[0]);
+        
     }
 
     /**

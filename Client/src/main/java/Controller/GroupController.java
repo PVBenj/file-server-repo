@@ -73,6 +73,7 @@ public class GroupController {
 //        return true;
     }
     
+    
     //Method to remove user
     public static boolean removeGroup(String groupId) {
         try {
@@ -83,6 +84,7 @@ public class GroupController {
        } 
 //        return true;
     }
+    
     
     public static boolean removeUserFromGroup(String groupId, List<String> selectedUserIds) {
         try {

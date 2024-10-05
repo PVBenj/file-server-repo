@@ -87,14 +87,20 @@ public class UsersPanel extends javax.swing.JPanel implements UIMethods {
         String[] columnNames = {"User Id", "Username", "First Name", "Email", "Mobile"};
         userTableModel = new DefaultTableModel(columnNames, 0);
         
-        // Add rows from List<Groups> groups
-        for (UserModel user : users) {
-            Object[] row = { user.getUserId(), user.getUsername(), user.getFirstName(), user.getEmail(), user.getMobile() };
-            userTableModel.addRow(row);
+        if(users != null) {
+            // Add rows from List<Groups> groups
+            for (UserModel user : users) {
+                Object[] row = { user.getUserId(), user.getUsername(), user.getFirstName(), user.getEmail(), user.getMobile() };
+                userTableModel.addRow(row);
+            }
+
+            //Setting the table model
+            userTable.setModel(userTableModel);
+        }else {
+            System.err.println("No data is users list!");
         }
         
-        //Setting the table model
-        userTable.setModel(userTableModel);
+        
     }
     
     //Create right click context menu for the table
@@ -104,7 +110,8 @@ public class UsersPanel extends javax.swing.JPanel implements UIMethods {
         deleteUser = new JMenuItem("Delete User");
         JMenuItem groupName;
         //Add items to the submenu addToGroup
-        for(GroupModel group : groups) {
+        if(groups != null) {
+            for(GroupModel group : groups) {
             groupName = new JMenuItem(group.getGroupName());
             groupName.setFont(CustomFont.formTextFieldFont);
             
@@ -132,8 +139,13 @@ public class UsersPanel extends javax.swing.JPanel implements UIMethods {
                 
             });
             
-            addToGroup.add(groupName);
+                addToGroup.add(groupName);
+            }   
+        } else {
+            addToGroup.add("No groups to add");
         }
+        
+        
 
         // Add menu items to the popup menu
         popupMenu.add(addToGroup);
